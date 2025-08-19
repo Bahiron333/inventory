@@ -40,8 +40,8 @@
                 <br>
                 <br>
                 <div id="content-codigo">
-                    <input id="button-enviar-codigo" type="button" value="Enviar codigo">
-                    @if(validarCodigo()){
+                    <input id="button-enviar-codigo" type="button" value="Enviar codigo" (click)=" validarCorreo()">
+                    @if(!errorCorreo){
                         <input id="dato-codigo" formControlName="codigo" type="text" placeholder="Código">
                         <input id="button-valid-codigo" type="button" value="validar">
                     }
