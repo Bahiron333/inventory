@@ -1,0 +1,50 @@
+<div id="main-register">
+    <h1 id="titulo-registro">Registro</h1>
+    <form id="form-registro" (ngSubmit)="Registrarse()" [formGroup]="register">
+        <div id="colum-one">
+            <div id="content-foto">
+                <img id="foto-img" src="icono-foto.png" alt="foto">
+                <div id="subir-foto">
+                    <p id="text-foto">Foto</p>
+                    <label id="file-label">
+                        <input type="file"  id="subir-archivo" value="Subir Archivo" style="display: none;"> 
+                        Subir Archivo
+                    </label>  
+                </div>
+            </div>
+            <div id="content-informacion">
+                <p class="text-title">Informacion</p>
+                <input type="text" formControlName="nombre" class="datos" placeholder="Nombre">
+                <input type="text" formControlName="direccion" class="datos" placeholder="Dirección">
+                <input type="text" formControlName="telefono" class="datos" placeholder="Telefono">
+            </div>
+            <div id="content-button-register">
+                <input id="button-cancelar" (click)="Cancelar()" type="button" value="Cancelar">
+                <input id="button-registro" (click)="Registrarse()" type="button" value="Registrarse">
+            </div>
+        </div>
+        <div id="column-2">
+            <div id="content-password">
+                <p id="text-contraseña"class="text-title">Contraseña</p>
+                <label class="label-password" for="input-password" >Contraseña</label>
+                <input class="datos"  formControlName="password"  type="password" name="input-password">
+                <br>
+                <br>
+                <label class="label-password" for="confirm-password">Confirmar contraseña</label>
+                <input class="datos"  formControlName="confirmPassword"  type="password" name="confirm-password">
+            </div>
+            <form id="content-correo" [formGroup]="cuenta" (ngSubmit)="validarCorreo()">
+                <p class="text-title">Cuenta</p>
+                <br>
+                <input type="text" formControlName="correo" class="datos" placeholder="Correo">
+                <br>
+                <br>
+                <div id="content-codigo">
+                    <input id="button-enviar-codigo" type="button" value="Enviar codigo">
+                    <input id="dato-codigo" formControlName="codigo" type="text" placeholder="Código">
+                    <input id="button-valid-codigo" type="button" value="validar">
+                </div>
+            </form>
+        </div>   
+    </form>
+</div>

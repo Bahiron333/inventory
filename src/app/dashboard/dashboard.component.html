@@ -1,0 +1,11 @@
+<div id="main-dashboard">
+    <aside>
+        <p id="titulo-empresa">{{nombreEmpresa}}</p>
+        <a class="opciones" [routerLink]="['/dashboard/cliente']">Cliente</a>
+        <a class="opciones" [routerLink]="['/dashboard/miembros']">Miembros</a>
+        <a class="opciones" [routerLink]="['/dashboard/cuenta']">Cuenta</a>
+        
+    </aside>
+    <router-outlet></router-outlet>
+
+</div>
