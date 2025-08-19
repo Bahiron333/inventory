@@ -41,23 +41,30 @@ export class RegisterComponent {
 
   validarInformacion(){
     if(this.register.get('nombre')?.invalid){
-      alert("d");
+      this.errorNombre = true;
       return false;
     }if(this.register.get('telefono')?.invalid){
-      alert("d");
+      this.errorDireccion = true;
       return false;
     }if(this.register.get('password')?.invalid){
-      alert("d");
+      this.errorPassword = true;
       return false;
     }if(this.register.get('confirmPassword')?.value != this.register.get('password')?.value){
-      alert("d");
+        this.errorPassword = true;
+        this.errorConfirmPassword = true;
       return false;
     }
     return true;
   }
 
+  //combrobar que el correo sea valido
   validarCorreo(){
-
+    if(this.cuenta.get('correo')?.invalid){
+      this.errorCorreo = true;
+      return false;
+    }else{
+      return true;
+    }
   }
   
   //informacion
@@ -76,4 +83,12 @@ export class RegisterComponent {
    //registro de formularios
   public register:FormGroup;
   public cuenta:FormGroup;
+
+  //controladores de errores 
+  protected errorNombre:boolean = false;
+  protected errorDireccion:boolean = false;
+  protected errorPassword:boolean = false;
+  protected errorConfirmPassword:boolean = false;
+  protected errorCorreo:boolean = false;
+
 }
