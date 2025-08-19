@@ -41,8 +41,10 @@
                 <br>
                 <div id="content-codigo">
                     <input id="button-enviar-codigo" type="button" value="Enviar codigo">
-                    <input id="dato-codigo" formControlName="codigo" type="text" placeholder="Código">
-                    <input id="button-valid-codigo" type="button" value="validar">
+                    @if(validarCodigo()){
+                        <input id="dato-codigo" formControlName="codigo" type="text" placeholder="Código">
+                        <input id="button-valid-codigo" type="button" value="validar">
+                    }
                 </div>
             </form>
         </div>   
