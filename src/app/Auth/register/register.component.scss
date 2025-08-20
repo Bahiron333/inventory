@@ -5,7 +5,8 @@
     font-size: 13px;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     border: 0 solid transparent;
-    min-width: 15%;
+    min-width: fit-content;
+    width: 15%;
     cursor: pointer;
     border: 1px solid transparent;
  
@@ -72,6 +73,12 @@
 #form-registro{
     display: flex;
     flex-direction: row;
+    align-items: center;
+    align-content: center;
+}
+
+#colum-one{
+    width: 50%; 
 }
 
 #titulo-registro, #text-foto, .text-title{
@@ -94,9 +101,9 @@
 }
 
 #foto-img{
-    height: 15%;
-    width: 15%;
-    border-radius: 0%;
+    height: 8em;
+    width: 8em;
+    border-radius: 50%;
 }
 #content-foto{
     display: flex;
@@ -115,7 +122,7 @@
 }
 
 #content-informacion{
-    margin-top: 4em;
+    margin-top: 3em;
     display: flex;
     flex-direction: column;
     gap: 2em;
@@ -143,7 +150,7 @@
     display: flex;
     flex-direction: row;
     gap: 2em;
-    margin-top: 5em;
+    margin-top: 3em;
     align-items: center;
 }
 
@@ -181,6 +188,8 @@
     border-radius: 20px;
     border: 1px solid #3D3D3D;
     padding: 0.3em;
+    min-width: fit-content;
+    width: 40%;
 }
 
 #content-codigo{

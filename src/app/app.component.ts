@@ -1,4 +1,6 @@
-import { Component, ElementRef, HostListener } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from './services/Auth/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -6,15 +8,24 @@ import { Component, ElementRef, HostListener } from '@angular/core';
   standalone: false,
   styleUrl: './app.component.scss'
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
 
-  constructor(private elementRef:ElementRef){}
+  constructor(private elementRef:ElementRef, private router:Router, private auth:AuthService){}
+
+  ngOnInit(): void {
+     
+  }
 
   title = 'Inventory';
   nombreUser = "bahiron abraham dueñas jimenez S.A.S"
 
   VentanaOpcionCuenta():void {
     this.venatanOpcionesCuenta = !this.venatanOpcionesCuenta;
+  }
+
+  cerrarSesion(){
+    localStorage.removeItem('token');
+    this.router.navigate(['auth/login']);
   }
 
   @HostListener('document:click', ['$event'])
@@ -25,4 +36,5 @@ export class AppComponent {
     }
   }
   protected venatanOpcionesCuenta:boolean = false;
+  protected mostrarFoto:boolean = false;
 }

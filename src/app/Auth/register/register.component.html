@@ -3,11 +3,11 @@
     <form id="form-registro" (ngSubmit)="Registrarse()" [formGroup]="register">
         <div id="colum-one">
             <div id="content-foto">
-                <img id="foto-img" src="icono-foto.png" alt="foto">
+                <img [src]="vistaImagen" id="foto-img" alt="foto">
                 <div id="subir-foto">
                     <p id="text-foto">Foto</p>
                     <label id="file-label">
-                        <input type="file"  id="subir-archivo" value="Subir Archivo" style="display: none;"> 
+                        <input type="file" accept="image/*" (change)="subirImagen($event)" id="subir-archivo" value="Subir Archivo" style="display: none;"> 
                         Subir Archivo
                     </label>  
                 </div>
@@ -16,11 +16,11 @@
                 <p class="text-title">Informacion</p>
                 <input type="text" formControlName="nombre" [ngClass]="!errorNombre ? 'datos' : 'datos-erroneos'" placeholder="Nombre">
                 <input type="text" formControlName="direccion" class="datos" placeholder="Dirección (opcional)">
-                <input type="text" formControlName="telefono" [ngClass]="!errorTelefono ? 'datos' : 'datos-erroneos'" placeholder="Telefono">
+                <input type="text" formControlName="telefono" [ngClass]="!errorTelefono ? 'datos' : 'datos-erroneos'" placeholder="Telefono (opcional)">
             </div>
             <div id="content-button-register">
                 <input id="button-cancelar" (click)="Cancelar()" type="button" value="Cancelar">
-                <input id="button-registro" (click)="Registrarse()" type="button" value="Registrarse">
+                <input id="button-registro" (click)="Registrarse()" type="button" value="Registrarse" [disabled]="EstadoBotonRegistro" [ngStyle]="{'display': EstadoBotonRegistro ? 'flex' : 'none'}">
                 <p>{{mensaje}}</p>
             </div>
         </div>
@@ -41,9 +41,9 @@
                 <br>
                 <br>
                 <div id="content-codigo">
-                    <input id="button-enviar-codigo" type="button" value="Enviar codigo" (click)="validarCorreo()">
+                    <input id="button-enviar-codigo" type="button" value="Enviar codigo verificacion" (click)="validarCorreo()">
                     @if(mostrarCodigo){
-                        <input id="dato-codigo" formControlName="codigo" type="text" placeholder="Código">
+                        <input id="dato-codigo" formControlName="codigo" type="text" placeholder="Ingrese el código de verificacion">
                         <input id="button-valid-codigo" type="button" value="validar">
                     }
                 </div>

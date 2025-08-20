@@ -12,10 +12,17 @@ export class AuthService {
 
   Login(correo:string, password:string):Observable<any>{
     const data = {correo,password};
-    return this.http.post('http//localhost:3000/auth/login',data);
+    return this.http.post('http://localhost:3000/auth/login',data);
   }
 
+  //servicios de registro
   Register(data:any):Observable<any>{
-    return this.http.post<any>('http//localhost:3000/auth/register',data);
+    return this.http.post<any>('http://localhost:3000/auth/register',data);
+  }
+
+  codigo(correo:any):Observable<any>{
+    return this.http.post<any>('http://localhost:3000/auth/register/codigo',correo);
+   /* const data:any=123
+    return data;*/
   }
 }

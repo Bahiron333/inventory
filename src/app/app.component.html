@@ -5,7 +5,7 @@
   </div>
 
   <div id="informacion-nav">
-     @if (1==1) { 
+     @if (mostrarFoto) { 
       <img id="foto-nav" src="foto.png" alt="" (click)="VentanaOpcionCuenta()">
     }
   </div>
@@ -16,7 +16,7 @@
     <p id="nombre-user">{{nombreUser | titlecase}}</p>
     <div id="content-button-opcion-cuenta">
       <button class="button-opcion-cuenta">Configuracion</button>
-      <button class="button-opcion-cuenta">Cerrar sesion</button>
+      <button (click)="cerrarSesion()" class="button-opcion-cuenta">Cerrar sesion</button>
     </div>
   </div>
 }

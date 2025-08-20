@@ -24,14 +24,15 @@
   
     <div id="login">
         <div id="login-main">
-            <form>
+            <form [formGroup]="login" (ngSubmit)="RedirigirDashboard()">
                 <label id="titulo-login">Iniciar sesion</label>
 
-                <input type="text" class="datos" placeholder="Correo">
-                <input type="text" class="datos" placeholder="Password">
+                <input type="text" formControlName="correo" class="datos" placeholder="Correo">
+                <input type="text" formControlName="password" class="datos" placeholder="Password">
 
+                <p>{{mensaje}}</p>
                 <div id="content-ingreso">
-                    <input type="submit" id="button-ingresar" value="Ingresar" (click)="RedirigirDashboard()">
+                    <input type="submit" id="button-ingresar" value="Ingresar">
                     <label id="url-forget-password">¿Olvidaste la contraseña?</label>
                 </div>
             </form>

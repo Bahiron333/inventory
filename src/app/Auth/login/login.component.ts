@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/Auth/auth.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -10,27 +11,36 @@ import { AuthService } from '../../services/Auth/auth.service';
 })
 export class LoginComponent {
 
-  constructor(private router:Router, private auth:AuthService){
+  @Output() sesionIniciada = new EventEmitter<boolean>
+  
+  constructor(private router:Router, private auth:AuthService, private fb:FormBuilder){
 
+    this.login = fb.group({
+      correo: ['', Validators.required],
+      password: ['',Validators.required]
+    })
   }
 
   //inicia sesion y guarda el token
   RedirigirDashboard(){
-    this.auth.Login(this.correo, this.password).subscribe({
+    this.auth.Login(this.login.get('correo')?.value, this.login.get('password')?.value).subscribe({
       next: (data)=>{
         localStorage.setItem('token',data.token);
+        this.sesionIniciada.emit(true);
+        this.router.navigate(['dashboard']);
+        this.mensaje="";
       },
-      error: (err)=>{
-        this.mensaje = err.error;
+      error: ()=>{
+        this.mensaje = "El correo o las credenciales son incorrectas";
       }
     })
-    this.router.navigate(['dashboard']);
+    
   }
 
   RedirigirRegister(){
     this.router.navigate(['auth/register']);
   }
-  protected correo: string = "";
-  protected password: string = "";
+
+  protected login:FormGroup;
   protected mensaje: string = "";
 }

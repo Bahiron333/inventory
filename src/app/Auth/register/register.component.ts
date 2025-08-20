@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthService } from '../../services/Auth/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -11,7 +12,7 @@ import { Router } from '@angular/router';
 
 export class RegisterComponent {
 
-  constructor(private router:Router, private fb:FormBuilder){
+  constructor(private router:Router, private fb:FormBuilder, private Auth:AuthService){
      //formulario de registro
     this.register = fb.group({
       nombre: ['',[Validators.required,Validators.minLength(5),Validators.maxLength(15)]],
@@ -62,11 +63,39 @@ export class RegisterComponent {
       this.errorCorreo = true;
       this.mostrarCodigo = false; 
     }else{
-      this.errorCorreo = false;
-      this.mostrarCodigo = true; 
+      this.Auth.codigo(this.cuenta.get('correo')?.value).subscribe({
+        next: (data)=>{
+          this.codigo = data;
+          this.errorCorreo = false;   
+          this.mostrarCodigo = true;
+          console.log(this.codigo)
+          this.mensaje = "";
+        }, error: (err)=>{
+          this.errorMensajeCorreo = err.error;
+        }
+      })
     }
   }
   
+  subirImagen(event:any){
+    //de toda la lista de archivo seleccionamos el primero
+    const file:File = event.target.files[0];
+
+    //si se seleciono algun archivo 
+    if(file){
+        if(!file.type.startsWith('image/')){
+          alert("Archivo no valido");
+          return;
+        }
+    }
+
+    //guardamos el archivo 
+    this.foto = file;
+
+    const reader = new FileReader();
+    reader.onload = e => this.vistaImagen = reader.result;
+    reader.readAsDataURL(file);
+  }
   //informacion
   protected nombre:string = "";
   protected direccion:string = "";
@@ -83,6 +112,10 @@ export class RegisterComponent {
    //registro de formularios
   public register:FormGroup;
   public cuenta:FormGroup;
+ 
+  //foto
+  protected foto:any;
+  protected vistaImagen: string | ArrayBuffer | null = "icono-foto.png";
 
   //controladores de errores 
   protected errorNombre:boolean = false;
@@ -92,9 +125,14 @@ export class RegisterComponent {
 
   //validacion de correo
   protected mostrarCodigo:boolean = false;
+  protected errorMensajeCorreo:String = "";
   protected errorCorreo:boolean = false;
+  protected correoValido:boolean = false; //verifica que el correo ya no este registrado 
 
   //mensaje de error
   protected mensaje:string = "";
+
+  //desactivar boton de registro true:Desactivado false:Activado
+  protected EstadoBotonRegistro:boolean = true;
 
 }
