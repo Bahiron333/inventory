@@ -20,9 +20,13 @@ export class AuthService {
     return this.http.post<any>('http://localhost:3000/auth/register',data);
   }
 
+  //enviamos correo y el backend realiza la comprobacion
   codigo(correo:any):Observable<any>{
     return this.http.post<any>('http://localhost:3000/auth/register/codigo',correo);
-   /* const data:any=123
-    return data;*/
+  }
+
+  //codigo verificacion
+  verificarCodigo(codigo:string):Observable<boolean>{
+    return this.http.post<any>('http://localhost:3000/auth/register/codigo/verificar',codigo);
   }
 }

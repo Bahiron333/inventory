@@ -64,17 +64,19 @@ export class RegisterComponent {
       this.mostrarCodigo = false; 
     }else{
       this.Auth.codigo(this.cuenta.get('correo')?.value).subscribe({
-        next: (data)=>{
-          this.codigo = data;
+        next: ()=>{
           this.errorCorreo = false;   
           this.mostrarCodigo = true;
-          console.log(this.codigo)
           this.mensaje = "";
         }, error: (err)=>{
-          this.errorMensajeCorreo = err.error;
+          this.errorMensajeCorreo = "Este correo ya existe";
         }
       })
     }
+  }
+
+  validarCodigo(){
+     this.Auth.verificarCodigo(this.codigo)
   }
   
   subirImagen(event:any){

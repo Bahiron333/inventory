@@ -34,7 +34,7 @@
                 <label class="label-password" for="confirm-password">Confirmar contraseña</label>
                 <input [ngClass]="!errorConfirmPassword ? 'datos' : 'datos-erroneos'" formControlName="confirmPassword"  type="password" name="confirm-password">
             </div>
-            <form id="content-correo" [formGroup]="cuenta" (ngSubmit)="validarCorreo()">
+            <form id="content-correo" [formGroup]="cuenta" (ngSubmit)="validarCodigo()">
                 <p class="text-title">Cuenta</p>
                 <br>
                 <input type="text" formControlName="correo" [ngClass]="!errorCorreo ? 'datos' : 'datos-erroneos'" placeholder="Correo">
@@ -43,7 +43,7 @@
                 <div id="content-codigo">
                     <input id="button-enviar-codigo" type="button" value="Enviar codigo verificacion" (click)="validarCorreo()">
                     @if(mostrarCodigo){
-                        <input id="dato-codigo" formControlName="codigo" type="text" placeholder="Ingrese el código de verificacion">
+                        <input id="dato-codigo" formControlName="codigo" type="text" placeholder="Ingrese el código de verificacion" [(ngModel)]="codigo">
                         <input id="button-valid-codigo" type="button" value="validar">
                     }
                 </div>
