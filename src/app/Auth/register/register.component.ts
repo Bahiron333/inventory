@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss'
 })
+
 export class RegisterComponent {
 
   constructor(private router:Router, private fb:FormBuilder){
@@ -17,11 +18,9 @@ export class RegisterComponent {
       direccion: [''],
       telefono: ['',[Validators.minLength(10),Validators.pattern(/^[0-9]+$/)]],
       password: ['',[Validators.required,Validators.minLength(8),Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[*+-._#@%&$!]).{8,}$/)]],
-      confirmPassword: ['',Validators.required],
-      
+      confirmPassword: ['',Validators.required],    
     })
 
-  
     //formulario de correo
     this.cuenta = fb.group({
       correo: ['',Validators.required, Validators.pattern(/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+.[A-Za-z]{2,}/)],
@@ -35,35 +34,36 @@ export class RegisterComponent {
 
   //metodo para registro
   Registrarse(){
-    console.log(this.register.value);
-    this.validarInformacion();
+    //valida los datos antes de enviar
+    if(this.validarInformacion()){
+      this.mensaje=""
+    }else{
+      this.mensaje="Corriga los errores antes de enviar los datos"
+    }
   }
 
   validarInformacion(){
-    if(this.register.get('nombre')?.invalid){
-      this.errorNombre = true;
-      return false;
-    }if(this.register.get('telefono')?.invalid){
-      this.errorDireccion = true;
-      return false;
-    }if(this.register.get('password')?.invalid){
-      this.errorPassword = true;
-      return false;
-    }if(this.register.get('confirmPassword')?.value != this.register.get('password')?.value){
-        this.errorPassword = true;
-        this.errorConfirmPassword = true;
-      return false;
-    }
-    return true;
+
+    //error nombre
+    this.register.get('nombre')?.invalid  ? this.errorNombre = true : this.errorNombre = false;
+    //error telefono   
+    this.register.get('telefono')?.invalid ? this.errorTelefono = true : this.errorTelefono = false;
+    //error password
+    this.register.get('password')?.invalid ? this.errorPassword = true : this.errorPassword = false;
+    //error contraseñas iguales
+    this.register.get('confirmPassword')?.value != this.register.get('password')?.value ? this.errorConfirmPassword = true : this.errorConfirmPassword = false;
+
+    return !this.register.invalid && this.register.get('confirmPassword')?.value == this.register.get('password')?.value;
   }
 
   //combrobar que el correo sea valido
   validarCorreo(){
     if(this.cuenta.get('correo')?.invalid){
       this.errorCorreo = true;
-      return false;
+      this.mostrarCodigo = false; 
     }else{
-      return true;
+      this.errorCorreo = false;
+      this.mostrarCodigo = true; 
     }
   }
   
@@ -86,9 +86,15 @@ export class RegisterComponent {
 
   //controladores de errores 
   protected errorNombre:boolean = false;
-  protected errorDireccion:boolean = false;
+  protected errorTelefono:boolean = false;
   protected errorPassword:boolean = false;
   protected errorConfirmPassword:boolean = false;
+
+  //validacion de correo
+  protected mostrarCodigo:boolean = false;
   protected errorCorreo:boolean = false;
+
+  //mensaje de error
+  protected mensaje:string = "";
 
 }
