@@ -20,7 +20,7 @@
             </div>
             <div id="content-button-register">
                 <input id="button-cancelar" (click)="Cancelar()" type="button" value="Cancelar">
-                <input id="button-registro" (click)="Registrarse()" type="button" value="Registrarse" [disabled]="EstadoBotonRegistro" [ngStyle]="{'display': EstadoBotonRegistro ? 'flex' : 'none'}">
+                <input id="button-registro" (click)="Registrarse()" type="button" value="Registrarse" [ngStyle]="{'display': EstadoBotonRegistro ? 'flex' : 'none'}">
                 <p>{{mensaje}}</p>
             </div>
         </div>
@@ -43,8 +43,8 @@
                 <div id="content-codigo">
                     <input id="button-enviar-codigo" type="button" value="Enviar codigo verificacion" (click)="validarCorreo()">
                     @if(mostrarCodigo){
-                        <input id="dato-codigo" formControlName="codigo" type="text" placeholder="Ingrese el código de verificacion" [(ngModel)]="codigo">
-                        <input id="button-valid-codigo" type="button" value="validar">
+                        <input id="dato-codigo" formControlName="codigo" type="text" placeholder="Ingrese el código de verificacion">
+                        <input id="button-valid-codigo" type="submit" value="validar">
                     }
                 </div>
             </form>

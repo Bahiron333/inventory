@@ -37,10 +37,35 @@ export class RegisterComponent {
   Registrarse(){
     //valida los datos antes de enviar
     if(this.validarInformacion()){
-      this.mensaje=""
+      this.mensaje="";
+      this.guardarInfomacion();
+      this.enviarInformacionServidor(this.data);
     }else{
-      this.mensaje="Corriga los errores antes de enviar los datos"
+      this.mensaje="Corriga los errores antes de enviar los datos";
     }
+  }
+
+  guardarInfomacion(){
+      //guardamos la informacion
+      this.data = {
+        nombre: this.register.get('nombre')?.value,
+        correo:this.register.get('telefono')?.value,
+        direccion:this.register.get('direccion')?.value,
+        telefono:this.cuenta.get('correo')?.value,
+        password: this.register.get('password')?.value
+      }
+  }
+
+  enviarInformacionServidor(datos:any){
+      this.Auth.Register(datos).subscribe({
+        next:()=>{
+          console.log("datos enviados exitosamente");
+          this.router.navigate(['login']);
+        },
+        error:()=>{
+          alert("Error al enviar los datos");
+        }
+      })
   }
 
   validarInformacion(){
@@ -66,9 +91,9 @@ export class RegisterComponent {
       this.Auth.codigo(this.cuenta.get('correo')?.value).subscribe({
         next: ()=>{
           this.errorCorreo = false;   
-          this.mostrarCodigo = true;
+          this.mostrarCodigo = true;  
           this.mensaje = "";
-        }, error: (err)=>{
+        }, error: ()=>{
           this.errorMensajeCorreo = "Este correo ya existe";
         }
       })
@@ -76,7 +101,15 @@ export class RegisterComponent {
   }
 
   validarCodigo(){
-     this.Auth.verificarCodigo(this.codigo)
+     this.Auth.verificarCodigo(this.cuenta.get('codigo')?.value).subscribe({
+      next:(data:any)=>{
+        this.EstadoBotonRegistro = data.permiso;
+      },
+      error:()=>{
+        this.EstadoBotonRegistro = false;
+        console.log("Error al validar codigo")
+      }
+     })
   }
   
   subirImagen(event:any){
@@ -135,6 +168,15 @@ export class RegisterComponent {
   protected mensaje:string = "";
 
   //desactivar boton de registro true:Desactivado false:Activado
-  protected EstadoBotonRegistro:boolean = true;
+  protected EstadoBotonRegistro:boolean = false;
+
+  //informacion para enviar al backend
+  protected data:any = {
+    nombre:'',
+    correo:'',
+    direccion:'',
+    telefono:'',
+    password:''
+  }
 
 }
