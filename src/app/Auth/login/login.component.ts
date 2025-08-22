@@ -10,9 +10,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
-
-  @Output() sesionIniciada = new EventEmitter<boolean>
-  
+   
   constructor(private router:Router, private auth:AuthService, private fb:FormBuilder){
 
     this.login = fb.group({
@@ -26,8 +24,7 @@ export class LoginComponent {
     this.auth.Login(this.login.get('correo')?.value, this.login.get('password')?.value).subscribe({
       next: (data)=>{
         localStorage.setItem('token',data.token);
-        this.sesionIniciada.emit(true);
-        this.router.navigate(['dashboard']);
+        this.router.navigate(['dashboard',data.id]);
         this.mensaje="";
       },
       error: ()=>{

@@ -46,13 +46,19 @@ export class RegisterComponent {
   }
 
   guardarInfomacion(){
+
+      //guarda la foto en formato adecuado para envio por API
+      const fileData = new FormData();
+      fileData.append('foto',this.foto);
+
       //guardamos la informacion
       this.data = {
         nombre: this.register.get('nombre')?.value,
         correo:this.register.get('telefono')?.value,
         direccion:this.register.get('direccion')?.value,
         telefono:this.cuenta.get('correo')?.value,
-        password: this.register.get('password')?.value
+        password: this.register.get('password')?.value,
+        foto: fileData
       }
   }
 
@@ -176,7 +182,8 @@ export class RegisterComponent {
     correo:'',
     direccion:'',
     telefono:'',
-    password:''
+    password:'',
+    foto:null
   }
 
 }

@@ -1,5 +1,6 @@
 @use '../../styles.scss' as globales;
 
+/*
 #main-dashboard{
     display: flex;
     flex-direction: row;
@@ -37,3 +38,46 @@ aside{
         font-weight: bold;
     }
 }
+    */
+
+#main-dashboard{
+    padding: 4em;
+    height: calc(100vh - 50px);
+}
+
+.boton-ingreso{ 
+    @include globales.botonIngreso;
+    width: 90px;
+    margin-bottom: 2.5em;
+}
+
+#text-cantidad{
+    font-family: sans-serif;
+    font-size: 1.1em;
+    margin-bottom: 2em;
+}
+
+table{ 
+    width: 100%;
+    table-layout: fixed;
+    text-overflow: ellipsis;
+
+}
+ 
+th, td, tr{
+    overflow: hidden; 
+    align-content:start;    
+    text-overflow: ellipsis;
+}
+
+tr{
+    border-radius: 45%;
+    margin-bottom: 1em;
+}
+ 
+ #fila-datos{
+    display: flex;
+    flex-direction: row;
+    background-color: red;
+    width: 100%;
+ }

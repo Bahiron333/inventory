@@ -1,11 +1,28 @@
 <div id="main-dashboard">
-    <aside>
-        <p id="titulo-empresa">{{nombreEmpresa}}</p>
-        <a class="opciones" [routerLink]="['/dashboard/cliente']">Cliente</a>
-        <a class="opciones" [routerLink]="['/dashboard/miembros']">Miembros</a>
-        <a class="opciones" [routerLink]="['/dashboard/cuenta']">Cuenta</a>
+ 
+    <button class="boton-ingreso">Agregar</button>
+    <p id="text-cantidad">Cantidad de clientes: <strong>{{cantidadclientes}}</strong></p>
+  
+            <tr>
+                <th></th>
+                <th>Nombre</th>
+                <th>Direccion</th>
+                <th>representante</th>
+                <th>Fecha asociacion</th>
+                <th>id</th>
+            </tr>
+     
+        <hr id="linea">
         
-    </aside>
-    <router-outlet></router-outlet>
-
+            @for(cliente of empresas; track cliente.id){
+                <div id="fila-datos">            
+                        <th><img src="" alt=""></th>
+                        <th>{{cliente.nombre}}</th>
+                        <th>{{cliente.direccion}}</th>
+                        <th>{{cliente.representante}}</th>
+                        <th>{{cliente.fecha_asociacion}}</th>
+                        <th>{{cliente.id}}</th>
+                    
+                </div>
+            }
 </div>
