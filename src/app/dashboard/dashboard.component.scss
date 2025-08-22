@@ -64,20 +64,65 @@ table{
 
 }
  
-th, td, tr{
-    overflow: hidden; 
-    align-content:start;    
-    text-overflow: ellipsis;
-}
-
-tr{
-    border-radius: 45%;
-    margin-bottom: 1em;
-}
+ .foto-ciente{
+    width: 30px;
+    height: 30px;
+    border-radius: 50px;
+ }
  
- #fila-datos{
+ .data-cliente{ 
+    padding: 0 10px;
+    display: flex;
+    font-family: 'Barlow', sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    overflow: hidden;
+    text-overflow: ellipsis; 
+    justify-content: initial;
+    text-align: left;
+    flex: 1; 
+ }
+
+ #content-cliente{
     display: flex;
     flex-direction: row;
-    background-color: red;
+    align-items: center;
+    gap: 1em;
+ }
+ #fila-datos{
+    display: flex;
+    table-layout: fixed;
+    flex-direction: row; 
+    border: 1px solid transparent;
+    justify-content:space-around;
+    align-content: initial;
+    align-items: center;
+    background-color: #d9d9d9;
+    border-radius: 20px;
+    margin: 0.2em 0;
     width: 100%;
+    padding: 0.2em;
+    padding-right: 1%;
+    cursor: pointer;
+    &:hover{
+        border: 1px solid #1800ad;
+    }
+    &:active{
+        background-color: #a6a6a6;
+    }
+ }
+
+ #img-eliminar{
+    width: 20px;
+    height: 20px;
+    border-radius: 50px;
+ }
+
+ svg{ 
+    pointer-events: auto;
+    z-index: 100;
+    fill: black;
+    &:hover{
+        fill:red; //cambia el color 
+    }
  }

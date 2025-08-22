@@ -53,10 +53,10 @@ app.get('/clientes/:id',(req,res)=>{
 
     const clientes = [
         {  
-            id:'12', 
-            nombre:'cosidic',
-            direccion:'empresa y',
-            representante:'darwin',
+            id:'FS7SDDS949F9F0FD', 
+            nombre:'cosidic S.A.S',
+            direccion:'Cra 4 N 43-56 sur',
+            representante:'bahiron abraham dueñas jimenez',
             fecha_asociacion:'10/05/2025'     
         },
         {   id:'523', 

@@ -16,7 +16,7 @@ export class DashboardComponent implements OnInit{
 
     //obtenemos el id del usuario por medio de la ruta
     this.router.paramMap.subscribe(params=>{
-        this.id = params.get('id')
+      this.id = params.get('id')
     });
 
     //enviamos el id del usuario y el servidor trae los clientes asociados con el id
