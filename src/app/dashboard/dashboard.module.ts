@@ -6,11 +6,13 @@ import { MiembrosComponent } from './miembros/miembros.component';
 import { CuentaComponent } from './cuenta/cuenta.component'; 
 import { RouterModule } from '@angular/router';
 import { DashboardRoutingModule } from './dashboard.module.router';
+import { CrearclienteComponent } from './clientes/crearcliente/crearcliente.component';
 
 @NgModule({
   declarations: [
     DashboardComponent,
-    ClientesComponent
+    ClientesComponent,
+    CrearclienteComponent
   ],
   imports: [
     CommonModule, 

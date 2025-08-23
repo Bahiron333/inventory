@@ -1,67 +1,78 @@
 @use '../../styles.scss' as globales;
 
-/*
-#main-dashboard{
-    display: flex;
-    flex-direction: row;
-    height: calc(100vh - 50px);
-}
-aside{
-    display: flex;
-    flex-direction: column;
-    width: 20%;
-    height: 100%;
-}
-
-#titulo-empresa{ 
-    @include globales.fonts;
-    margin:1.5em 0;
-    text-align: center;
-    font-size: 2em;
-}
-
-.opciones{
-    all:unset; 
-    padding: 0.5em;
-    align-items: center;
-    border: 1px solid transparent;
-    border-left: 5px solid transparent;
-    padding-left: 2em;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    &:hover{
-        background-color: #d9d9d9;
-        border-left: 5px solid #1800ad;
-    }
-    &:focus{
-        background-color: transparent;
-        border-left: 5px solid #1800ad;
-        font-weight: bold;
-    }
-}
-    */
-
 #main-dashboard{
     padding: 4em;
     height: calc(100vh - 50px);
 }
 
+/*Esta seccion es para el contenido de agregar usuario*/
+#content-agregar-cliente{
+    display: flex;
+    flex-direction: column;
+    position:fixed;
+    background-color: #f2f2f2;
+    width: fit-content;
+    padding: 0.8em;
+    gap: 0.7em;
+}
+
+.text-codigo{
+    font-family: "Roboto Condensed", sans-serif ;
+    font-weight:bold;
+    font-style: normal;
+    font-size: 0.8em;
+    text-align: initial;
+}
+
+#botones-agregar-cliente{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 1.2em;
+}
+
+#button-crear{
+    @include globales.botonValidar;
+    padding: 0.2em 1em;
+}
+
+#button-cancelar{
+    @include globales.botonCancelar;
+    padding: 0.2em 1em;
+}
+
+#input-codigo-empresa{
+    border: 2px solid #1800ad;
+    border-radius: 20px;
+    width: 100%; 
+    padding: 0.2em; 
+}
+
+#button-codigo-empresa{
+    @include globales.botonIngreso;
+    width: 100%;
+    padding: 1%;
+}
+
+
+/*Este estilo es para el boton que permite agregar una nueva empresa*/
 .boton-ingreso{ 
     @include globales.botonIngreso;
     width: 90px;
-    margin-bottom: 3.5em;
+    margin-bottom: 0.3em;
 }
 
 #text-cantidad{
     font-family: sans-serif;
     font-size: 1.1em;
     margin-bottom: 3em;
+    margin-top: 3.5em;
 }
 
 table{ 
     width: 100%;
     table-layout: fixed;
     text-overflow: ellipsis;
-
 }
 
 #encabezado-tabla{
@@ -123,14 +134,20 @@ table{
     flex: 1; 
 }
 
- .content-cliente{
+.content-cliente{
     display: flex;
     flex-direction: row;
     align-items: center;
     gap: 1em;
     min-height: min-content;
  }
- .fila-datos{
+
+ #content-clientes{
+    overflow-y: overlay; 
+    max-height: 71%; 
+ }
+
+.fila-datos{
     display: flex;
     table-layout: fixed;
     flex-direction: row; 
@@ -162,6 +179,8 @@ table{
  svg{ 
     pointer-events: auto;
     z-index: 100;
+    width:20px;
+    height:20px;
     fill: black;
     &:hover{
         fill:red; //cambia el color 

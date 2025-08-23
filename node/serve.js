@@ -46,6 +46,7 @@ console.log(codigo)
   }
 })
 
+//mostrar cliente
 app.get('/clientes/:id',(req,res)=>{
 
     console.log(req.headers['authorization']);
@@ -64,12 +65,39 @@ app.get('/clientes/:id',(req,res)=>{
             representante: 'Miguel', 
             direccion:'Empresa x',
             fecha_asociacion:'10/05/2025'
+        },
+          {  
+            id:'FS7SDDS949F9F0FD', 
+            nombre:'cosidic S.A.S',
+            direccion:'Cra 4 N 43-56 sur',
+            representante:'bahiron abraham dueñas jimenez',
+            fecha_asociacion:'10/05/2025'     
+        },
+          {  
+            id:'FS7SDDS949F9F0FD', 
+            nombre:'cosidic S.A.S',
+            direccion:'Cra 4 N 43-56 sur',
+            representante:'bahiron abraham dueñas jimenez',
+            fecha_asociacion:'10/05/2025'     
         }
+
     ]
 
-    res.status(200).json({clientes})
+    const user={
+        id: '123',
+        role: ['admin'],
+    }
+
+    res.status(200).json({clientes,user})
 
 })
+
+
+//eliminar cliente 
+app.delete('/clientes/:id',(req,res)=>{
+  res.status(200).json({mensaje:"error al eliminar el cliente"});
+});
+
 app.listen(3000, () => {
   console.log('Servidor escuchando en http://localhost:3000');
 });
