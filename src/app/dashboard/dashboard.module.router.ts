@@ -7,16 +7,8 @@ import { CuentaComponent } from './cuenta/cuenta.component';
 import { userGuard } from '../Auth/Guard/user.guard';
 
 const routes: Routes = [
-  {
-    path: '',
-    component: DashboardComponent,
-    canActivate: [userGuard],
-    children: [
-      { path: 'cliente', component: ClientesComponent },
-      { path: 'miembros', component: MiembrosComponent },
-      { path: 'cuenta', component: CuentaComponent }
-    ]
-  }
+  {path: '', component: DashboardComponent, canActivate:[userGuard]},
+  {path: 'cliente/:id', component: ClientesComponent, canActivate:[userGuard] },
 ];
 
 @NgModule({

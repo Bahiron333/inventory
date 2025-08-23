@@ -10,9 +10,7 @@ import { DashboardRoutingModule } from './dashboard.module.router';
 @NgModule({
   declarations: [
     DashboardComponent,
-    ClientesComponent,
-    MiembrosComponent,
-    CuentaComponent
+    ClientesComponent
   ],
   imports: [
     CommonModule, 
@@ -21,9 +19,7 @@ import { DashboardRoutingModule } from './dashboard.module.router';
 ],
   exports:[
     DashboardComponent,
-    ClientesComponent,
-    MiembrosComponent,
-    CuentaComponent
+    ClientesComponent
   ]
 })
 export class DashboardModule { }

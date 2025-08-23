@@ -17,8 +17,6 @@ export class DashboardService {
     return this.http.get<any>(`http://localhost:3000/clientes/${idUser}`,{headers: this.headers})
   }
 
-  
-
   private token = localStorage.getItem('token')?.toString();
   private headers:any;
 }

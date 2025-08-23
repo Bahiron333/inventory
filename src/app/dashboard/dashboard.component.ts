@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DashboardService } from '../services/Dashboard/dashboard.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -10,7 +10,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class DashboardComponent implements OnInit{
 
-  constructor(private dashboardService:DashboardService, private router:ActivatedRoute){}
+  constructor(private dashboardService:DashboardService, private router:ActivatedRoute, private routerNavigate:Router){}
 
   ngOnInit(): void {
 
@@ -28,6 +28,10 @@ export class DashboardComponent implements OnInit{
       },
       error: ()=> console.log("Error la obtener los datos") 
      })
+  }
+
+  routerCliente(id:string){
+    this.routerNavigate.navigate(['cliente',id]); 
   }
 
   protected empresas:any = null;
