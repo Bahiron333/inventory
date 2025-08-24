@@ -1,32 +1,38 @@
 <div id="main-dashboard">
-    @if(agregarCliente){
-        <div>
-        <button class="boton-ingreso" (click)="mostrarVentanaAgregar()">Agregar</button>
-        @if(ControlMostrarVentanaAgregar){
-            <div id="content-agregar-cliente">
-                <p class="text-codigo">Ingresar codigo</p>
-                <input id="input-codigo-empresa" type="text" placeholder="Codigo Empresa">
-                <input id="button-codigo-empresa" type="button" value="Unirse a la empresa">
-                <p class="text-codigo">Nuevo cliente</p>
-                <div id="botones-agregar-cliente">
-                    <input id="button-crear" type="button" value="Crear cliente">
-                    <input id="button-cancelar" type="button" value="Cancelar" (click)="mostrarVentanaAgregar()">
+    <div id="cantidad-buscar">
+        @if(agregarCliente){
+            <div>
+            <button class="boton-ingreso" (click)="mostrarVentanaAgregar()">Agregar</button>     
+            @if(ControlMostrarVentanaAgregar){
+                <div id="content-agregar-cliente">
+                    <p class="text-codigo">Ingresar codigo</p>
+                    <input id="input-codigo-empresa" type="text" placeholder="Codigo cliente" [(ngModel)]="codigo">
+                    <input id="button-codigo-empresa" type="button" value="Unirse a la empresa" (click)="unierseCliente()">
+                    <p class="text-codigo">Nuevo cliente</p>
+                    <div id="botones-agregar-cliente">
+                        <input id="button-crear" type="button" value="Crear cliente" (click)="redirigirCrearCliente()">
+                        <input id="button-cancelar" type="button" value="Cancelar" (click)="mostrarVentanaAgregar()">
+                    </div>
                 </div>
+            }
             </div>
         }
+        <div id="content-buscar">
+            <input [(ngModel)]="textBuscar" id="input-buscar" type="text" placeholder="Buscar">
+            <img id="svg-busqueda" src="busqueda.svg" alt="busqueda">
         </div>
-    }
+    </div>
     <p id="text-cantidad">Cantidad de clientes: <strong>{{cantidadclientes}}</strong></p>
-            <div id="encabezado-tabla">
-                <th class="data-titulo">Nombre</th>
-                <th class="data-titulo">Direccion</th>
-                <th class="data-titulo">representante</th>
-                <th class="data-titulo">Fecha asociacion</th>
-                <th class="data-titulo">id</th>
-            </div>   
+    <div id="encabezado-tabla">
+        <th class="data-titulo">Nombre</th>
+        <th class="data-titulo">Direccion</th>
+        <th class="data-titulo">representante</th>
+        <th class="data-titulo">Fecha asociacion</th>
+        <th class="data-titulo">id</th>
+    </div>   
         <hr id="linea">
         <div id="content-clientes">
-            @for(cliente of empresas; track cliente.id){
+            @for(cliente of clientesFiltrados; track trackById($index, cliente)){
                 <div class="content-cliente">
                     <div class="fila-datos" (click)="routerCliente(cliente.id)">            
                         <img src="icono-foto.png" class="foto-ciente" alt="">

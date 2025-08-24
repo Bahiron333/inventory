@@ -62,6 +62,7 @@
     margin-bottom: 0.3em;
 }
 
+//esta parte es para los estilos de la cantidad de clientes
 #text-cantidad{
     font-family: sans-serif;
     font-size: 1.1em;
@@ -69,6 +70,33 @@
     margin-top: 3.5em;
 }
 
+//esta session es de los estilos buscar cliente
+#cantidad-buscar{
+    display: flex;
+    flex-direction: row;
+    justify-content:space-between;
+    align-items: center;
+    align-content: center;
+}
+
+#cantidad-buscar{
+    width: 40%;
+}
+
+#content-buscar{
+    @include globales.content-buscar;
+}
+
+#input-buscar{
+    @include globales.input-buscar;
+}
+
+#svg-busqueda{
+    @include globales.svg-busqueda;
+}
+
+
+//estilos de la estructura de tabla
 table{ 
     width: 100%;
     table-layout: fixed;

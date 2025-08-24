@@ -1,1 +1,29 @@
-<p>crearcliente works!</p>
+ <div id="main-crear-cliente">
+    <form id="form-crear-cliente" [formGroup]="formCrearcliente" (ngSubmit)=" AgregarCliente()">
+        <div id="primera-columna">
+            <p id="titulo-crear-cliente">Nuevo cliente</p>
+            <div class="content-foto">
+                <img class="foto-img" [src]="vistaImagen" alt="foto">
+                <div class="content-subir-foto">
+                    <p id="text-foto">Foto</p>
+                    <label class="file-label">
+                        <input accept="image/*" type="file" name="" id="" (change)="mostrarImagen($event)" style="display: none;">
+                        Subir foto
+                    </label>
+                </div>
+            </div>
+            <label for="">Descripcion</label>
+            <input formControlName="descripcion" type="text" placeholder="Descripcion" [ngClass]="!campoErrores['descripcion'] ? 'datos' : 'datos-erroneos'">
+            <div id="content-botones">
+                <input type="submit" value="Agregar">
+                <input type="button" value="Cancelar" (click)="Cancelar()">
+            </div>
+        </div>
+        <div id="segunda-columna">
+                <input formControlName="nombre" type="text" placeholder="Nombre"  [ngClass]="!campoErrores['nombre'] ? 'datos' : 'datos-erroneos'">
+                <input formControlName="direccion" type="text" placeholder="Direccion"  [ngClass]="!campoErrores['direccion'] ? 'datos' : 'datos-erroneos'">
+                <input formControlName="correo" type="text" placeholder="Correo principal"  [ngClass]="!campoErrores['correo'] ? 'datos' : 'datos-erroneos'">
+                <input formControlName="numero" type="text" placeholder="Numero telefonico"  [ngClass]="!campoErrores['numero'] ? 'datos' : 'datos-erroneos'">
+        </div>
+    </form>
+ </div>

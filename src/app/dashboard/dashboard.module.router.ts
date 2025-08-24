@@ -8,7 +8,7 @@ import { CrearclienteComponent } from './clientes/crearcliente/crearcliente.comp
 const routes: Routes = [
   {path: '', component: DashboardComponent, canActivate:[userGuard]},
   {path: 'cliente/:idCliente', component: ClientesComponent, canActivate:[userGuard]},
-  {path: 'cliente/create', component:CrearclienteComponent}
+  {path: 'create', component:CrearclienteComponent}
 ];
 
 @NgModule({

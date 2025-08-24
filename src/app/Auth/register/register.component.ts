@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/Auth/auth.service';
+import { FotoService } from '../../services/foto/foto.service';
 
 @Component({
   selector: 'app-register',
@@ -12,7 +13,7 @@ import { AuthService } from '../../services/Auth/auth.service';
 
 export class RegisterComponent {
 
-  constructor(private router:Router, private fb:FormBuilder, private Auth:AuthService){
+  constructor(private router:Router, private fb:FormBuilder, private Auth:AuthService, private fotoService:FotoService){
      //formulario de registro
     this.register = fb.group({
       nombre: ['',[Validators.required,Validators.minLength(5),Validators.maxLength(15)]],
@@ -119,24 +120,13 @@ export class RegisterComponent {
   }
   
   subirImagen(event:any){
-    //de toda la lista de archivo seleccionamos el primero
-    const file:File = event.target.files[0];
-
-    //si se seleciono algun archivo 
-    if(file){
-        if(!file.type.startsWith('image/')){
-          alert("Archivo no valido");
-          return;
-        }
-    }
-
-    //guardamos el archivo 
-    this.foto = file;
-
+    const datosFoto = this.fotoService.subirImagen(event);
+    this.foto = datosFoto?.foto;
     const reader = new FileReader();
     reader.onload = e => this.vistaImagen = reader.result;
-    reader.readAsDataURL(file);
+    reader.readAsDataURL(this.foto);
   }
+
   //informacion
   protected nombre:string = "";
   protected direccion:string = "";

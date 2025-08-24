@@ -26,6 +26,17 @@ export class DashboardService {
     });
   }
 
+  unirseCliente(codigo:string, idUser:string):Observable<any>{
+    return this.http.put(`http://localhost:3000/clientes/unirse/${idUser}`,{codigo},{headers:this.headers});
+  }
+
+  
+  createCliente(dataCliente:any,idUser:string):Observable<any>{
+    return this.http.post(`http://localhost:3000/clientes/create/${idUser}`,{dataCliente},{
+      headers: this.headers
+    })
+  }
+  
   private token = localStorage.getItem('token')?.toString();
   private headers:any;
 }

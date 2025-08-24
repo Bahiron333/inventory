@@ -7,6 +7,7 @@ import { CuentaComponent } from './cuenta/cuenta.component';
 import { RouterModule } from '@angular/router';
 import { DashboardRoutingModule } from './dashboard.module.router';
 import { CrearclienteComponent } from './clientes/crearcliente/crearcliente.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -15,9 +16,11 @@ import { CrearclienteComponent } from './clientes/crearcliente/crearcliente.comp
     CrearclienteComponent
   ],
   imports: [
-    CommonModule, 
+    CommonModule,
+    FormsModule,
     RouterModule,
-    DashboardRoutingModule
+    DashboardRoutingModule,
+    ReactiveFormsModule
 ],
   exports:[
     DashboardComponent,

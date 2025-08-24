@@ -52,12 +52,49 @@ export class DashboardComponent implements OnInit{
     this.dashboardService.eliminarcliente(this.id,idCliente).subscribe({
       next: (data)=>{
         alert(data.mensaje);
-         console.log(this.empresas)
+        this.empresas = this.empresas.filter((m:any)=>m.id!=idCliente);
+        this.cantidadclientes = this.empresas.length;
       }, error: (err)=>{
         alert(err.error['mensaje']);
       }
     })
   }
+
+  unierseCliente(){
+    this.dashboardService.unirseCliente(this.codigo, this.id).subscribe({
+      next:(data)=>{
+        alert("Se agrego el cliente exitosamente");
+        this.empresas.push(data.empresa);
+        this.cantidadclientes = this.empresas.length;
+      },error: (err)=>{
+        alert(err.error);
+      }
+    })
+  }
+
+  redirigirCrearCliente(){
+    this.routerNavigate.navigate(['dashboard',this.id,'create'])
+  }
+
+  get clientesFiltrados(){
+    if(this.textBuscar==''){
+      return this.empresas;
+    }else{
+      //filtra los datos en la busqueda por el nombre, representante o id
+      return this.empresas.filter((c:any)=>
+          c.nombre.toLowerCase().includes(this.textBuscar.toLowerCase()) || 
+          c.id.toLowerCase().includes(this.textBuscar.toLowerCase()) ||
+          c.representante.toLowerCase().includes(this.textBuscar.toLowerCase())
+    );
+    }
+  }
+
+  trackById(index:number, cliente:any):number{
+    return cliente.id;
+  }
+   
+  //datos para unirse a una nueva empresa 
+  protected codigo:string = "";
 
   //datos de la empresa
   protected empresas:any = null;
@@ -69,5 +106,8 @@ export class DashboardComponent implements OnInit{
   protected agregarCliente:boolean = false;
   protected eliminarCliente:boolean = false;
   protected user:any = null;
+
+  //busqueda
+  protected textBuscar:string = "";
 
 }

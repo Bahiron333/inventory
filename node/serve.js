@@ -54,7 +54,7 @@ app.get('/clientes/:id',(req,res)=>{
 
     const clientes = [
         {  
-            id:'FS7SDDS949F9F0FD', 
+            id:'FS7SDDS949F9wF0FD', 
             nombre:'cosidic S.A.S',
             direccion:'Cra 4 N 43-56 sur',
             representante:'bahiron abraham dueñas jimenez',
@@ -67,14 +67,14 @@ app.get('/clientes/:id',(req,res)=>{
             fecha_asociacion:'10/05/2025'
         },
           {  
-            id:'FS7SDDS949F9F0FD', 
+            id:'FS7SDDSr949F9F0FD', 
             nombre:'cosidic S.A.S',
             direccion:'Cra 4 N 43-56 sur',
             representante:'bahiron abraham dueñas jimenez',
             fecha_asociacion:'10/05/2025'     
         },
           {  
-            id:'FS7SDDS949F9F0FD', 
+            id:'FS7SDfDS949F9F0FD', 
             nombre:'cosidic S.A.S',
             direccion:'Cra 4 N 43-56 sur',
             representante:'bahiron abraham dueñas jimenez',
@@ -96,6 +96,27 @@ app.get('/clientes/:id',(req,res)=>{
 //eliminar cliente 
 app.delete('/clientes/:id',(req,res)=>{
   res.status(200).json({mensaje:"error al eliminar el cliente"});
+});
+
+//crear un cliente 
+app.put('/clientes/unirse/:id',(req,res)=>{
+
+  const {codigo} = req.body.codigo
+  console.log(codigo);
+  empresa={  
+            id:'FS7SDfDS949F9F0FD', 
+            nombre:'cosidic S.A.S',
+            direccion:'Cra 4 N 43-56 sur',
+            representante:'bahiron abraham dueñas jimenez',
+            fecha_asociacion:'10/05/2025'     
+        }
+  return res.status(200).json({empresa})
+})
+
+app.post('/clientes/create/:id',(req,res)=>{
+  const datos = req.body.dataCliente;
+    console.log(datos)
+    return res.status(200).json("holaa");
 });
 
 app.listen(3000, () => {
