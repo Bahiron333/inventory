@@ -120,11 +120,24 @@ export class RegisterComponent {
   }
   
   subirImagen(event:any){
-    const datosFoto = this.fotoService.subirImagen(event);
-    this.foto = datosFoto?.foto;
-    const reader = new FileReader();
-    reader.onload = e => this.vistaImagen = reader.result;
-    reader.readAsDataURL(this.foto);
+        //de toda la lista de archivo seleccionamos el primero
+    const file:File = event.target.files[0];
+
+    //si se seleciono algun archivo 
+    if(file){
+        if(!file.type.startsWith('image/')){
+          alert("Archivo no valido");
+          return;
+        }
+    }
+
+    //guardamos el archivo 
+    this.foto = file;
+
+    //convertimos la foto en url para que pueda ser mstrada
+    const reader = new FileReader;
+    reader.onload = e => this.vistaImagen = reader.result; //lee el archivo
+    reader.readAsDataURL(this.foto); //convierte el archivo en una url
   }
 
   //informacion

@@ -2,11 +2,17 @@
 
 #main-dashboard{
     padding: 4em;
-    height: calc(100vh - 50px);
+}
+
+#titulo-dashboard{
+    font-weight: 500;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 2em;
+    margin-bottom: 1.5em;
 }
 
 /*Esta seccion es para el contenido de agregar usuario*/
-#content-agregar-cliente{
+@mixin content-agregar-cliente{
     display: flex;
     flex-direction: column;
     position:fixed;
@@ -14,6 +20,17 @@
     width: fit-content;
     padding: 0.8em;
     gap: 0.7em;
+}
+
+.content-agregar-cliente-abrir{
+    @include content-agregar-cliente();
+    max-height: 0px;
+    overflow: hidden;
+}
+
+.content-agregar-cliente-cerrar{
+    @include content-agregar-cliente();
+    max-height: fit-content;
 }
 
 .text-codigo{
@@ -77,6 +94,7 @@
     justify-content:space-between;
     align-items: center;
     align-content: center;
+    gap: 1em;
 }
 
 #cantidad-buscar{
@@ -122,7 +140,7 @@ table{
     border-radius: 50px;
  }
  
-.data-titulo{ 
+@mixin data-titulo{ 
     padding: 0 10px;
     display: flex;
     font-family: 'Barlow', sans-serif;
@@ -131,24 +149,31 @@ table{
     text-overflow: ellipsis; 
     justify-content: initial;
     text-align: left;
-     }
+}
 
- .data-cliente{ 
-    padding: 0 10px;
-    display: flex;
-    font-family: 'Barlow', sans-serif;
-    font-weight: 400;
-    font-style: normal;
-    overflow: hidden;
-    overflow: none;
-    height: 20px;
-    text-overflow: ellipsis; 
-    justify-content: initial;
-    text-align: left;
-    flex: 1; 
- }
+/*Estilos de la tabla: titulos del campo*/
+.data-titulo-nombre{
+    @include data-titulo();
+}
 
-.data{
+.data-titulo-direccion{
+    @include data-titulo();
+}
+
+.data-titulo-representante{
+    @include data-titulo();
+}
+
+.data-titulo-fecha{
+    @include data-titulo();
+}
+
+.data-titulo-id{
+    @include data-titulo();
+}
+
+//estilos del campo
+@mixin data{
     padding: 0 10px;
     display: flex;
     font-family: 'Barlow', sans-serif;
@@ -160,6 +185,30 @@ table{
     justify-content: center;
     text-align: center;
     flex: 1; 
+}
+
+@mixin data-cliente{ 
+    @include data();
+    height: 20px;
+}
+
+.data-cliente-nombre{
+    @include data-cliente();
+}
+
+.data-cliente-direccion{
+    @include data-cliente();
+}
+.data-cliente-representante{
+    @include data-cliente();
+}
+
+.data-fecha{
+    @include data();
+}
+
+.data-id{
+    @include data();
 }
 
 .content-cliente{
@@ -214,3 +263,90 @@ table{
         fill:red; //cambia el color 
     }
  }
+
+ 
+@media(min-width:300px) and (max-width:600px){
+    .data-cliente-direccion, .data-cliente-representante, .data-fecha, .data-id, .data-titulo-representante,
+    .data-titulo-direccion, .data-titulo-fecha, .data-titulo-id{
+        display: none;
+    }
+
+}
+
+@media(min-width:600px) and (max-width:800px){
+    .data-cliente-direccion, .data-id,
+    .data-titulo-direccion, .data-titulo-id{
+        display: none;
+    }
+
+}
+
+@media(min-width:800px) and (max-width:1000px){
+    .data-cliente-direccion,
+    .data-titulo-direccion,  {
+        display: none;
+    }
+}
+
+@media(min-width:300px) and (max-width:800px){
+
+    #main-dashboard{
+        padding: 0.5em;
+    }
+
+    #titulo-dashboard{
+        text-align: center;
+        margin: 1em 0;
+    }
+
+    #cantidad-buscar{
+        width: 100%;
+        height: fit-content;
+        flex-direction: column;
+    }
+
+    #content-buscar{
+       flex:1 1;
+       width: 100%;
+       min-height: fit-content;
+    }
+
+    .boton-ingreso, #content-boton-agregar-cliente{
+        width: 100%;
+        flex: 1 1;
+    }
+
+    .boton-ingreso{
+        margin-top: 1em;
+    }
+
+    //---------------------------------------
+    .content-agregar-cliente-abrir{
+        position: relative;
+        width: 100%;
+        min-height: fit-content;
+        border-radius: 20px;
+    }
+
+    //----------------------------------------------------
+
+    #button-crear, #button-cancelar{
+        width: 80%;
+    }
+
+    #content-buscar{
+        height: 1.5em;
+        margin-top: 1em;
+        padding: 0.5em;   
+    }
+
+    .content-cliente, #content-clientes, table{
+        width: 100%;
+        flex: 1 1;
+    }
+    
+    #text-cantidad{
+        text-align: center;
+        margin: 1.8em;
+    }
+}
