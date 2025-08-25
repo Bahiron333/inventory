@@ -6,14 +6,14 @@
     padding: 3em 10em;
 }
 
-#form-registro{
+#content-main{
     display: flex;
     flex-direction: row;
     align-items: center;
     align-content: center;
 }
 
-#colum-one{
+#colum-one, #column-2{
     width: 50%; 
 }
 
@@ -25,6 +25,7 @@
 .text-title{
     font-size: 1.3em;
 }
+
 #titulo-registro{
     font-size: 2.5em;
     margin-bottom: 1em;
@@ -103,9 +104,7 @@
 #text-contraseña{
     margin-bottom: 2em;
 }
-#column-2{
-    width: 50%;
-}
+
 
 #content-correo{
     display: flex;
@@ -126,7 +125,6 @@
     border: 1px solid #3D3D3D;
     padding: 0.3em;
     min-width: fit-content;
-    width: 40%;
 }
 
 #content-codigo{
@@ -135,4 +133,159 @@
     justify-content:space-between;
     max-width: 85%;
     align-content: center;
+}
+
+@media(min-width:300px) and (max-width:800px){
+
+    #main-register{
+        padding: 0;
+    }
+
+    #titulo-registro{
+        text-align: center;
+        margin-top: 1em;
+        margin-bottom: 1.2em;
+    }
+
+    #form-registro, #content-main{
+        flex-direction: column;
+        width: 100%;
+        flex: 1 1;
+
+    }
+
+   #colum-one,  #column-2, #content-informacion, .datos, .datos-erroneos,  #content-correo, #content-codigo{
+        width: 100%; 
+        max-width: 100%;
+        flex: 1 1; 
+    }
+ 
+    #content-informacion, #content-password, #content-correo{
+        padding: 1.3em;
+    }
+
+    #content-foto{
+        justify-content: center;
+        text-align: center;
+    }
+
+    #content-correo, #content-codigo{
+        flex-direction: column;
+        flex: 1 1;
+    }
+
+    #content-correo{
+        margin-top: 0.1em;
+    }
+
+    #content-codigo{
+        gap: 1em;
+    }
+
+    #button-enviar-codigo, #dato-codigo, #button-valid-codigo{
+        width: 100%;
+        max-width: 100%;
+    }
+
+    #dato-codigo{
+        text-align: center  ;
+        padding: 0;
+        height: 30px;
+    }
+    
+    #content-button-register{
+        justify-content: center;
+        align-items: center;
+        align-content: center;
+        gap: 1em;
+    }
+
+    #button-cancelar, #button-registro{
+        width: 40%;
+    }
+}
+
+@media(min-width:800px) and (max-width:1300px){
+
+    #main-register{
+        padding: 0;
+    }
+
+    #titulo-registro{
+        text-align: center;
+        margin-top: 1em;
+        margin-bottom: 1.2em;
+    }
+
+    #form-registro, #content-main{
+        flex-direction: column;
+        width: 100%;
+        flex: 1 1;
+
+    }
+
+    #content-informacion, .datos, .datos-erroneos,  #content-correo{
+        width: 100%; 
+        max-width: 100%;
+        flex: 1 1; 
+    }
+ 
+    #colum-one, #column-2{
+        flex: 1 1;
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        padding: 1em;
+    }   
+
+    #column-2{
+        padding: 0 1em;
+    }
+
+    #content-password{
+        width: 40%;
+    }
+
+    #content-informacion, #content-password, #content-correo{
+        padding: 1.3em;
+    }
+
+    #content-foto{
+        justify-content: center;
+        text-align: center;
+        flex-direction: column;
+        width: 40%;
+    }
+
+    #content-informacion{
+        justify-content: center;
+        align-items: center;
+    }
+
+    #content-correo{
+        flex-direction: column;
+        flex: 1 1;
+        margin-top: 0.1em;
+
+    }
+    
+    #content-codigo{
+        gap:1em;
+        max-width: 100%;
+    }
+
+    #content-button-register{
+        justify-content: center;
+        align-items: center;
+        align-content: center;
+        gap: 1em;
+    }
+
+    #button-cancelar, #button-registro{
+        width: 30%;
+    }
+
+    #button-enviar-codigo, #dato-codigo, #button-valid-codigo{
+        width: 50%;
+    }
 }

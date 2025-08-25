@@ -70,13 +70,7 @@ form{
     justify-content: space-around;
 
 }
-
-
-*{
-    all:unset
-}
-
-
+ 
 #content-button{
     display: flex;
     flex-direction: row;
@@ -123,7 +117,6 @@ form{
     flex-direction: row;
     align-items: center;
     margin: 1em;
-    height: calc(90vh - 30px);
 }
 
 #informacion{
@@ -155,16 +148,22 @@ form{
     padding: 1em;
   }
 
-  #login {
+  #login{
     width: 100%;
     flex: 1 1 100%;
-    margin-top: 4em; /* Agrega un espacio entre las secciones */
   }
 
+  #content-ingreso{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: auto;
+  }
   /* Ajusta el tamaño de las imágenes para que se adapten mejor en móviles */
   .caja-img {
-    width: 120px;
-    height: 120px;
+    width: 5em;
+    height: 5em;
   }
 
   #titulo-text {
@@ -177,18 +176,20 @@ form{
 
   /* Mejora la disposición de las imágenes en móviles */
   #content-main-img {
-    flex-direction: column;  /* Las imágenes se apilan en pantallas pequeñas */
-    gap: 1.5em; /* Reduce el espacio entre imágenes */
+    width: 100%;
+    flex-direction: row;
+    justify-content: center;
+    padding: 2em;
+    margin: auto;
+    gap: 5em;
   }
 
-  /* Asegúrate de que el contenido del nav se ajuste en pantallas pequeñas */
-  nav {
-    flex-direction: column;
-    align-items: center;
-    height: auto; /* Permite que el nav tenga más altura en pantallas pequeñas */
+  .caja-img{
+    margin: 0;
   }
 
-  #titulo-nav {
-    font-size: 1.2em; /* Ajusta el tamaño del título del nav */
+  #button-ingresar{
+    width: 90%;
+    margin-bottom: 1em;
   }
 }

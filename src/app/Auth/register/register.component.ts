@@ -25,7 +25,7 @@ export class RegisterComponent {
 
     //formulario de correo
     this.cuenta = fb.group({
-      correo: ['',Validators.required, Validators.pattern(/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+.[A-Za-z]{2,}/)],
+      correo: ['',[Validators.required, Validators.pattern(/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+.[A-Za-z]{2,}/)]],
       codigo:['',Validators.required]
     })
   }
@@ -38,11 +38,10 @@ export class RegisterComponent {
   Registrarse(){
     //valida los datos antes de enviar
     if(this.validarInformacion()){
-      this.mensaje="";
       this.guardarInfomacion();
       this.enviarInformacionServidor(this.data);
     }else{
-      this.mensaje="Corriga los errores antes de enviar los datos";
+      alert("Corriga los errores antes de enviar los datos");
     }
   }
 
@@ -99,7 +98,6 @@ export class RegisterComponent {
         next: ()=>{
           this.errorCorreo = false;   
           this.mostrarCodigo = true;  
-          this.mensaje = "";
         }, error: ()=>{
           this.errorMensajeCorreo = "Este correo ya existe";
         }
@@ -172,9 +170,6 @@ export class RegisterComponent {
   protected errorMensajeCorreo:String = "";
   protected errorCorreo:boolean = false;
   protected correoValido:boolean = false; //verifica que el correo ya no este registrado 
-
-  //mensaje de error
-  protected mensaje:string = "";
 
   //desactivar boton de registro true:Desactivado false:Activado
   protected EstadoBotonRegistro:boolean = false;

@@ -24,13 +24,11 @@
 
 .content-agregar-cliente-abrir{
     @include content-agregar-cliente();
-    max-height: 0px;
-    overflow: hidden;
+ 
 }
 
 .content-agregar-cliente-cerrar{
     @include content-agregar-cliente();
-    max-height: fit-content;
 }
 
 .text-codigo{
@@ -95,10 +93,8 @@
     align-items: center;
     align-content: center;
     gap: 1em;
-}
-
-#cantidad-buscar{
     width: 40%;
+
 }
 
 #content-buscar{
@@ -283,7 +279,7 @@ table{
 
 @media(min-width:800px) and (max-width:1000px){
     .data-cliente-direccion,
-    .data-titulo-direccion,  {
+    .data-titulo-direccion{
         display: none;
     }
 }
