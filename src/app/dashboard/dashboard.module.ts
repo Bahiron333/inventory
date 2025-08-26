@@ -1,18 +1,15 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DashboardComponent } from './dashboard.component';
-import { ClientesComponent } from './clientes/clientes.component';
-import { MiembrosComponent } from './miembros/miembros.component';
-import { CuentaComponent } from './cuenta/cuenta.component'; 
 import { RouterModule } from '@angular/router';
 import { DashboardRoutingModule } from './dashboard.module.router';
 import { CrearclienteComponent } from './clientes/crearcliente/crearcliente.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ClienteModule } from './clientes/cliente.module';
 
 @NgModule({
   declarations: [
     DashboardComponent,
-    ClientesComponent,
     CrearclienteComponent
   ],
   imports: [
@@ -20,11 +17,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     FormsModule,
     RouterModule,
     DashboardRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ClienteModule
 ],
   exports:[
-    DashboardComponent,
-    ClientesComponent
+    DashboardComponent
   ]
 })
 export class DashboardModule { }

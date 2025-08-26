@@ -36,14 +36,14 @@ app.post('/auth/register/codigo',(req,res)=>{
 app.post('/auth/register/codigo/verificar',(req,res)=>{
   const codigo_res = "123";
   const codigo = req.body.codigo;
-console.log(codigo)
-  if(codigo==codigo_res){
-      const permiso = true
-    res.status(200).json({permiso})
-  }else{
-      const permiso = false
-    res.status(301).json({permiso})
-  }
+  console.log(codigo)
+    if(codigo==codigo_res){
+        const permiso = true
+      res.status(200).json({permiso})
+    }else{
+        const permiso = false
+      res.status(301).json({permiso})
+    }
 })
 
 //mostrar cliente
@@ -117,6 +117,24 @@ app.post('/clientes/create/:id',(req,res)=>{
   const datos = req.body.dataCliente;
     console.log(datos)
     return res.status(200).json("holaa");
+});
+
+app.get('/user/:id/cliente/:idcliente/informacion',(req,res)=>{
+  const cliente = {
+    foto: 'https://www.istockphoto.com/resources/images/PhotoFTLP/P1-regional-iStock-1985150440.jpg',
+    nombre: 'cosidic',
+    correo: 'prueba@gmail.com',
+    direccion: 'Cra 4 #78 -2 norte',
+    representante: 'Nombre Segundo Apellido Segundo',
+    descripcion: 'But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain,',
+    fecha_asociacion: '12/0/2025',
+    id: 'FS7SDDS949F9wF0FD',
+    codigo: 'DJ8FDS8SF',
+    cantidadUsuario:78,
+    cantidadActivos: 45
+  }
+
+  return res.status(200).json({cliente});
 });
 
 app.listen(3000, () => {

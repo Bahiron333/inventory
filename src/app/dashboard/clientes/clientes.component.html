@@ -2,11 +2,13 @@
     <aside>
         <p id="titulo-empresa">{{nombreEmpresa}}</p>
         <div id="content-opciones">
-            <a class="opciones" href="">Informacion</a>
-            <a class="opciones" href="">Usuarios</a>
-            <a class="opciones" href="">Inventario</a>
-            <a class="opciones" href="">Miembros</a>
+            <a class="opciones" routerLink="informacion">Informacion</a>
+            <a class="opciones" routerLink="users">Usuarios</a>
+            <a class="opciones" routerLink="inventario">Inventario</a>
+            <a class="opciones" routerLink="miembros">Miembros</a>
         </div>
     </aside>
-    <div class="content-cliente"></div>
+    <div class="content-cliente">
+        <router-outlet></router-outlet>
+    </div>
 </div>
