@@ -11,10 +11,10 @@ import { userGuard } from '../../Auth/Guard/user.guard';
 
 const routes: Routes = [
   {
-    path: '', 
+    path: 'informacion', 
     component: ClientesComponent,
     children: [
-        {path: 'informacion',component: InformacionComponent},
+        {path: '',component: InformacionComponent},
         {path: 'users', component: UsersComponent},
         {path: 'inventario', component: InventarioComponent},
         {path: 'miembros', component: MiembrosComponent},
