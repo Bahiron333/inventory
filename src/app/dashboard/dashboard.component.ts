@@ -41,7 +41,7 @@ export class DashboardComponent implements OnInit{
   }
 
   routerCliente(idCliente:string){ 
-    this.routerNavigate.navigate(['dashboard',this.id,'cliente',idCliente]); 
+    this.routerNavigate.navigate(['dashboard',this.id,'cliente',idCliente, 'informacion']); 
   }
 
   mostrarVentanaAgregar(){

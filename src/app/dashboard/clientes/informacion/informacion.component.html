@@ -1,36 +1,63 @@
 <div class="main-informacion">
-    <img [src]="dataInformacion.foto" class="foto" alt="">
+    <div class="content-foto">
+        <img [src]="dataInformacion.foto" class="foto" alt="">
+        <div class="contacto">
+            <!--Campos de informacion nombre-->
+            <p class="nombre">{{dataInformacion.nombre}}</p>
+            <p class="text">{{dataInformacion.correo}}</p>
+        </div>
 
-    <!--Campos de informacion nombre-->
-    <p class="">{{dataInformacion.nombre}}</p>
-    <p>{{dataInformacion.correo}}</p>
+        <div class="informacion">
+            <!--Campos de informacion Direccion-->
+            <h2 class="tituto-descriptivo" >Direccion</h2>
+            {{dataInformacion.direccion}}
 
-    <!--Campos de informacion Direccion-->
-    <h2>Direccion</h2>
-    {{dataInformacion.direccion}}
+            <!--Campos de informacion Representante-->
+            <h2 class="tituto-descriptivo">Representante</h2>
+            {{dataInformacion.representante}}
+        </div>
+    </div>
 
-    <!--Campos de informacion Representante-->
-    <h2>Representante</h2>
-    {{dataInformacion.representante}}
+    
 
-    <!--Campos de informacion Descripcion-->
-    <p>Informacion</p>
-    <p>{{dataInformacion.descripcion}}</p>
+   <div class="content-descripcion">
+        <!--Campos de informacion Descripcion-->
+        <p class="descripcion">Descripcion</p>
+        <p class="text descripcion-text">{{dataInformacion.descripcion}}</p>
+   </div>
 
-    <!--Campos de informacion Fecha de asociacion-->
-    <p>Fecha Asociacion</p>
-    <p>{{dataInformacion.fecha_asociacion}}</p>
+    <div class="content-empresa">
+        <!--Campos de informacion Fecha de asociacion-->
+        <div>
+            <p class="tituto-descriptivo">Fecha Asociacion</p>
+            <p class="text">{{dataInformacion.fecha_asociacion}}</p>
+        </div>
 
 
-    <!--Campos de informacion codigo-->
-    <p>Codigo</p>
-    <p>{{dataInformacion.codigo}}</p>
+        <!--Campos de informacion codigo-->
+        <div>
+            <p class="tituto-descriptivo">Id Empresa</p>
+            <p class="text">{{dataInformacion.id}}</p>
+        </div>
 
-    <!--Campos de informacion cantidad usuario-->
-    <p>Cantidad de usuarios</p>
-    <p>{{dataInformacion.cantidadUsuario}}</p>
+        <!--Campos de informacion codigo-->
+        <div>
+            <p class="tituto-descriptivo">Codigo</p>
+            <p class="text">{{dataInformacion.codigo}}</p>
+        </div>
+    </div>
 
-    <!--Campos de informacion cantidad activos-->
-    <p>Cantidad de activos</p>
-    <p>{{dataInformacion.cantidadActivos}}</p>
+    <div class="recursos">
+        <!--Campos de informacion cantidad usuario-->
+        <div class="activos">
+            <p class="tituto-descriptivo">Cantidad de usuarios</p>
+            <p class="text">{{dataInformacion.cantidadUsuario}}</p>
+        </div>
+
+        <!--Campos de informacion cantidad activos-->
+        <div class="activos">
+            <p class="tituto-descriptivo">Cantidad de activos</p>
+            <p class="text">{{dataInformacion.cantidadActivos}}</p>
+        </div>
+    </div>
 </div>
