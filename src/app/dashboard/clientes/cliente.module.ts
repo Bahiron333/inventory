@@ -7,6 +7,7 @@ import { MiembrosComponent } from './miembros/miembros.component';
 import { clienteRoutingModule } from './cliente.routing.module';
 import { RouterModule } from '@angular/router';
 import { ClientesComponent } from './clientes.component';
+import { FormsModule } from '@angular/forms';
 
 
 
@@ -21,7 +22,8 @@ import { ClientesComponent } from './clientes.component';
   imports: [
     CommonModule,
     clienteRoutingModule,
-    RouterModule
+    RouterModule,
+    FormsModule
   ]
 })
 export class ClienteModule { }

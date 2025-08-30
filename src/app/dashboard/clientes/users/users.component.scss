@@ -1,0 +1,65 @@
+@use '../../../../styles.scss' as globales;
+
+.main-users{
+    padding: 2em;
+}
+
+.boton-ingresar{ 
+    @include globales.botonIngreso;
+    width: 10%;
+    margin-bottom: 0.3em;
+}
+
+.column-initial, .content-user{
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    flex: 1 1;
+}
+
+.column-initial{
+    gap: 5%;
+    width: 100%;
+    margin-bottom: 5%;
+}
+
+.content-buscar{
+    width: 30%;
+}
+
+.input-buscar{
+    width: 100%;
+}
+
+.fila-titulo{
+    display: flex;
+    table-layout: fixed;
+    flex-direction: row; 
+   
+    justify-content:space-around;
+    align-content: initial;
+    align-items: center;
+    background-color: #d9d9d9;
+    border-radius: 20px;
+    margin: 0.2em 0;
+    width: 100%;
+    padding: 0.2em;
+    padding-right: 1%;
+
+ }
+
+.data-titulo{
+    @include globales.data-titulo();
+}
+
+.data-row{
+    @include globales.data();
+    height: 20px;
+}
+
+.content-user{
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+}
+

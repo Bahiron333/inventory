@@ -137,6 +137,42 @@ app.get('/user/:id/cliente/:idcliente/informacion',(req,res)=>{
   return res.status(200).json({cliente});
 });
 
+app.get('/user/:id/cliente/:idcliente/users',(req,res)=>{
+
+  const users = [
+    {
+      id:'123',
+      foto: 'https://www.istockphoto.com/resources/images/PhotoFTLP/P1-regional-iStock-1985150440.jpg',
+      nombre: 'bahiron',
+      estado: 'activo',
+      departamento: 'IT soporte',
+      activos: 12,
+      licencias: 26
+    },
+     {
+      id:'231',
+      foto: 'https://www.istockphoto.com/resources/images/PhotoFTLP/P1-regional-iStock-1985150440.jpg',
+      nombre: 'Miguel',
+      estado: 'desactivado',
+      departamento: 'Desarrollo',
+      activos: 7,
+      licencias: 4
+    },
+     {
+      id:'869',
+      foto: 'https://www.istockphoto.com/resources/images/PhotoFTLP/P1-regional-iStock-1985150440.jpg',
+      nombre: 'Darwin',
+      estado: 'activo',
+      departamento: 'Anality Data',
+      activos: 3,
+      licencias: 2
+    }
+  ]
+
+  console.log("Hola")
+  return res.status(200).json({users})
+});
+
 app.listen(3000, () => {
   console.log('Servidor escuchando en http://localhost:3000');
 });
