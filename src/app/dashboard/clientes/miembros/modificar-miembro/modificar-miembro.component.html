@@ -13,29 +13,29 @@
                 <p>{{miembro.estado}}</p>
             </div>
         </div>
+        <div class="nombre-estado-content">
+            <div>
+                <h2>Correo</h2>
+                <p>{{miembro.correo}}</p>
+            </div>
 
-        <div>
-            <h2>Correo</h2>
-            <p>{{miembro.correo}}</p>
+            <div class="checkbox-content">
+                <label class="content-check">
+                    <input type="checkbox" [(ngModel)]="miembro.suspendido">
+                    <span class="slider"></span>
+                </label>
+                Suspendido
+            </div>
         </div>
         
-
-        <label>
-            <label>
-                <input type="checkbox" [(ngModel)]="miembro.suspendido">
-                <span></span>
-            </label>
-            Suspendido
-        </label>
-
         <div>
-            <p>Rol</p>
-            <select name="" id="" [(ngModel)]="miembro.rol">
-                <option value="admin">Administrador</option>
-                <option value="miembro">Miembro</option>
+            <h2>Rol</h2>
+            <select name="" class="rol" [(ngModel)]="miembro.rol">
+                <option class="opciones-rol" value="admin">Administrador</option>
+                <option class="opciones-rol" value="miembro">Miembro</option>
             </select>
         </div>
-
+  
         <div>
             <p>Area</p>
             <br>
@@ -53,87 +53,93 @@
         <h1 class="titulo-permiso">Permisos</h1>
 
         <!--Esta sesion es para los permisos de usuarios-->
-        <h2>Usuarios</h2>
-        <div class="permisos-usuario">
-            <label>
-                <label>
-                    <input type="checkbox" [(ngModel)]="miembro.permisos[0].ver">
-                    <span></span>
+        <div class="sesion-permisos">
+            <h2>Usuarios</h2>
+            <div class="content-permisos permisos-usuario">
+                <label class="checkbox-content">
+                    <label class="content-check">
+                        <input type="checkbox" [(ngModel)]="miembro.permisos[0].ver">
+                        <span  class="slider"></span>
+                    </label>
+                    Ver
                 </label>
-                Ver
-            </label>
-            
-            <label>
-                <label>
-                    <input type="checkbox" [(ngModel)]="miembro.permisos[0].modificar">
-                    <span></span>
+                
+                <label class="checkbox-content">
+                    <label class="content-check">
+                        <input type="checkbox" [(ngModel)]="miembro.permisos[0].modificar">
+                        <span  class="slider"></span>
+                    </label>
+                    Modificar
                 </label>
-                Modificar
-            </label>
 
-           <label>
-                <label>
-                    <input type="checkbox" [(ngModel)]="miembro.permisos[0].eliminar">
-                    <span></span>
-                </label>
-                Eliminar
-           </label>
+            <label class="checkbox-content">
+                    <label class="content-check">
+                        <input type="checkbox" [(ngModel)]="miembro.permisos[0].eliminar">
+                        <span  class="slider"></span>
+                    </label>
+                    Eliminar
+            </label>
+            </div>
         </div>
 
         <!--Esta sesion es para los permisos de inventario-->
-        <h2>Inventario</h2>
-        <div class="permisos-inventario">
-            <label>
-                <label>
-                    <input type="checkbox" [(ngModel)]="miembro.permisos[1].ver">
-                    <span></span>
+        <div class="sesion-permisos">
+            <h2>Inventario</h2>
+            <div class="content-permisos permisos-inventario">
+                <label class="checkbox-content">
+                    <label class="content-check">
+                        <input type="checkbox" [(ngModel)]="miembro.permisos[1].ver">
+                        <span  class="slider"></span>
+                    </label>
+                    Ver
                 </label>
-                Ver
-            </label>
-            
-            <label>
-                <label>
-                    <input type="checkbox" [(ngModel)]="miembro.permisos[1].modificar">
-                    <span></span>
+                
+                <label class="checkbox-content">
+                    <label class="content-check">
+                        <input type="checkbox" [(ngModel)]="miembro.permisos[1].modificar">
+                        <span  class="slider"></span>
+                    </label>
+                    Modificar
                 </label>
-                Modificar
-            </label>
 
-           <label>
-                <label>
-                    <input type="checkbox" [(ngModel)]="miembro.permisos[1].eliminar">
-                    <span></span>
-                </label>
-                Eliminar
-           </label>
+            <label class="checkbox-content">
+                    <label class="content-check">
+                        <input type="checkbox" [(ngModel)]="miembro.permisos[1].eliminar">
+                        <span  class="slider"></span>
+                    </label>
+                    Eliminar
+            </label>
+            </div>
         </div>
 
         <!--Esta sesion es para los permisos de los miembros-->
-        <h2>Miembro</h2>
-        <div class="permisos-miembro">
-            <label>
-                <label>
-                    <input type="checkbox" [(ngModel)]="miembro.permisos[2].ver">
-                    <span></span>
+        <div class="sesion-permisos">
+            <h2>Miembro</h2>
+            <div class="content-permisos permisos-miembro">
+                <label class="checkbox-content">
+                    <label class="content-check">
+                        <input type="checkbox" [(ngModel)]="miembro.permisos[2].ver">
+                        <span class="slider"></span>
+                    </label>
+                    Ver
                 </label>
-                Ver
-            </label>
-            
-            <label>
-                <label>
-                    <input type="checkbox" [(ngModel)]="miembro.permisos[2].modificar">
-                    <span></span>
+                
+                <label class="checkbox-content">
+                    <label class="content-check">
+                        <input type="checkbox" [(ngModel)]="miembro.permisos[2].modificar">
+                        <span class="slider"></span>
+                    </label>
+                    Modificar
                 </label>
-                Modificar
-            </label>
 
-           <label>
-                <label>
-                    <input type="checkbox" [(ngModel)]="miembro.permisos[2].eliminar">
-                    <span></span>
-                </label>
-                Eliminar
-           </label>
+            <label class="checkbox-content">
+                    <label class="content-check">
+                        <input type="checkbox" [(ngModel)]="miembro.permisos[2].eliminar">
+                        <span class="slider"></span>
+                    </label>
+                    Eliminar
+            </label>
+            </div>
         </div>
     </div>
     <div class="colum3">
