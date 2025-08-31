@@ -97,54 +97,15 @@
 
 }
 
-
-
-/*Estilos de la tabla: titulos del campo*/
-.data-titulo-nombre{
-    @include globales.data-titulo();
-}
-
-.data-titulo-direccion{
-    @include globales.data-titulo();
-}
-
-.data-titulo-representante{
-    @include globales.data-titulo();
-}
-
-.data-titulo-fecha{
-    @include globales.data-titulo();
-}
-
-.data-titulo-id{
-    @include globales.data-titulo();
-}
-
-
-
 @mixin data-cliente{ 
     @include globales.data();
     height: 20px;
 }
 
-.data-cliente-nombre{
+.data{
     @include data-cliente();
 }
 
-.data-cliente-direccion{
-    @include data-cliente();
-}
-.data-cliente-representante{
-    @include data-cliente();
-}
-
-.data-fecha{
-    @include globales.data();
-}
-
-.data-id{
-    @include globales.data();
-}
 
 .content-cliente{
     display: flex;
@@ -167,12 +128,39 @@
  }
  
 @media(min-width:300px) and (max-width:600px){
-    .data-cliente-direccion, .data-cliente-representante, .data-fecha, .data-id, .data-titulo-representante,
+    .data-cliente-direccion, .data-cliente-representante, .data-fecha, .data-titulo-representante,
+    .data-titulo-direccion, .data-titulo-fecha{
+        display: none;
+    }
+
+    .cantidad-buscar{
+        width: 100%;
+        flex-direction: column;
+        justify-content: center;
+        align-content: center;
+    }
+
+    .content-buscar, .input-buscar{
+        height: 30px;
+        width: 100%;
+    }
+ 
+    .data{
+        text-align: center;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+
+@media(max-width:400px){
+    .data-cliente-direccion, .data-cliente-representante, .data-id, .data-fecha, .data-titulo-representante,
     .data-titulo-direccion, .data-titulo-fecha, .data-titulo-id{
         display: none;
     }
 
 }
+
 
 @media(min-width:600px) and (max-width:800px){
     .data-cliente-direccion, .data-id,
@@ -180,6 +168,17 @@
         display: none;
     }
 
+    .cantidad-buscar{
+        width: 100%;
+        align-items: center;
+        justify-content: center;
+        flex-direction: row;
+ 
+    }
+
+    .boton-ingreso{
+        max-width: 50%;
+    }
 }
 
 @media(min-width:800px) and (max-width:1000px){

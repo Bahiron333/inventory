@@ -189,20 +189,32 @@ table{
     font-weight: 400;
     font-style: normal;
     overflow: hidden;
-    overflow: none;
     text-overflow: ellipsis; 
     justify-content: initial;
-    text-align: center;
-    flex: 1; 
+    text-align: initial;
+    flex: 1 1; 
 }
+
+//esta es la fila de los titulso
+.fila-titulo{
+    display: flex;
+    table-layout: fixed;
+    flex-direction: row; 
+    justify-content:space-around;
+    align-content: initial;
+    align-items: center;
+    margin: 0.2em 0;
+    width: 97%;
+    padding: 0.2em;
+    padding-right: 1%;
+
+ }
 
 //esto es la fila del dato, es el que le da el estilo a cada fila: empresa, usuario, miembro, etc
 .fila-datos{
     display: flex;
-    table-layout: fixed;
     flex-direction: row; 
     border: 1px solid transparent;
-    justify-content:space-around;
     align-content: initial;
     align-items: center;
     background-color: #d9d9d9;
@@ -211,6 +223,7 @@ table{
     width: 100%;
     padding: 0.2em;
     padding-right: 1%;
+    overflow: hidden;
     cursor: pointer;
     &:hover{
         border: 1px solid #1800ad;

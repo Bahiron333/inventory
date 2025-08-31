@@ -8,6 +8,7 @@ import { clienteRoutingModule } from './cliente.routing.module';
 import { RouterModule } from '@angular/router';
 import { ClientesComponent } from './clientes.component';
 import { FormsModule } from '@angular/forms';
+import { ModificarMiembroComponent } from './miembros/modificar-miembro/modificar-miembro.component';
 
 
 
@@ -17,7 +18,8 @@ import { FormsModule } from '@angular/forms';
     UsersComponent,
     InventarioComponent,
     MiembrosComponent,
-    ClientesComponent
+    ClientesComponent,
+    ModificarMiembroComponent
   ],
   imports: [
     CommonModule,

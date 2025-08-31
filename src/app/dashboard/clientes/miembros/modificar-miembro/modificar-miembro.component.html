@@ -1,0 +1,143 @@
+<div class="main-modificar-miembro">
+    <div class="colum">
+        <h1 class="titulo">Miembro</h1>
+    </div>
+    <div class="colum1">
+        <div class="nombre-estado-content">
+            <div>
+                <h2>Nombre</h2>
+                <p>{{miembro.nombre}}</p>
+            </div>
+            <div>
+                <h2>Estado</h2>
+                <p>{{miembro.estado}}</p>
+            </div>
+        </div>
+
+        <div>
+            <h2>Correo</h2>
+            <p>{{miembro.correo}}</p>
+        </div>
+        
+
+        <label>
+            <label>
+                <input type="checkbox" [(ngModel)]="miembro.suspendido">
+                <span></span>
+            </label>
+            Suspendido
+        </label>
+
+        <div>
+            <p>Rol</p>
+            <select name="" id="" [(ngModel)]="miembro.rol">
+                <option value="admin">Administrador</option>
+                <option value="miembro">Miembro</option>
+            </select>
+        </div>
+
+        <div>
+            <p>Area</p>
+            <br>
+            <input class="datos" type="text" name="" id="" [(ngModel)]="miembro.area">
+        </div>
+
+
+        <div class="id-content">
+            <h2>ID</h2>
+            <p>{{miembro.id}}</p>
+        </div>
+
+    </div>
+    <div class="colum2">
+        <h1 class="titulo-permiso">Permisos</h1>
+
+        <!--Esta sesion es para los permisos de usuarios-->
+        <h2>Usuarios</h2>
+        <div class="permisos-usuario">
+            <label>
+                <label>
+                    <input type="checkbox" [(ngModel)]="miembro.permisos[0].ver">
+                    <span></span>
+                </label>
+                Ver
+            </label>
+            
+            <label>
+                <label>
+                    <input type="checkbox" [(ngModel)]="miembro.permisos[0].modificar">
+                    <span></span>
+                </label>
+                Modificar
+            </label>
+
+           <label>
+                <label>
+                    <input type="checkbox" [(ngModel)]="miembro.permisos[0].eliminar">
+                    <span></span>
+                </label>
+                Eliminar
+           </label>
+        </div>
+
+        <!--Esta sesion es para los permisos de inventario-->
+        <h2>Inventario</h2>
+        <div class="permisos-inventario">
+            <label>
+                <label>
+                    <input type="checkbox" [(ngModel)]="miembro.permisos[1].ver">
+                    <span></span>
+                </label>
+                Ver
+            </label>
+            
+            <label>
+                <label>
+                    <input type="checkbox" [(ngModel)]="miembro.permisos[1].modificar">
+                    <span></span>
+                </label>
+                Modificar
+            </label>
+
+           <label>
+                <label>
+                    <input type="checkbox" [(ngModel)]="miembro.permisos[1].eliminar">
+                    <span></span>
+                </label>
+                Eliminar
+           </label>
+        </div>
+
+        <!--Esta sesion es para los permisos de los miembros-->
+        <h2>Miembro</h2>
+        <div class="permisos-miembro">
+            <label>
+                <label>
+                    <input type="checkbox" [(ngModel)]="miembro.permisos[2].ver">
+                    <span></span>
+                </label>
+                Ver
+            </label>
+            
+            <label>
+                <label>
+                    <input type="checkbox" [(ngModel)]="miembro.permisos[2].modificar">
+                    <span></span>
+                </label>
+                Modificar
+            </label>
+
+           <label>
+                <label>
+                    <input type="checkbox" [(ngModel)]="miembro.permisos[2].eliminar">
+                    <span></span>
+                </label>
+                Eliminar
+           </label>
+        </div>
+    </div>
+    <div class="colum3">
+        <button (click)="guardar()" class="button-aceptar">Guardar</button>
+        <button (click)="cancelar()" class="button-cancelar">Cancelar</button>
+    </div>
+</div>

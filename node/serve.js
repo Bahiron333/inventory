@@ -141,17 +141,15 @@ app.get('/user/:id/cliente/:idcliente/users',(req,res)=>{
 
   const users = [
     {
-      id:'123',
-      foto: 'https://www.istockphoto.com/resources/images/PhotoFTLP/P1-regional-iStock-1985150440.jpg',
-      nombre: 'bahiron',
-      estado: 'activo',
-      departamento: 'IT soporte',
-      activos: 12,
-      licencias: 26
+      id:'9GFG9GF8F98GF90GFGF90GFG09GFGF09',
+      nombre: 'bahiron abraham dueñas jimenez',
+      estado: 'Activo',
+      departamento: 'Desarrollo en el area de comercio e industrias de la burogracias',
+      activos: 124521875648646536522,
+      licencias: 1245545646546542136522
     },
      {
       id:'231',
-      foto: 'https://www.istockphoto.com/resources/images/PhotoFTLP/P1-regional-iStock-1985150440.jpg',
       nombre: 'Miguel',
       estado: 'desactivado',
       departamento: 'Desarrollo',
@@ -160,7 +158,6 @@ app.get('/user/:id/cliente/:idcliente/users',(req,res)=>{
     },
      {
       id:'869',
-      foto: 'https://www.istockphoto.com/resources/images/PhotoFTLP/P1-regional-iStock-1985150440.jpg',
       nombre: 'Darwin',
       estado: 'activo',
       departamento: 'Anality Data',
@@ -171,6 +168,82 @@ app.get('/user/:id/cliente/:idcliente/users',(req,res)=>{
 
   console.log("Hola")
   return res.status(200).json({users})
+});
+
+
+app.get('/user/:id/cliente/:idcliente/miembros',(req,res)=>{
+
+  const miembros = [
+    {
+      id:'9GFG9GwF8F98',
+      foto: 'https://www.istockphoto.com/resources/images/PhotoFTLP/P1-regional-iStock-1985150440.jpg',
+      nombre: 'bahiron abraham dueñas jimenez',
+      estado: 'Activo',
+      area: 'Desarrollo en el area de comercio e industrias de la burogracias',
+      rol: ['admin'],
+      correo: 'bahiron@gmail.com'
+    },
+        {
+      id:'9GFG59GF8F98',
+      foto: 'https://www.istockphoto.com/resources/images/PhotoFTLP/P1-regional-iStock-1985150440.jpg',
+      nombre: 'bahiron abraham dueñas jimenez',
+      estado: 'Activo',
+      area: 'Desarrollo en el area de comercio e industrias de la burogracias',
+      rol: ['admin'],
+      correo: 'bahiron@gmail.com'
+    },
+        {
+      id:'9GFG89GF8F98',
+      foto: 'https://www.istockphoto.com/resources/images/PhotoFTLP/P1-regional-iStock-1985150440.jpg',
+      nombre: 'bahiron abraham dueñas jimenez',
+      estado: 'Activo',
+      area: 'Desarrollo en el area de comercio e industrias de la burogracias',
+      rol: ['admin'],
+      correo: 'bahiron@gmail.com'
+    },
+  ]
+
+  return res.status(200).json({miembros})
+});
+
+app.get('/cliente/:id/miembro/:idMiembro',(req,res)=>{
+  const miembro = {
+    id: '1223365',
+    nombre: 'Bahiron Abraham Dueñas Jimenez',
+    correo: 'bahiron39macro@gmail.com',
+    estado: 'Activo',
+    suspendido: true,
+    rol: 'admin',
+    area: 'IT soporte',
+    permisos: [
+      usuarios = {
+        ver: true,
+        modificar: true,
+        eliminar:true
+      },
+       inventario = {
+        ver: true,
+        modificar: false,
+        eliminar:true
+      },
+       miembros = {
+        ver: true,
+        modificar: true,
+        eliminar:true
+      }
+    ]
+  }
+
+  return res.status(200).json({miembro});
+});
+
+app.put('/cliente/:idCliente/miembro',(req,res)=>{
+  console.log(req.body.miembro);
+  return res.status(200).json("listo");
+});
+
+app.delete('/cliente/:idCliente/miembro/:id_miembro',(req,res)=>{
+  res.status(200).json("El miembro fue eliminado exitosamente");
 });
 
 app.listen(3000, () => {

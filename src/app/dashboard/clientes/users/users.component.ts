@@ -28,7 +28,7 @@ export class UsersComponent implements OnInit{
 
   } 
 
-  trackById = (index:number, user:any) =>  user.id; //filtra por el id
+  trackById = (index:number, user:any) => user.id; //filtra por el id
   
   eliminarUsers(id:string){
 

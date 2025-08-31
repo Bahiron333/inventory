@@ -87,6 +87,8 @@ export class CrearclienteComponent implements OnInit{
       descripcion: false,
       direccion: false,
       correo: false,
-      numero: false
+      numero: false,
+      representante: this.idUser,
+      fecha_asociacion: new Date().toLocaleDateString()
   }
 }
