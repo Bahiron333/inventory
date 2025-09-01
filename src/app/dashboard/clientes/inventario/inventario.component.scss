@@ -1,0 +1,47 @@
+@use './../../../../styles.scss' as globales;
+
+.main-inventario{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 2em;
+    height: calc(100vh - 50px);
+}
+.boton-aceptar{
+    @include globales.botonIngreso;
+    width: 8%;
+    height: fit-content;
+}
+
+.boton-agregar{
+    @include globales.botonValidar;
+    width: 8%;
+    margin-bottom: 2em;
+    height: fit-content;
+}
+
+.content-button{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap:2em;
+}
+
+.content-inventario{
+    margin-top: 2em;
+    display: flex;
+    flex-direction: row;
+    flex-wrap:wrap;
+    overflow: auto;
+    overflow-x: hidden;
+}
+
+.content-activo{
+    text-align: center;
+    background-color: aqua;
+    align-content: center;
+    width: 150px;
+    height: 160px;
+    margin: 0.5em;
+    border-radius: 20px;
+}

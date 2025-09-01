@@ -246,6 +246,133 @@ app.delete('/cliente/:idCliente/miembro/:id_miembro',(req,res)=>{
   res.status(200).json("El miembro fue eliminado exitosamente");
 });
 
+app.get('/cliente/:idCliente/inventario/activos',(req,res)=>{
+
+  const hardware = [
+    {
+      id: 256,
+      tipo: 'Computadoras',
+      cantidad: 752,
+      numero_minimo_stock: 3
+    },
+        {
+      id: 256,
+      tipo: 'Computadoras',
+      cantidad: 752,
+      numero_minimo_stock: 3
+    },
+        {
+      id: 256,
+      tipo: 'Computadoras',
+      cantidad: 752,
+      numero_minimo_stock: 3
+    },
+        {
+      id: 256,
+      tipo: 'Computadoras',
+      cantidad: 752,
+      numero_minimo_stock: 3
+    },
+        {
+      id: 256,
+      tipo: 'Computadoras',
+      cantidad: 752,
+      numero_minimo_stock: 3
+    },
+        {
+      id: 256,
+      tipo: 'Computadoras',
+      cantidad: 752,
+      numero_minimo_stock: 3
+    },
+        {
+      id: 256,
+      tipo: 'Computadoras',
+      cantidad: 752,
+      numero_minimo_stock: 3
+    },
+        {
+      id: 256,
+      tipo: 'Computadoras',
+      cantidad: 752,
+      numero_minimo_stock: 3
+    },
+        {
+      id: 256,
+      tipo: 'Computadoras',
+      cantidad: 752,
+      numero_minimo_stock: 3
+    },
+        {
+      id: 256,
+      tipo: 'Computadoras',
+      cantidad: 752,
+      numero_minimo_stock: 3
+    },
+
+        {
+      id: 256,
+      tipo: 'Computadoras',
+      cantidad: 752,
+      numero_minimo_stock: 3
+    },
+    
+        {
+      id: 256,
+      tipo: 'Computadoras',
+      cantidad: 752,
+      numero_minimo_stock: 3
+    },
+    
+        {
+      id: 256,
+      tipo: 'Computadoras',
+      cantidad: 752,
+      numero_minimo_stock: 3
+    },
+    {
+      id: 756,
+      tipo: 'Model',
+      cantidad: 759,
+      numero_minimo_stock: 3
+    },
+        {
+      id: 266,
+      tipo: 'Servidores',
+      cantidad: 755,
+      numero_minimo_stock: 3
+    },
+   {
+      id: 26,
+      tipo: 'Servidores',
+      cantidad: 755,
+      numero_minimo_stock: 3
+    },
+  ]
+  const software = [
+    {
+      id: 156,
+      tipo: 'office',
+      cantidad: 15,
+      numero_minimo_stock: 3
+    },
+        {
+      id: 7566,
+      tipo: 'Power BI',
+      cantidad: 75,
+      numero_minimo_stock: 5
+    },
+        {
+      id: 2626,
+      tipo: 'Anydesk',
+      cantidad: 775,
+      numero_minimo_stock: 6
+    },
+  ]
+
+  return res.status(200).json({hardware, software});
+});
+
 app.listen(3000, () => {
   console.log('Servidor escuchando en http://localhost:3000');
 });

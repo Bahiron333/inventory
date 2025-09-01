@@ -11,10 +11,10 @@ import { MiembrosComponent } from './miembros/miembros.component';
 
 const routes: Routes = [
   {
-    path: 'informacion', 
+    path: 'cliente/:idcliente', 
     component: ClientesComponent,
     children: [
-        {path: '',component: InformacionComponent},
+        {path: 'informacion',component: InformacionComponent},
         {path: 'users', component: UsersComponent},
         {path: 'inventario', component: InventarioComponent},
         {path: 'miembros', component: MiembrosComponent},
