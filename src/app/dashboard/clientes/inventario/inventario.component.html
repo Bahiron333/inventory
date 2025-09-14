@@ -4,13 +4,19 @@
     <button class="boton-agregar">Agregar</button>
 
     <div class="content-button">
-        <button class="boton-aceptar" (click)="cambiarActivos('hardware')">hardware</button>
-        <button class="boton-aceptar" (click)="cambiarActivos('software')">Software</button>
-        <p>Cantidad {{cantidad}}</p>
+        @if(mostrarActivos){
+        }@else{
+            <button class="boton-aceptar" (click)="cambiarActivos('hardware')">hardware</button>
+            <button class="boton-aceptar" (click)="cambiarActivos('software')">Software</button>
+            <p>Cantidad {{cantidad}}</p>
+        }
     </div>
-    <div class="content-inventario">
+    @if(mostrarActivos){
+         <app-lista-activos [categoria]="categoria" [tipoActivo]="tipoActivo"></app-lista-activos>
+    }@else {
+        <div class="content-inventario">
         @for(activos of datos; track activos.id){
-            <div class="content-activo">
+            <div [class]="activos.color" (click)="mostrarInventario(activos.tipo)">
                 @if(mostrarSoftware){
                     <svg data-name="Layer 1" viewBox="0 0 24 24" width="100" heigth="100">
                     <path d="m0,3v7h10V0H3C1.346,0,0,1.346,0,3Zm22,0c0-1.654-1.346-3-3-3h-7v10h10V3ZM0,19c0,1.654,1.346,3,3,3h7v-10H0v7Zm23.979,3.564l-2.812-2.812c.524-.791.833-1.736.833-2.753,0-2.757-2.243-5-5-5s-5,2.243-5,5,2.243,5,5,5c1.017,0,1.962-.309,2.753-.833l2.812,2.812,1.414-1.414Z"/>
@@ -22,5 +28,6 @@
                 <p>{{activos.cantidad}}</p>
             </div>
         }
-    </div>
+        </div>
+    }
 </div>

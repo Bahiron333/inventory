@@ -32,16 +32,27 @@
     display: flex;
     flex-direction: row;
     flex-wrap:wrap;
-    overflow: auto;
-    overflow-x: hidden;
 }
 
-.content-activo{
+@mixin style-content-activo($color){
     text-align: center;
-    background-color: aqua;
+    background-color: $color;
     align-content: center;
     width: 150px;
     height: 160px;
     margin: 0.5em;
     border-radius: 20px;
+    cursor: pointer;
+}
+
+.activo-verde{
+    @include style-content-activo(#4DDB67);
+}
+
+.activo-naranja{
+    @include style-content-activo(#E8FF0D);
+}
+
+.activo-red{
+    @include style-content-activo(#FF3D0D);
 }

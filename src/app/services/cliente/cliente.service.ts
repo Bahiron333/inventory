@@ -24,6 +24,11 @@ export class ClienteService {
   Inventario(idCliente:string){
     return this.http.get(`http://localhost:3000/cliente/${idCliente}/inventario/activos`,{headers: this.headers});
   }
+  
+  //esta sesion es para los activos 
+  getActivos(idCliente:string, categoria:string, tipo:string):Observable<any>{
+    return this.http.get(`http://localhost:3000/cliente/${idCliente}/inventario/${categoria}/${tipo}`,{headers: this.headers});
+  }
 
   MiembrosCliente(id:string,idCliente:string):Observable<any>{
     return this.http.get(`http://localhost:3000/user/${id}/cliente/${idCliente}/miembros`,{headers: this.headers});

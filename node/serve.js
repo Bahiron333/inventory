@@ -301,34 +301,34 @@ app.get('/cliente/:idCliente/inventario/activos',(req,res)=>{
       id: 256,
       tipo: 'Computadoras',
       cantidad: 752,
-      numero_minimo_stock: 3
+      numero_minimo_stock: 300
     },
         {
       id: 256,
       tipo: 'Computadoras',
-      cantidad: 752,
-      numero_minimo_stock: 3
+      cantidad: 204,
+      numero_minimo_stock: 200
     },
 
         {
       id: 256,
       tipo: 'Computadoras',
       cantidad: 752,
-      numero_minimo_stock: 3
+      numero_minimo_stock: 700
     },
     
         {
       id: 256,
       tipo: 'Computadoras',
       cantidad: 752,
-      numero_minimo_stock: 3
+      numero_minimo_stock: 800
     },
     
         {
       id: 256,
       tipo: 'Computadoras',
       cantidad: 752,
-      numero_minimo_stock: 3
+      numero_minimo_stock: 800
     },
     {
       id: 756,
@@ -371,6 +371,69 @@ app.get('/cliente/:idCliente/inventario/activos',(req,res)=>{
   ]
 
   return res.status(200).json({hardware, software});
+});
+
+app.get('/cliente/:idCliente/inventario/:categoria/:tipoActivo',(req,res)=>{
+
+  const categoria = req.params.categoria;
+  const tipo = req.params.tipoActivo;
+
+  const activosHardware=[
+    {
+      nombre: 'hp Pavilion 2608',
+      id: '890',
+      estado: 'stock',
+      usuario: 'Bahiron Dueñas',
+      correo: 'bahiron39@macro.com',
+      fecha: '12/09/2024'
+    },
+        {
+      nombre: 'Dell Latitude 320',
+      id: '850',
+      estado: 'activo',
+      usuario: 'Juan david Zoto',
+      correo: 'juan.zoto@gmail.com',
+      fecha: '12/09/2023'
+    },
+    {
+      nombre: 'router tp-link',
+      id: '453',
+      estado: 'activo',
+      usuario: 'Diego salazar',
+      correo: 'colsenter@gmail.com',
+      fecha: '12/09/2022'
+    }
+  ]
+
+  const activosSoftware=[
+    {
+      nombre: 'Anydesk',
+      id: '463',
+      estado: 'activo',
+      usuario: 'Andres alvares',
+      correo: 'andres.hola@gmail.com',
+      fecha: '12/09/2022'
+
+    },
+
+    {
+      nombre: 'office',
+      id: '763',
+      estado: 'activo',
+      usuario: 'karen tatiana',
+      correo: 'karen.buho@gmail.com',
+      fecha: '12/09/2025'
+
+    },
+  ]
+
+  let activo = null;
+  tipo=="software" ? activo = activosSoftware : activo = activosHardware;
+
+  console.log(categoria);
+  console.log(tipo)
+  return res.status(200).json({activo});
+
 });
 
 app.listen(3000, () => {
