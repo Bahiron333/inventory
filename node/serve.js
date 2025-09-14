@@ -1,25 +1,52 @@
 const express = require('express');
 const cors = require('cors');
+const mongoose = require('mongoose');
 
 const app = express();
+app.use(cors()); 
+app.use(express.json()); 
 
-app.use(cors())
-app.use(express.json());
-
-app.get('/', (req, res) => {
-  res.send('¡API funcionando!');
+mongoose.connect('mongodb+srv://miguel:051128@tabla.ll6ecwd.mongodb.net/test', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
 });
 
-app.post('/auth/login',(req,res)=>{
-    const {data} = req.body;
-    console.log(data)
-    if(data.correo=="bahiron"){
-        return res.status(200).json({token:'123',id:'145'})
-    }else{
-        return res.status(301).json({mensaje:'Correo no valido'})
-    }
-    
-})
+const clienteSchema = new mongoose.Schema({
+  clienteid: { type: String, required: true, unique: true },
+  nombre: { type: String, required: true },
+  correo: { type: String, required: true, unique: true },
+  numero: { type: String, default: "" },
+  direccion: { type: String, default: "" },
+  nclientes: { type: Number, default: 0 },
+  foto: { type: String, default: "" },
+  contrasena: { type: String, required: true }
+});
+
+clienteSchema.set('toJSON', {
+  transform: (doc, ret) => { delete ret.contrasena; return ret; }
+});
+
+const Cliente = mongoose.model('Cliente', clienteSchema);
+
+// Login
+app.post('/auth/login', async (req, res) => {
+  const { correo, contrasena } = req.body;
+  if (!correo || !contrasena) return res.status(400).json({ error: "Correo y contraseña son obligatorios" });
+
+  try {
+    const cliente = await Cliente.findOne({ correo }).lean();
+    if (!cliente) return res.status(404).json({ error: "Cliente no encontrado" });
+    if (cliente.contrasena !== contrasena) return res.status(401).json({ error: "Contraseña incorrecta" });
+    delete cliente.contrasena;
+    return res.json({ success: true, cliente });
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+});
+
+app.listen(3000, () => console.log('Servidor corriendo en http://localhost:3000'));
+
+
 
 app.post('/auth/register',(req,res)=>{
     const {data} = req.body;
@@ -141,15 +168,17 @@ app.get('/user/:id/cliente/:idcliente/users',(req,res)=>{
 
   const users = [
     {
-      id:'9GFG9GF8F98GF90GFGF90GFG09GFGF09',
-      nombre: 'bahiron abraham dueñas jimenez',
-      estado: 'Activo',
-      departamento: 'Desarrollo en el area de comercio e industrias de la burogracias',
-      activos: 124521875648646536522,
-      licencias: 1245545646546542136522
+      id:'123',
+      foto: 'https://www.istockphoto.com/resources/images/PhotoFTLP/P1-regional-iStock-1985150440.jpg',
+      nombre: 'bahiron',
+      estado: 'activo',
+      departamento: 'IT soporte',
+      activos: 12,
+      licencias: 26
     },
      {
       id:'231',
+      foto: 'https://www.istockphoto.com/resources/images/PhotoFTLP/P1-regional-iStock-1985150440.jpg',
       nombre: 'Miguel',
       estado: 'desactivado',
       departamento: 'Desarrollo',
@@ -158,6 +187,7 @@ app.get('/user/:id/cliente/:idcliente/users',(req,res)=>{
     },
      {
       id:'869',
+      foto: 'https://www.istockphoto.com/resources/images/PhotoFTLP/P1-regional-iStock-1985150440.jpg',
       nombre: 'Darwin',
       estado: 'activo',
       departamento: 'Anality Data',
@@ -168,209 +198,6 @@ app.get('/user/:id/cliente/:idcliente/users',(req,res)=>{
 
   console.log("Hola")
   return res.status(200).json({users})
-});
-
-
-app.get('/user/:id/cliente/:idcliente/miembros',(req,res)=>{
-
-  const miembros = [
-    {
-      id:'9GFG9GwF8F98',
-      foto: 'https://www.istockphoto.com/resources/images/PhotoFTLP/P1-regional-iStock-1985150440.jpg',
-      nombre: 'bahiron abraham dueñas jimenez',
-      estado: 'Activo',
-      area: 'Desarrollo en el area de comercio e industrias de la burogracias',
-      rol: ['admin'],
-      correo: 'bahiron@gmail.com'
-    },
-        {
-      id:'9GFG59GF8F98',
-      foto: 'https://www.istockphoto.com/resources/images/PhotoFTLP/P1-regional-iStock-1985150440.jpg',
-      nombre: 'bahiron abraham dueñas jimenez',
-      estado: 'Activo',
-      area: 'Desarrollo en el area de comercio e industrias de la burogracias',
-      rol: ['admin'],
-      correo: 'bahiron@gmail.com'
-    },
-        {
-      id:'9GFG89GF8F98',
-      foto: 'https://www.istockphoto.com/resources/images/PhotoFTLP/P1-regional-iStock-1985150440.jpg',
-      nombre: 'bahiron abraham dueñas jimenez',
-      estado: 'Activo',
-      area: 'Desarrollo en el area de comercio e industrias de la burogracias',
-      rol: ['admin'],
-      correo: 'bahiron@gmail.com'
-    },
-  ]
-
-  return res.status(200).json({miembros})
-});
-
-app.get('/cliente/:id/miembro/:idMiembro',(req,res)=>{
-  const miembro = {
-    id: '1223365',
-    nombre: 'Bahiron Abraham Dueñas Jimenez',
-    correo: 'bahiron39macro@gmail.com',
-    estado: 'Activo',
-    suspendido: true,
-    rol: 'admin',
-    area: 'IT soporte',
-    permisos: [
-      usuarios = {
-        ver: true,
-        modificar: true,
-        eliminar:true
-      },
-       inventario = {
-        ver: true,
-        modificar: false,
-        eliminar:true
-      },
-       miembros = {
-        ver: true,
-        modificar: true,
-        eliminar:true
-      }
-    ]
-  }
-
-  return res.status(200).json({miembro});
-});
-
-app.put('/cliente/:idCliente/miembro',(req,res)=>{
-  console.log(req.body.miembro);
-  return res.status(200).json("listo");
-});
-
-app.delete('/cliente/:idCliente/miembro/:id_miembro',(req,res)=>{
-  res.status(200).json("El miembro fue eliminado exitosamente");
-});
-
-app.get('/cliente/:idCliente/inventario/activos',(req,res)=>{
-
-  const hardware = [
-    {
-      id: 256,
-      tipo: 'Computadoras',
-      cantidad: 752,
-      numero_minimo_stock: 3
-    },
-        {
-      id: 256,
-      tipo: 'Computadoras',
-      cantidad: 752,
-      numero_minimo_stock: 3
-    },
-        {
-      id: 256,
-      tipo: 'Computadoras',
-      cantidad: 752,
-      numero_minimo_stock: 3
-    },
-        {
-      id: 256,
-      tipo: 'Computadoras',
-      cantidad: 752,
-      numero_minimo_stock: 3
-    },
-        {
-      id: 256,
-      tipo: 'Computadoras',
-      cantidad: 752,
-      numero_minimo_stock: 3
-    },
-        {
-      id: 256,
-      tipo: 'Computadoras',
-      cantidad: 752,
-      numero_minimo_stock: 3
-    },
-        {
-      id: 256,
-      tipo: 'Computadoras',
-      cantidad: 752,
-      numero_minimo_stock: 3
-    },
-        {
-      id: 256,
-      tipo: 'Computadoras',
-      cantidad: 752,
-      numero_minimo_stock: 3
-    },
-        {
-      id: 256,
-      tipo: 'Computadoras',
-      cantidad: 752,
-      numero_minimo_stock: 3
-    },
-        {
-      id: 256,
-      tipo: 'Computadoras',
-      cantidad: 752,
-      numero_minimo_stock: 3
-    },
-
-        {
-      id: 256,
-      tipo: 'Computadoras',
-      cantidad: 752,
-      numero_minimo_stock: 3
-    },
-    
-        {
-      id: 256,
-      tipo: 'Computadoras',
-      cantidad: 752,
-      numero_minimo_stock: 3
-    },
-    
-        {
-      id: 256,
-      tipo: 'Computadoras',
-      cantidad: 752,
-      numero_minimo_stock: 3
-    },
-    {
-      id: 756,
-      tipo: 'Model',
-      cantidad: 759,
-      numero_minimo_stock: 3
-    },
-        {
-      id: 266,
-      tipo: 'Servidores',
-      cantidad: 755,
-      numero_minimo_stock: 3
-    },
-   {
-      id: 26,
-      tipo: 'Servidores',
-      cantidad: 755,
-      numero_minimo_stock: 3
-    },
-  ]
-  const software = [
-    {
-      id: 156,
-      tipo: 'office',
-      cantidad: 15,
-      numero_minimo_stock: 3
-    },
-        {
-      id: 7566,
-      tipo: 'Power BI',
-      cantidad: 75,
-      numero_minimo_stock: 5
-    },
-        {
-      id: 2626,
-      tipo: 'Anydesk',
-      cantidad: 775,
-      numero_minimo_stock: 6
-    },
-  ]
-
-  return res.status(200).json({hardware, software});
 });
 
 app.listen(3000, () => {
