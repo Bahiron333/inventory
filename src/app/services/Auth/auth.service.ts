@@ -10,23 +10,22 @@ export class AuthService {
 
   constructor(private http:HttpClient) { }
 
-  Login(correo:string, password:string):Observable<any>{
-    const data = {correo,password};
-    return this.http.post('http://localhost:3000/auth/login',{data});
+  Login(correo: string, contrasena: string): Observable<any> {
+    const data = { correo, contrasena };
+    return this.http.post(`${this.apiUrl}/auth/login`, { data });
   }
 
-  //servicios de registro
-  Register(data:any):Observable<any>{
-    return this.http.post<any>('http://localhost:3000/auth/register',{data});
+  Register(data: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/auth/register`, { data });
   }
 
-  //enviamos correo y el backend realiza la comprobacion
-  codigo(correo:any):Observable<any>{
-    return this.http.post<any>('http://localhost:3000/auth/register/codigo',{correo});
+  // 📩 Enviar código (el componente lo llama como "codigo")
+  codigo(correo: string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/enviar-codigo`, { correo });
   }
 
-  //codigo verificacion
-  verificarCodigo(codigo:string):Observable<boolean>{
-    return this.http.post<any>('http://localhost:3000/auth/register/codigo/verificar',{codigo});
+  // ✅ Verificar código (el componente lo llama con un solo argumento: codigo)
+  verificarCodigo(codigo: string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/auth/register/codigo/verificar`, { codigo });
   }
 }
