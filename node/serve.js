@@ -1,441 +1,330 @@
+// serve.js
 const express = require('express');
 const cors = require('cors');
+const mongoose = require('mongoose');
+const bodyParser = require("body-parser");
+const bcrypt = require("bcryptjs");
+const { MongoClient } = require("mongodb");
+const path = require("path");
+const multer = require("multer");
+const nodemailer = require("nodemailer");
+const fs = require("fs");
+
 
 const app = express();
+app.use(cors());
 
-app.use(cors())
-app.use(express.json());
+// ✅ Configuración para aceptar bodies grandes
+app.use(bodyParser.json({ limit: "50mb" }));
+app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 
+
+// --- Conexión a MongoDB (no se cambia la URL del servidor) ---
+mongoose.connect('mongodb+srv://miguel:051128@tabla.ll6ecwd.mongodb.net/test')
+  .then(() => console.log('✅ Mongo conectado'))
+  .catch(err => console.error('❌ Mongo error', err));
+
+// --- Schema / Modelo para la colección "usuarios" ---
+const usuarioSchema = new mongoose.Schema({
+  clienteid: { type: String, required: true, unique: true },
+  nombre: { type: String, required: true },
+  correo: { type: String, required: true, unique: true },
+  numero: { type: String, default: "" },
+  direccion: { type: String, default: "" },
+  nclientes: { type: Number, default: 0 },
+  foto: { type: String, default: "" }, // almacenada en Base64 o ruta
+  contrasena: { type: String, required: true },
+  fechaRegistro: { type: Date, default: Date.now() } // 👈 aquí la clave
+});
+
+
+// Evitar devolver la contraseña en JSON
+usuarioSchema.set('toJSON', {
+  transform: (doc, ret) => { delete ret.contrasena; return ret; }
+});
+
+// Forzar que el modelo use la colección 'usuarios'
+const Usuario = mongoose.model('Usuario', usuarioSchema, 'usuarios');
+
+// --- Rutas ---
 app.get('/', (req, res) => {
   res.send('¡API funcionando!');
 });
 
-app.post('/auth/login',(req,res)=>{
-    const {data} = req.body;
-    console.log(data)
-    if(data.correo=="bahiron"){
-        return res.status(200).json({token:'123',id:'145'})
-    }else{
-        return res.status(301).json({mensaje:'Correo no valido'})
-    }
-    
-})
+// Login
+app.post('/auth/login', async (req, res) => {
+  const { data } = req.body;
 
-app.post('/auth/register',(req,res)=>{
-    const {data} = req.body;
-    console.log(data);
-    return res.status(200).json("Los mensaje se cargaron exitosamente")
-});
-
-app.post('/auth/register/codigo',(req,res)=>{
-    const correo = req.body;
-    console.log(correo)
-    res.status(200).json("error");
-})
-
-app.post('/auth/register/codigo/verificar',(req,res)=>{
-  const codigo_res = "123";
-  const codigo = req.body.codigo;
-  console.log(codigo)
-    if(codigo==codigo_res){
-        const permiso = true
-      res.status(200).json({permiso})
-    }else{
-        const permiso = false
-      res.status(301).json({permiso})
-    }
-})
-
-//mostrar cliente
-app.get('/clientes/:id',(req,res)=>{
-
-    console.log(req.headers['authorization']);
-    console.log(req.params.id);
-
-    const clientes = [
-        {  
-            id:'FS7SDDS949F9wF0FD', 
-            nombre:'cosidic S.A.S',
-            direccion:'Cra 4 N 43-56 sur',
-            representante:'bahiron abraham dueñas jimenez',
-            fecha_asociacion:'10/05/2025'     
-        },
-        {   id:'523', 
-            nombre:'datacanter',
-            representante: 'Miguel', 
-            direccion:'Empresa x',
-            fecha_asociacion:'10/05/2025'
-        },
-          {  
-            id:'FS7SDDSr949F9F0FD', 
-            nombre:'cosidic S.A.S',
-            direccion:'Cra 4 N 43-56 sur',
-            representante:'bahiron abraham dueñas jimenez',
-            fecha_asociacion:'10/05/2025'     
-        },
-          {  
-            id:'FS7SDfDS949F9F0FD', 
-            nombre:'cosidic S.A.S',
-            direccion:'Cra 4 N 43-56 sur',
-            representante:'bahiron abraham dueñas jimenez',
-            fecha_asociacion:'10/05/2025'     
-        }
-
-    ]
-
-    const user={
-        id: '123',
-        role: ['admin'],
-    }
-
-    res.status(200).json({clientes,user})
-
-})
-
-
-//eliminar cliente 
-app.delete('/clientes/:id',(req,res)=>{
-  res.status(200).json({mensaje:"error al eliminar el cliente"});
-});
-
-//crear un cliente 
-app.put('/clientes/unirse/:id',(req,res)=>{
-
-  const {codigo} = req.body.codigo
-  console.log(codigo);
-  empresa={  
-            id:'FS7SDfDS949F9F0FD', 
-            nombre:'cosidic S.A.S',
-            direccion:'Cra 4 N 43-56 sur',
-            representante:'bahiron abraham dueñas jimenez',
-            fecha_asociacion:'10/05/2025'     
-        }
-  return res.status(200).json({empresa})
-})
-
-app.post('/clientes/create/:id',(req,res)=>{
-  const datos = req.body.dataCliente;
-    console.log(datos)
-    return res.status(200).json("holaa");
-});
-
-app.get('/user/:id/cliente/:idcliente/informacion',(req,res)=>{
-  const cliente = {
-    foto: 'https://www.istockphoto.com/resources/images/PhotoFTLP/P1-regional-iStock-1985150440.jpg',
-    nombre: 'cosidic',
-    correo: 'prueba@gmail.com',
-    direccion: 'Cra 4 #78 -2 norte',
-    representante: 'Nombre Segundo Apellido Segundo',
-    descripcion: 'But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain,',
-    fecha_asociacion: '12/0/2025',
-    id: 'FS7SDDS949F9wF0FD',
-    codigo: 'DJ8FDS8SF',
-    cantidadUsuario:78,
-    cantidadActivos: 45
+  if (!data || !data.correo || !data.contrasena) {
+    return res.status(400).json({ error: "Correo y contraseña son obligatorios" });
   }
 
-  return res.status(200).json({cliente});
-});
-
-app.get('/user/:id/cliente/:idcliente/users',(req,res)=>{
-
-  const users = [
-    {
-      id:'9GFG9GF8F98GF90GFGF90GFG09GFGF09',
-      nombre: 'bahiron abraham dueñas jimenez',
-      estado: 'Activo',
-      departamento: 'Desarrollo en el area de comercio e industrias de la burogracias',
-      activos: 124521875648646536522,
-      licencias: 1245545646546542136522
-    },
-     {
-      id:'231',
-      nombre: 'Miguel',
-      estado: 'desactivado',
-      departamento: 'Desarrollo',
-      activos: 7,
-      licencias: 4
-    },
-     {
-      id:'869',
-      nombre: 'Darwin',
-      estado: 'activo',
-      departamento: 'Anality Data',
-      activos: 3,
-      licencias: 2
+  try {
+    const usuario = await Usuario.findOne({ correo: data.correo });
+    if (!usuario) {
+      return res.status(404).json({ error: "Usuario no encontrado" });
     }
-  ]
 
-  console.log("Hola")
-  return res.status(200).json({users})
-});
+    console.log("🔎 Usuario encontrado:", usuario);
 
+    // Tomamos el hash de la BD
+    const hash = usuario.contrasena;
+    if (!hash) {
+      return res.status(500).json({ error: "El usuario no tiene contraseña guardada" });
+    }
 
-app.get('/user/:id/cliente/:idcliente/miembros',(req,res)=>{
+    // Comparar texto plano con el hash almacenado
+    const passwordValida = await bcrypt.compare(data.contrasena, hash);
 
-  const miembros = [
-    {
-      id:'9GFG9GwF8F98',
-      foto: 'https://www.istockphoto.com/resources/images/PhotoFTLP/P1-regional-iStock-1985150440.jpg',
-      nombre: 'bahiron abraham dueñas jimenez',
-      estado: 'Activo',
-      area: 'Desarrollo en el area de comercio e industrias de la burogracias',
-      rol: ['admin'],
-      correo: 'bahiron@gmail.com'
-    },
-        {
-      id:'9GFG59GF8F98',
-      foto: 'https://www.istockphoto.com/resources/images/PhotoFTLP/P1-regional-iStock-1985150440.jpg',
-      nombre: 'bahiron abraham dueñas jimenez',
-      estado: 'Activo',
-      area: 'Desarrollo en el area de comercio e industrias de la burogracias',
-      rol: ['admin'],
-      correo: 'bahiron@gmail.com'
-    },
-        {
-      id:'9GFG89GF8F98',
-      foto: 'https://www.istockphoto.com/resources/images/PhotoFTLP/P1-regional-iStock-1985150440.jpg',
-      nombre: 'bahiron abraham dueñas jimenez',
-      estado: 'Activo',
-      area: 'Desarrollo en el area de comercio e industrias de la burogracias',
-      rol: ['admin'],
-      correo: 'bahiron@gmail.com'
-    },
-  ]
+    console.log("🔑 Contraseña ingresada:", data.contrasena);
+    console.log("📂 Hash en BD:", hash);
+    console.log("✅ ¿Coincide?", passwordValida);
 
-  return res.status(200).json({miembros})
-});
+    if (!passwordValida) {
+      return res.status(401).json({ error: "Contraseña incorrecta" });
+    }
 
-app.get('/cliente/:id/miembro/:idMiembro',(req,res)=>{
-  const miembro = {
-    id: '1223365',
-    nombre: 'Bahiron Abraham Dueñas Jimenez',
-    correo: 'bahiron39macro@gmail.com',
-    estado: 'Activo',
-    suspendido: true,
-    rol: 'admin',
-    area: 'IT soporte',
-    permisos: [
-      usuarios = {
-        ver: true,
-        modificar: true,
-        eliminar:true
-      },
-       inventario = {
-        ver: true,
-        modificar: false,
-        eliminar:true
-      },
-       miembros = {
-        ver: true,
-        modificar: true,
-        eliminar:true
-      }
-    ]
+    // Sacamos el campo de la contraseña para no mandarlo al cliente
+    const { contrasena, ...usuarioSinPass } = usuario.toObject();
+
+    return res.status(200).json({
+      token: "123456",
+      id: usuario._id,
+      usuario: usuarioSinPass
+    });
+
+  } catch (err) {
+    console.error("❌ Error en /auth/login:", err);
+    return res.status(500).json({ error: "Error interno del servidor" });
   }
-
-  return res.status(200).json({miembro});
 });
 
-app.put('/cliente/:idCliente/miembro',(req,res)=>{
-  console.log(req.body.miembro);
-  return res.status(200).json("listo");
+
+
+// --- Configuración de multer para subir archivos ---
+
+
+// Registro
+
+// --- Código fijo de prueba ---
+const CODIGO_PRUEBA = Math.floor(Math.random() * (1000 - 100 + 1)) + 100;
+
+// --- Configuración Nodemailer ---
+const transporter = nodemailer.createTransport({
+  host: "smtp.gmail.com",
+  port: 465,
+  secure: true,
+  auth: {
+    user: "miguelangelrivera123o@gmail.com",
+    pass: "bicovduhpytqzinb"
+  }
 });
 
-app.delete('/cliente/:idCliente/miembro/:id_miembro',(req,res)=>{
-  res.status(200).json("El miembro fue eliminado exitosamente");
+transporter.verify((error, success) => {
+  if (error) console.error("❌ Error SMTP:", error);
+  else console.log("✅ Gmail listo para enviar correos");
 });
 
-app.get('/cliente/:idCliente/inventario/activos',(req,res)=>{
+// --- Registro de usuario ---
 
-  const hardware = [
-    {
-      id: 256,
-      tipo: 'Computadoras',
-      cantidad: 752,
-      numero_minimo_stock: 3
-    },
-        {
-      id: 256,
-      tipo: 'Computadoras',
-      cantidad: 752,
-      numero_minimo_stock: 3
-    },
-        {
-      id: 256,
-      tipo: 'Computadoras',
-      cantidad: 752,
-      numero_minimo_stock: 3
-    },
-        {
-      id: 256,
-      tipo: 'Computadoras',
-      cantidad: 752,
-      numero_minimo_stock: 3
-    },
-        {
-      id: 256,
-      tipo: 'Computadoras',
-      cantidad: 752,
-      numero_minimo_stock: 3
-    },
-        {
-      id: 256,
-      tipo: 'Computadoras',
-      cantidad: 752,
-      numero_minimo_stock: 3
-    },
-        {
-      id: 256,
-      tipo: 'Computadoras',
-      cantidad: 752,
-      numero_minimo_stock: 3
-    },
-        {
-      id: 256,
-      tipo: 'Computadoras',
-      cantidad: 752,
-      numero_minimo_stock: 3
-    },
-        {
-      id: 256,
-      tipo: 'Computadoras',
-      cantidad: 752,
-      numero_minimo_stock: 300
-    },
-        {
-      id: 256,
-      tipo: 'Computadoras',
-      cantidad: 204,
-      numero_minimo_stock: 200
-    },
+// --- Configuración multer para subir archivos ---
+const upload = multer({ dest: "uploads/" });
 
-        {
-      id: 256,
-      tipo: 'Computadoras',
-      cantidad: 752,
-      numero_minimo_stock: 700
-    },
-    
-        {
-      id: 256,
-      tipo: 'Computadoras',
-      cantidad: 752,
-      numero_minimo_stock: 800
-    },
-    
-        {
-      id: 256,
-      tipo: 'Computadoras',
-      cantidad: 752,
-      numero_minimo_stock: 800
-    },
-    {
-      id: 756,
-      tipo: 'Model',
-      cantidad: 759,
-      numero_minimo_stock: 3
-    },
-        {
-      id: 266,
-      tipo: 'Servidores',
-      cantidad: 755,
-      numero_minimo_stock: 3
-    },
-   {
-      id: 26,
-      tipo: 'Servidores',
-      cantidad: 755,
-      numero_minimo_stock: 3
-    },
-  ]
-  const software = [
-    {
-      id: 156,
-      tipo: 'office',
-      cantidad: 15,
-      numero_minimo_stock: 3
-    },
-        {
-      id: 7566,
-      tipo: 'Power BI',
-      cantidad: 75,
-      numero_minimo_stock: 5
-    },
-        {
-      id: 2626,
-      tipo: 'Anydesk',
-      cantidad: 775,
-      numero_minimo_stock: 6
-    },
-  ]
 
-  return res.status(200).json({hardware, software});
-});
+// --- Registro de usuario ---
+// --- Registro de usuario ---
+app.post("/auth/register", async (req, res) => {
+  try {
+    const { data } = req.body;  // 🔑 leer datos dentro de "data"
+    if (!data) return res.status(400).json({ error: "Datos no enviados" });
 
-app.get('/cliente/:idCliente/inventario/:categoria/:tipoActivo',(req,res)=>{
+    const {
+      nombre,
+      correo,
+      direccion,
+      telefono,   // Angular lo manda como "telefono"
+      password,   // Angular lo manda como "password"
+      foto        // Angular lo manda como string base64
+    } = data;
 
-  const categoria = req.params.categoria;
-  const tipo = req.params.tipoActivo;
-
-  const activosHardware=[
-    {
-      nombre: 'hp Pavilion 2608',
-      id: '890',
-      estado: 'stock',
-      usuario: 'Bahiron Dueñas',
-      correo: 'bahiron39@macro.com',
-      fecha: '12/09/2024'
-    },
-        {
-      nombre: 'Dell Latitude 320',
-      id: '850',
-      estado: 'activo',
-      usuario: 'Juan david Zoto',
-      correo: 'juan.zoto@gmail.com',
-      fecha: '12/09/2023'
-    },
-    {
-      nombre: 'router tp-link',
-      id: '453',
-      estado: 'activo',
-      usuario: 'Diego salazar',
-      correo: 'colsenter@gmail.com',
-      fecha: '12/09/2022'
+    // Validaciones mínimas
+    if (!nombre || !correo || !password) {
+      return res.status(400).json({ error: "Nombre, correo y contraseña son obligatorios" });
     }
-  ]
 
-  const activosSoftware=[
-    {
-      nombre: 'Anydesk',
-      id: '463',
-      estado: 'activo',
-      usuario: 'Andres alvares',
-      correo: 'andres.hola@gmail.com',
-      fecha: '12/09/2022'
+    // Validar que no exista el correo
+    const existe = await Usuario.findOne({ correo }).lean();
+    if (existe) {
+      return res.status(400).json({ error: "El correo ya está registrado" });
+    }
 
-    },
+    // Normalizar campos opcionales
+    const direccionFinal = direccion || "N/A";
+    const numeroFinal = telefono || "0000000000";
+    const fotoFinal = foto || "default.png";
 
-    {
-      nombre: 'office',
-      id: '763',
-      estado: 'activo',
-      usuario: 'karen tatiana',
-      correo: 'karen.buho@gmail.com',
-      fecha: '12/09/2025'
+    // Hash de la contraseña
+    const salt = await bcrypt.genSalt(10);
+    const password_hash = await bcrypt.hash(password, salt);
 
-    },
-  ]
+    // Crear nuevo usuario
+    const nuevoUsuario = new Usuario({
+      clienteid: new mongoose.Types.ObjectId().toString(), // porque es required
+      nombre,
+      correo,
+      direccion: direccionFinal,
+      numero: numeroFinal,
+      foto: fotoFinal,
+      contrasena: password_hash
+    });
 
-  let activo = null;
-  tipo=="software" ? activo = activosSoftware : activo = activosHardware;
+    await nuevoUsuario.save();
 
-  console.log(categoria);
-  console.log(tipo)
-  return res.status(200).json({activo});
+    res.status(200).json({
+      mensaje: "Usuario registrado correctamente ✅",
+      usuario: { ...nuevoUsuario.toObject(), contrasena: undefined }
+    });
 
+  } catch (err) {
+    console.error("❌ Error en registro:", err);
+    res.status(500).json({ error: "Error en el servidor" });
+  }
 });
 
-app.listen(3000, () => {
-  console.log('Servidor escuchando en http://localhost:3000');
+// --- Enviar código de verificación ---
+app.post("/enviar-codigo", (req, res) => {
+  const { correo } = req.body;
+  if (!correo) return res.status(400).json({ error: "Correo es obligatorio" });
+
+  const mailOptions = {
+    from: "miguelangelrivera123o@gmail.com",
+    to: correo,
+    subject: "Código de verificación (PRUEBA)",
+    text: `Tu código de verificación es: ${CODIGO_PRUEBA}`,
+    html: `<p>Tu código de verificación es: <b>${CODIGO_PRUEBA}</b></p>`
+  };
+
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) return res.status(500).json({ error: "No se pudo enviar el correo", detalle: error.toString() });
+    console.log("✅ Correo enviado:", info.response);
+    return res.status(200).json({ mensaje: "Código enviado correctamente" });
+  });
 });
+
+// --- Verificar código ---
+app.post('/auth/register/codigo/verificar', (req, res) => {
+  const codigoRecibido = req.body.codigo;
+  if (parseInt(codigoRecibido) === CODIGO_PRUEBA) {
+    return res.status(200).json({ permiso: true });
+  } else {
+    return res.status(200).json({ permiso: false });
+  }
+});
+
+module.exports = app;
+
+// --- Otros endpoints de clientes (demo) ---
+app.get('/clientes/:id', (req, res) => {
+  const clientes = [
+    { id: 'FS7SDDS949F9wF0FD', nombre: 'cosidic S.A.S', direccion: 'Cra 4 N 43-56 sur', representante: 'bahiron abraham dueñas jimenez', fecha_asociacion: '10/05/2025' },
+    { id: '523', nombre: 'datacanter', representante: 'Miguel', direccion: 'Empresa x', fecha_asociacion: '10/05/2025' }
+  ];
+  const user = { id: '123', role: ['admin'] };
+  res.status(200).json({ clientes, user });
+});
+
+app.delete('/clientes/:id', (req, res) => {
+  res.status(200).json({ mensaje: "error al eliminar el cliente" });
+});
+
+app.put('/clientes/unirse/:id', (req, res) => {
+  const codigo = req.body.codigo || null;
+  const empresa = { id: 'FS7SDfDS949F9F0FD', nombre: 'cosidic S.A.S' };
+  return res.status(200).json({ empresa });
+});
+
+app.post('/clientes/create/:id', (req, res) => {
+
+  const datos = req.body;
+  console.log(datos.dataCliente);
+  const nuevoCliente = new Usuario({
+    clienteid: new mongoose.Types.ObjectId().toString(), // porque es required
+    descripcion,
+    nombre,
+    direccion,
+    correo,
+    foto: fotoFinal,
+    representante:null, 
+    })
+    const fotoFinal = foto || "default.png";
+    
+  return res.status(200).json("holaa");
+  });
+
+  app.get('/user/:id/cliente/:idcliente/informacion', (req, res) => {
+    const cliente = {
+      foto: 'https://www.istockphoto.com/resources/images/PhotoFTLP/P1-regional-iStock-1985150440.jpg',
+      nombre: 'cosidic',
+      correo: 'prueba@gmail.com',
+      direccion: 'Cra 4 #78 -2 norte',
+      representante: 'Nombre Apellido',
+      descripcion: 'Long description...',
+      fecha_asociacion: '12/0/2025',
+      id: 'FS7SDDS949F9wF0FD',
+      codigo: 'DJ8FDS8SF',
+      cantidadUsuario: 78,
+      cantidadActivos: 45
+    };
+    return res.status(200).json({ cliente });
+  });
+
+  app.get('/user/:id/cliente/:idcliente/users', (req, res) => {
+    const users = [
+      { id: '123', nombre: 'bahiron', estado: 'activo', departamento: 'IT soporte' },
+      { id: '231', nombre: 'Miguel', estado: 'desactivado', departamento: 'Desarrollo' }
+    ];
+    return res.status(200).json({ users });
+  });
+
+  app.get('/user/:id/cliente/:idcliente/miembros', (req, res) => {
+    const miembros = [
+      { id: '9GFG9GwF8F98', nombre: 'bahiron', estado: 'Activo', area: 'Desarrollo...', rol: ['admin'], correo: 'bahiron@gmail.com' }
+    ];
+    return res.status(200).json({ miembros });
+  });
+
+  app.get('/cliente/:id/miembro/:idMiembro', (req, res) => {
+    const miembro = {
+      id: '1223365',
+      nombre: 'Bahiron',
+      correo: 'bahiron39macro@gmail.com',
+      estado: 'Activo',
+      suspendido: true,
+      rol: 'admin'
+    };
+    return res.status(200).json({ miembro });
+  });
+
+  app.put('/cliente/:idCliente/miembro', (req, res) => {
+    return res.status(200).json("listo");
+  });
+
+  app.delete('/cliente/:idCliente/miembro/:id_miembro', (req, res) => {
+    res.status(200).json("El miembro fue eliminado exitosamente");
+  });
+
+  app.get('/cliente/:idCliente/inventario/activos', (req, res) => {
+    return res.status(200).json({ hardware: [], software: [] });
+  });
+
+  app.get('/cliente/:idCliente/inventario/:categoria/:tipoActivo', (req, res) => {
+    const categoria = req.params.categoria;
+    const tipo = req.params.tipoActivo;
+    return res.status(200).json({ activo: [] });
+  });
+
+  // --- UN SOLO LISTEN ---
+  app.listen(3000, () => {
+    console.log('Servidor escuchando en http://localhost:3000');
+  });
+
