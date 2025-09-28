@@ -5,11 +5,13 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-
 export class AuthService {
 
-  constructor(private http:HttpClient) { }
+  private apiUrl = 'http://localhost:3000';
 
+  constructor(private http: HttpClient) { }
+
+  // 🔑 Login (el componente lo llama como "Login")
   Login(correo: string, contrasena: string): Observable<any> {
     const data = { correo, contrasena };
     return this.http.post(`${this.apiUrl}/auth/login`, { data });
