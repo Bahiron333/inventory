@@ -18,8 +18,6 @@ app.use(cors());
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 
-
-// --- Conexión a MongoDB (no se cambia la URL del servidor) ---
 mongoose.connect('mongodb+srv://miguel:051128@tabla.ll6ecwd.mongodb.net/test')
   .then(() => console.log('✅ Mongo conectado'))
   .catch(err => console.error('❌ Mongo error', err));
@@ -35,12 +33,26 @@ const usuarioSchema = new mongoose.Schema({
   foto: { type: String, default: "" }, // almacenada en Base64 o ruta
   contrasena: { type: String, required: true },
   fechaRegistro: { type: Date, default: Date.now() } // 👈 aquí la clave
-});
+},{ versionKey: false });
+
+// --- Schema / Modelo para la colección "Clientes" ---
+const clienteSchema = new mongoose.Schema({
+  clienteid: { type: String, required: true, unique: true },
+  nombre:     { type: String, required: true },
+  codigo: { type: String, required: true, unique: true },
+  correo:     { type: String, required: true, unique: true },
+  numero:     { type: String, default: "" },   
+  direccion:  { type: String, default: "" },
+  descripcion:{ type: String, default: "" },
+  foto:       { type: String, default: "" },   
+  fechaRegistro: { type: Date, default: Date.now }
+}, { timestamps: true, versionKey: false });
+const Cliente = mongoose.model('Cliente', clienteSchema, 'clientes');
 
 
 // Evitar devolver la contraseña en JSON
 usuarioSchema.set('toJSON', {
-  transform: (doc, ret) => { delete ret.contrasena; return ret; }
+  transform: (doc, ret) => { delete ret.contrasena, delete ret.createdAt; return ret; }
 });
 
 // Forzar que el modelo use la colección 'usuarios'
@@ -100,10 +112,6 @@ app.post('/auth/login', async (req, res) => {
 });
 
 
-
-// --- Configuración de multer para subir archivos ---
-
-
 // Registro
 
 // --- Código fijo de prueba ---
@@ -130,8 +138,6 @@ transporter.verify((error, success) => {
 // --- Configuración multer para subir archivos ---
 const upload = multer({ dest: "uploads/" });
 
-
-// --- Registro de usuario ---
 // --- Registro de usuario ---
 app.post("/auth/register", async (req, res) => {
   try {
@@ -243,23 +249,76 @@ app.put('/clientes/unirse/:id', (req, res) => {
   return res.status(200).json({ empresa });
 });
 
-app.post('/clientes/create/:id', (req, res) => {
+// helper local dentro del mismo archivo (no cambia nada fuera)
+function generarCodigo(length = 5) {
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  let out = '';
+  for (let i = 0; i < length; i++) {
+    out += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return out;
+}
 
-  const datos = req.body;
-  console.log(datos.dataCliente);
-  const nuevoCliente = new Usuario({
-    clienteid: new mongoose.Types.ObjectId().toString(), // porque es required
-    descripcion,
-    nombre,
-    direccion,
-    correo,
-    foto: fotoFinal,
-    representante:null, 
-    })
+async function generarCodigoUnico(length = 5) {
+  // intenta generar un código que no exista ya en la colección
+  for (let intent = 0; intent < 10; intent++) {
+    const codigo = generarCodigo(length);
+    const existe = await Cliente.findOne({ codigo }).lean();
+    if (!existe) return codigo;
+  }
+  throw new Error('No se pudo generar un código único después de varios intentos');
+}
+
+app.post('/clientes/create/:id', async (req, res) => {
+  try {
+    const { dataCliente } = req.body || {};
+    if (!dataCliente) return res.status(400).json({ error: "Faltan datos (dataCliente)" });
+
+    const { nombre, descripcion, direccion, correo, numero, foto } = dataCliente;
+
+    if (!nombre || !correo) {
+      return res.status(400).json({ error: "Nombre y correo son obligatorios" });
+    }
+
+    // Normalizar campos
+    const descripcionFinal = descripcion || "N/A";
+    const direccionFinal   = direccion || "N/A";
+    const numeroFinal      = numero || "0000000000";
+
+    // Foto
     const fotoFinal = foto || "default.png";
-    
-  return res.status(200).json("holaa");
-  });
+
+    // 👇 Generar código aleatorio de 5 caracteres
+    const generarCodigo = () => {
+      return Math.random().toString(36).substring(2, 7).toUpperCase();
+    };
+    const codigoFinal = generarCodigo();
+
+    // Crear cliente con el código
+    const nuevoCliente = new Cliente({
+      clienteid: new mongoose.Types.ObjectId().toString(),
+      codigo: codigoFinal,  // <-- 👈 aquí se guarda
+      nombre,
+      descripcion: descripcionFinal,
+      direccion: direccionFinal,
+      correo,
+      numero: numeroFinal,
+      foto: fotoFinal
+    });
+
+    await nuevoCliente.save();
+
+    return res.status(201).json({
+      mensaje: "Cliente creado correctamente ✅",
+      cliente: nuevoCliente.toObject()
+    });
+
+  } catch (error) {
+    console.error("❌ Error en /clientes/create/:id", error);
+    return res.status(500).json({ error: "Error en el servidor" });
+  }
+});
+
 
   app.get('/user/:id/cliente/:idcliente/informacion', (req, res) => {
     const cliente = {
