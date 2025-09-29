@@ -11,62 +11,70 @@ import { buffer } from 'rxjs';
   templateUrl: './crearcliente.component.html',
   styleUrl: './crearcliente.component.scss'
 })
-export class CrearclienteComponent implements OnInit{
+export class CrearclienteComponent implements OnInit {
 
-  constructor(private activeRouter:ActivatedRoute, private fb:FormBuilder, private routerNavigate:Router, 
-    private dasboardService:DashboardService, private fotoService:FotoService){
+  constructor(private activeRouter: ActivatedRoute, private fb: FormBuilder, private routerNavigate: Router,
+    private dasboardService: DashboardService, private fotoService: FotoService) {
 
     this.formCrearcliente = fb.group({
-      nombre:['',Validators.required],
-      descripcion: ['',Validators.required],
-      direccion: ['',Validators.required],
-      correo: ['',[Validators.required, Validators.pattern(/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+.[A-Za-z]{2,}/)]],
-      numero: ['',[Validators.required,Validators.minLength(10),Validators.pattern(/^[0-9]+$/)]]
+      nombre: ['', Validators.required],
+      descripcion: ['', Validators.required],
+      direccion: ['', Validators.required],
+      correo: ['', [Validators.required, Validators.pattern(/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+.[A-Za-z]{2,}/)]],
+      numero: ['', [Validators.required, Validators.minLength(10), Validators.pattern(/^[0-9]+$/)]],
+      foto: [null]
     })
   }
 
   ngOnInit(): void {
-    this.activeRouter.paramMap.subscribe((params)=>{
+    this.activeRouter.paramMap.subscribe((params) => {
       this.idUser = params.get('id');
     })
   }
 
-  AgregarCliente(){ 
-    if(this.formCrearcliente?.valid){
-      this.dasboardService.createCliente(this.formCrearcliente.value,this.idUser).subscribe({
-        next:(data)=>{
+  AgregarCliente() {
+    if (this.formCrearcliente?.valid) {
+
+      // 👉 Agrego la foto al objeto antes de mandarlo
+      const clienteData = {
+        ...this.formCrearcliente.value,
+        foto: this.vistaImagen   // 🔑 ahora viaja al backend
+      };
+
+      this.dasboardService.createCliente(clienteData, this.idUser).subscribe({
+        next: (data) => {
           alert("El cliente se creo exitosamente");
-          this.routerNavigate.navigate(['dashboard',this.idUser]);  
-        }, 
-        error: (err)=> console.log(err)
+          this.routerNavigate.navigate(['dashboard', this.idUser]);
+        },
+        error: (err) => console.log(err)
       })
-    }else{ 
+    } else {
       alert("Corriga los errores antes de enviar el formulario")
-      Object.keys(this.formCrearcliente.controls).forEach(key=>{
-         const campo = this.formCrearcliente.get(key);  
-         if(campo?.invalid && campo){
-            this.campoErrores[key] = true;
-         }else{
-            this.campoErrores[key] = false;
-         }
+      Object.keys(this.formCrearcliente.controls).forEach(key => {
+        const campo = this.formCrearcliente.get(key);
+        if (campo?.invalid && campo) {
+          this.campoErrores[key] = true;
+        } else {
+          this.campoErrores[key] = false;
+        }
       });
     }
   }
 
-  Cancelar(){
-    this.routerNavigate.navigate(['dashboard',this.idUser]);
+  Cancelar() {
+    this.routerNavigate.navigate(['dashboard', this.idUser]);
   }
 
-  mostrarImagen(event:any){
+  mostrarImagen(event: any) {
     //de toda la lista de archivo seleccionamos el primero
-    const file:File = event.target.files[0];
+    const file: File = event.target.files[0];
 
     //si se seleciono algun archivo 
-    if(file){
-        if(!file.type.startsWith('image/')){
-          alert("Archivo no valido");
-          return;
-        }
+    if (file) {
+      if (!file.type.startsWith('image/')) {
+        alert("Archivo no valido");
+        return;
+      }
     }
 
     //guardamos el archivo 
@@ -78,17 +86,17 @@ export class CrearclienteComponent implements OnInit{
     reader.readAsDataURL(this.foto); //convierte el archivo en una url
   }
 
-  protected idUser:any = "";
-  protected formCrearcliente:any = "";
-  protected foto:any = null;
+  protected idUser: any = "";
+  protected formCrearcliente: any = "";
+  protected foto: any = null;
   protected vistaImagen: string | ArrayBuffer | null = "icono-foto.png";
-  protected campoErrores:any = {
-      nombre: false,
-      descripcion: false,
-      direccion: false,
-      correo: false,
-      numero: false,
-      representante: this.idUser,
-      fecha_asociacion: new Date().toLocaleDateString()
+  protected campoErrores: any = {
+    nombre: false,
+    descripcion: false,
+    direccion: false,
+    correo: false,
+    numero: false,
+    representante: this.idUser,
+    fecha_asociacion: new Date().toLocaleDateString()
   }
 }
