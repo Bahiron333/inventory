@@ -33,7 +33,7 @@ export class ListaActivosComponent {
 
   trackById = (index:number, user:any) => user.id; //filtra por el id
   
-  eliminarUsers(id:string){
+  eliminarActivo(id:string){
 
   }
 

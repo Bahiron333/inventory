@@ -32,6 +32,7 @@ export class DashboardService {
 
   
   createCliente(dataCliente:any,idUser:string):Observable<any>{
+    console.log(dataCliente);
     return this.http.post(`http://localhost:3000/clientes/create/${idUser}`,{dataCliente},{
       headers: this.headers
     })

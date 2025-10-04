@@ -11,13 +11,13 @@ export class AuthService {
   constructor(private http:HttpClient) { }
 
   Login(correo:string, password:string):Observable<any>{
-    const data = {correo,password};
-    return this.http.post('http://localhost:3000/auth/login',{data});
+    return this.http.post<any>('http://localhost:3000/auth/login',{correo,password});
   }
 
   //servicios de registro
-  Register(data:any):Observable<any>{
-    return this.http.post<any>('http://localhost:3000/auth/register',{data});
+  Register(data:FormData):Observable<any>{
+    console.log(data)
+    return this.http.post<any>('http://localhost:3000/auth/register',data);
   }
 
   //enviamos correo y el backend realiza la comprobacion
@@ -26,7 +26,7 @@ export class AuthService {
   }
 
   //codigo verificacion
-  verificarCodigo(codigo:string):Observable<boolean>{
-    return this.http.post<any>('http://localhost:3000/auth/register/codigo/verificar',{codigo});
+  verificarCodigo(codigo:string,correo:String):Observable<boolean>{
+    return this.http.post<any>('http://localhost:3000/auth/register/codigo/verificar',{codigo, correo});
   }
 }

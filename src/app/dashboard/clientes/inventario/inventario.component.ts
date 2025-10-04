@@ -57,7 +57,6 @@ export class InventarioComponent implements OnInit{
     let numeroAux = 0;
     activo.forEach((element:any) => {
       numeroAux = ((element.numero_minimo_stock * 30) / 100)  + element.numero_minimo_stock;
-      console.log(numeroAux);
       if(element.numero_minimo_stock > element.cantidad){
         element["color"] = "activo-red";
       }if(element.cantidad <= numeroAux && element.cantidad > element.numero_minimo_stock){
@@ -65,10 +64,14 @@ export class InventarioComponent implements OnInit{
       }if(element.cantidad > numeroAux && element.cantidad > element.numero_minimo_stock){
         element["color"] = "activo-verde";
       }
+
     });
   }
 
+  //opciones de cantidad
   protected cantidad:number = 0;
+  protected disponible:number = 0;
+  protected asignado:number = 0;
   protected idCliente:any = null;
   protected hardware:any = [];
   protected software:any = [];

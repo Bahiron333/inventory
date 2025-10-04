@@ -23,6 +23,8 @@ app.post('/auth/login',(req,res)=>{
 
 app.post('/auth/register',(req,res)=>{
     const {data} = req.body;
+
+    nombre = data.
     console.log(data);
     return res.status(200).json("Los mensaje se cargaron exitosamente")
 });
@@ -391,8 +393,8 @@ app.get('/cliente/:idCliente/inventario/:categoria/:tipoActivo',(req,res)=>{
       nombre: 'Dell Latitude 320',
       id: '850',
       estado: 'activo',
-      usuario: 'Juan david Zoto',
-      correo: 'juan.zoto@gmail.com',
+      usuario: '',
+      correo: '',
       fecha: '12/09/2023'
     },
     {
