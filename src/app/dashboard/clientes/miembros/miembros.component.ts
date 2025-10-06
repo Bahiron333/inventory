@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { ClienteService } from '../../../services/cliente/cliente.service';
 import { ActivatedRoute } from '@angular/router';
 import { FotoService } from '../../../services/foto/foto.service';
+import { DashboardService } from '../../../services/Dashboard/dashboard.service';
 
 @Component({
   selector: 'app-miembros',
@@ -13,7 +14,7 @@ export class MiembrosComponent {
   
   @Input() idMiembro:any = null
 
-  constructor(private clienteService:ClienteService, routeActive:ActivatedRoute, protected fotoService:FotoService){
+  constructor(private clienteService:ClienteService, routeActive:ActivatedRoute, protected fotoService:FotoService,private dashboardService:DashboardService){
       routeActive.parent?.paramMap.subscribe(params=>{
         this.id = params.get('id')
         this.idCliente = params.get('idcliente');
@@ -30,9 +31,9 @@ export class MiembrosComponent {
   trackById = (index:number, user:any) => user.id; //filtra por el id
   
   eliminarMiembro(id:string){
-    this.clienteService.deleteMiembro(this.idMiembro,this.idCliente).subscribe({
-      next:()=> {
-        alert("Miembro eliminado"),
+    this.dashboardService.eliminarcliente(id,this.idCliente).subscribe({
+      next:(data)=> {
+        alert(data.mensaje);
         this.miembros = this.miembros.filter((x:any)=>x.id!=id);
       },
       error:(err)=> console.log(err.error)

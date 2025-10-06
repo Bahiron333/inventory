@@ -24,6 +24,7 @@
                     <input type="checkbox" [(ngModel)]="miembro.suspendido">
                     <span class="slider"></span>
                 </label>
+                
                 Suspendido
             </div>
         </div>
@@ -31,8 +32,8 @@
         <div>
             <h2>Rol</h2>
             <select name="" class="rol" [(ngModel)]="miembro.rol">
-                <option class="opciones-rol" value="admin">Administrador</option>
-                <option class="opciones-rol" value="miembro">Miembro</option>
+                <option class="opciones-rol" value="administrador">Administrador</option>
+                <option class="opciones-rol" value="administrador">Miembro</option>
             </select>
         </div>
   
@@ -51,7 +52,7 @@
     </div>
     <div class="colum2">
         <h1 class="titulo-permiso">Permisos</h1>
-
+        
         <!--Esta sesion es para los permisos de usuarios-->
         <div class="sesion-permisos">
             <h2>Usuarios</h2>
@@ -71,7 +72,6 @@
                     </label>
                     Modificar
                 </label>
-
             <label class="checkbox-content">
                     <label class="content-check">
                         <input type="checkbox" [(ngModel)]="miembro.permisos[0].eliminar">

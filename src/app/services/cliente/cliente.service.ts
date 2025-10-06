@@ -35,7 +35,7 @@ export class ClienteService {
   }
 
   //esta sesion es para la modificacion, eliminacion o creacion del miembro
-  miebroCliente(idMiembro:string, idCliente:string){
+  miembroCliente(idMiembro:string, idCliente:string){
     return this.http.get(`http://localhost:3000/cliente/${idCliente}/miembro/${idMiembro}`,{headers: this.headers});
   }
 
