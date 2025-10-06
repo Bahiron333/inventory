@@ -16,7 +16,6 @@ export class AuthService {
 
   //servicios de registro
   Register(data:FormData):Observable<any>{
-    console.log(data)
     return this.http.post<any>('http://localhost:3000/auth/register',data);
   }
 

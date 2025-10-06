@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DashboardService } from '../services/Dashboard/dashboard.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { FotoService } from '../services/foto/foto.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -10,7 +11,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class DashboardComponent implements OnInit{
 
-  constructor(private dashboardService:DashboardService, private router:ActivatedRoute, private routerNavigate:Router){}
+  constructor(private dashboardService:DashboardService, private router:ActivatedRoute, private routerNavigate:Router, protected fotoService:FotoService){}
 
   ngOnInit(): void {
 
@@ -25,16 +26,15 @@ export class DashboardComponent implements OnInit{
         this.empresas = data.clientes;
         this.user = data.user;
         this.cantidadclientes = this.empresas.length;
-     
         //esta parte controla que solo el administrador cree usuarios 
-        if(this.user['role']=="admin") {
+       /* if(this.user['role']=="admin") {
             console.log(this.user)
             this.agregarCliente=true;
             this.eliminarCliente=true;
         }else{
             this.agregarCliente=false;
             this.eliminarCliente=false;
-        }
+        }*/
       },
       error: ()=> console.log("Error la obtener los datos") 
      })
@@ -63,11 +63,11 @@ export class DashboardComponent implements OnInit{
   unierseCliente(){
     this.dashboardService.unirseCliente(this.codigo, this.id).subscribe({
       next:(data)=>{
-        alert("Se agrego el cliente exitosamente");
+        alert(data.message);
         this.empresas.push(data.empresa);
         this.cantidadclientes = this.empresas.length;
       },error: (err)=>{
-        alert(err.error);
+        alert("hubo un error en el procesamiento de los datos");
       }
     })
   }
@@ -93,6 +93,15 @@ export class DashboardComponent implements OnInit{
     return cliente.id;
   }
    
+  //dar un valor a la foto
+  Foto(url:any,id:any){
+    //si no se encontro la foto, no se sobre escribe
+    if(this.foto[id]!="icono-foto.png"){
+      this.foto[id] = url;
+    }
+    return this.foto[id];
+  }
+
   //datos para unirse a una nueva empresa 
   protected codigo:string = "";
 
@@ -106,6 +115,9 @@ export class DashboardComponent implements OnInit{
   protected agregarCliente:boolean = false;
   protected eliminarCliente:boolean = false;
   protected user:any = null;
+
+  //mostrarFoto
+  private foto:any = [];
 
   //busqueda
   protected textBuscar:string = "";

@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { ClienteService } from '../../../services/cliente/cliente.service';
 import { ActivatedRoute } from '@angular/router';
+import { FotoService } from '../../../services/foto/foto.service';
 
 @Component({
   selector: 'app-miembros',
@@ -12,7 +13,7 @@ export class MiembrosComponent {
   
   @Input() idMiembro:any = null
 
-  constructor(private clienteService:ClienteService, routeActive:ActivatedRoute){
+  constructor(private clienteService:ClienteService, routeActive:ActivatedRoute, protected fotoService:FotoService){
       routeActive.parent?.paramMap.subscribe(params=>{
         this.id = params.get('id')
         this.idCliente = params.get('idcliente');
@@ -47,13 +48,24 @@ export class MiembrosComponent {
   ) : this.miembros;
 }
 
-//miembro seleccionado para ver sus propiedades
-IdMimebroSelecionado(id:string):void{
-  this.idMimebroSelecionado = id;
-  this.modificarMiembroVentanaShow = true;
-}
+  //miembro seleccionado para ver sus propiedades
+  IdMimebroSelecionado(id:string):void{
+    this.idMimebroSelecionado = id;
+    this.modificarMiembroVentanaShow = true;
+  }
+    
+  cerrarVentanaModificarMiembro = () => this.modificarMiembroVentanaShow = false;
+
   
-cerrarVentanaModificarMiembro = () => this.modificarMiembroVentanaShow = false;
+    //dar un valor a la foto
+  Foto(url:any){
+    //si no se encontro la foto, no se sobre escribe
+    if(this.foto!="icono-foto.png"){
+      this.foto = url;
+    }
+    return this.foto;
+  }
+
 
   protected miembros:any = [];
   protected textBuscar: string = "";
@@ -61,5 +73,5 @@ cerrarVentanaModificarMiembro = () => this.modificarMiembroVentanaShow = false;
   protected idCliente:any = null; //id donde se encuentra el cliente
   protected idMimebroSelecionado:string = ""; //para pasar los datos al hijo le agregamos el miembro
   protected modificarMiembroVentanaShow:boolean = false; //para mostrar y ocultar la ventana
-  
+  protected foto:any = null;
 }

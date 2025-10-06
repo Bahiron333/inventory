@@ -23,8 +23,8 @@
     <div>
             @for(miembro of MiembrosFiltrados; track trackById($index, miembro)){
                 <div class="content-user">
-                    <div class="fila-datos" (click)="IdMimebroSelecionado(miembro.id)">            
-                        <img [src]="miembro.foto" class="foto-ciente" alt="">
+                    <div class="fila-datos" (click)="IdMimebroSelecionado(miembro.id)"> 
+                        <img [src]="Foto(fotoService.obtenerImagen(miembro.id))" (error)="Foto(fotoService.ImagenDefault())" class="foto-ciente" alt="">           
                         <th class="data-row" style="margin-left: 2%;">{{miembro.nombre |titlecase}}</th>
                         <th class="data-row">{{miembro.correo |titlecase}}</th>
                         <th class="data-row">{{miembro.estado |titlecase}}</th>
