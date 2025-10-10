@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { InventarioService } from '../../../../services/inventario/inventario.service';
+import { ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-crear-activo',
@@ -9,40 +11,49 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class CrearActivoComponent implements OnInit{
 
-  constructor(private fb:FormBuilder){}
+  constructor(private inventarioService:InventarioService, private activeRoute:ActivatedRoute, private location:Location){}
 
   ngOnInit(): void {
-    this.formActivo = this.fb.group({
-        nombre:['',Validators.required],
-        tipo: ['',Validators.required],
-        numeroMinimoStock: ['',Validators.required],
+    this.activeRoute.parent?.paramMap.subscribe(params=>{
+      this.idEmpresa = params.get('idcliente');
+       this.id = params.get('id');
     });
   }
 
-  mostrarImagen(event:any){
-    //de toda la lista de archivo seleccionamos el primero
-    const file:File = event.target.files[0];
-
-    //si se seleciono algun archivo 
-    if(file){
-        if(!file.type.startsWith('image/')){
-          alert("Archivo no valido");
-          return;
-        }
+  agregarCampo(){
+    if(this.valorCampo!=""){
+      this.activo.campos_adicionales.push({
+        "valorCampo" : this.valorCampo,
+        "campoMultiple": this.campoMultiple
+      });
+      console.log("hola")
     }
 
-    //guardamos el archivo 
-    this.foto = file;
-
-    //convertimos la foto en url para que pueda ser mstrada
-    const reader = new FileReader;
-    reader.onload = e => this.vistaImagen = reader.result; //lee el archivo
-    reader.readAsDataURL(this.foto); //convierte el archivo en una url
   }
 
-  protected formActivo:any = null;
+  EnviarInformacion(){
+    if(this.activo.nombre!=""){
+      this.inventarioService.getNewActivo(this.idEmpresa,this.activo).subscribe({
+       next:(data)=>{alert(data.menssage);this.location.back()},
+       error: (err)=>console.log(err.error)})
+    }else{
+      alert("agrege un nombre al activo")
+    }
+  }
+
+  Cancelar = () =>this.location.back();
 
   //variables para la foto 
-  protected foto:any = null;
-  protected vistaImagen: string | ArrayBuffer | null = "icono-foto.png";
+  protected activo:any = {
+    nombre:"",
+    tipo:"hardware",
+    numero_minimo_stock:1,
+    estado:"activo",
+    campos_adicionales: []
+  }
+
+  protected valorCampo:string = "";
+  protected campoMultiple:boolean=false;
+  protected idEmpresa:any=null;
+  protected id:any=null;
 }

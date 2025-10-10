@@ -1,19 +1,31 @@
 <div id="main-crear-activo">
-
    <form>
         <h1 id="titulo-registro">Crear activo</h1>
         <div id="column-one">
-            <div class="content-foto">
-                    <img class="foto-img" [src]="vistaImagen" alt="foto">
-                    <div class="content-subir-foto">
-                        <p id="text-foto">Foto</p>
-                        <label class="file-label">
-                            <input accept="image/*" type="file" name="" id="" (change)="mostrarImagen($event)" style="display: none;">
-                            Subir Foto
-                        </label>
-                    </div>
-                </div>
+           <input type="text" name="nombre" id="nombre" [(ngModel)]="activo.nombre" >
+           <select name="" id="" [(ngModel)]="activo.tipo" name="tipo">
+            <option value="hardware">Hardware</option>
+            <option value="Sofware">Sofware</option>
+           </select>
+           <input type="number" name="numero-minimo-stock" id="" [(ngModel)]="activo.numero_minimo_stock">
         </div>
-        <div id="colum-two"></div>
+        <div id="colum-two">
+            <div>
+                <input type="text" name="" id="" [(ngModel)]="valorCampo" placeholder="Nuevo campo" name="valor-campo">
+                <button (click)="agregarCampo()">Agregar</button>
+                <input type="checkbox" id="" [(ngModel)]="campoMultiple" name="valor-multiple"> Valor multiple
+            </div>
+            <div>
+                <p>Campos</p>
+                @for(campo of activo.campos_adicionales; track campo.nombre){
+                    <p>{{campo.valorCampo}}</p>
+                    <p></p>
+                }
+            </div>
+            <div id="column-three">
+                <button (click)="EnviarInformacion()">Aceptar</button>
+                <button (click)="Cancelar()">Cancelar</button>
+            </div>
+        </div>
    </form>
 </div>
