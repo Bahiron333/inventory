@@ -1,5 +1,5 @@
 <nav>
-  <div id="logotipo">
+  <div id="logotipo" (click)="redirirInicio()">
     <img id="img-nav" src="caja-icono.png"  alt="">
     <p id="titulo-nav">Inventory</p>
   </div>
@@ -10,14 +10,23 @@
     }
   </div>
  
+  @if(auth.isLogin()){
+      <div (click)="VentanaOpcionCuenta()" class="content-inf-user">
+        <img [src]="Foto(fotoService.obtenerImagen(id))" (error)="Foto(fotoService.ImagenDefault())" class="foto-ciente" alt="">
+      </div>
+  }
+
 </nav>
-@if(venatanOpcionesCuenta){
-  <div id="opcion-cuenta">
-    <p id="nombre-user">{{nombreUser | titlecase}}</p>
-    <div id="content-button-opcion-cuenta">
-      <button class="button-opcion-cuenta">Configuracion</button>
-      <button (click)="cerrarSesion()" class="button-opcion-cuenta">Cerrar sesion</button>
+
+  @if(venatanOpcionesCuenta){
+    <div id="opcion-cuenta" (click)="VentanaOpcionCuenta()" #contentCerrarSesion>
+      <p id="nombre-user">{{nombreUser | titlecase}}</p>
+      <p id="email-user">{{correoElectronico | lowercase}}</p>
+      <div id="content-button-opcion-cuenta">
+        <button class="button-opcion-cuenta">Configuracion</button>
+        <button (click)="cerrarSesion()" class="button-opcion-cuenta">Cerrar sesion</button>
+      </div>
     </div>
-  </div>
-}
+  }
+
 <router-outlet></router-outlet>

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ClienteService } from '../../../services/cliente/cliente.service';
 
 @Component({
@@ -10,9 +10,10 @@ import { ClienteService } from '../../../services/cliente/cliente.service';
 })
 export class InventarioComponent implements OnInit{
 
-  constructor(private activeRoute:ActivatedRoute, private clienteService:ClienteService){
+  constructor(private activeRoute:ActivatedRoute, private clienteService:ClienteService,private router:Router){
     activeRoute.parent?.paramMap.subscribe(params=>{
       this.idCliente = params.get('idcliente');
+      this.id = params.get('id');
     })
   }
 
@@ -68,11 +69,18 @@ export class InventarioComponent implements OnInit{
     });
   }
 
+  navigateCrearActivo(){
+    this.router.navigate(['dashboard',this.id,'cliente', this.idCliente, 'crear-activo'])
+    .then(success => console.log(success))
+    .catch(err => console.error(err));
+  }
+
   //opciones de cantidad
   protected cantidad:number = 0;
   protected disponible:number = 0;
   protected asignado:number = 0;
   protected idCliente:any = null;
+  protected id:any = null;
   protected hardware:any = [];
   protected software:any = [];
 

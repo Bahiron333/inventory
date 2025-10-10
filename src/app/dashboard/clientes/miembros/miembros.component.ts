@@ -3,6 +3,7 @@ import { ClienteService } from '../../../services/cliente/cliente.service';
 import { ActivatedRoute } from '@angular/router';
 import { FotoService } from '../../../services/foto/foto.service';
 import { DashboardService } from '../../../services/Dashboard/dashboard.service';
+import { AuthService } from '../../../services/Auth/auth.service';
 
 @Component({
   selector: 'app-miembros',
@@ -14,7 +15,8 @@ export class MiembrosComponent {
   
   @Input() idMiembro:any = null
 
-  constructor(private clienteService:ClienteService, routeActive:ActivatedRoute, protected fotoService:FotoService,private dashboardService:DashboardService){
+  constructor(private clienteService:ClienteService, routeActive:ActivatedRoute, protected fotoService:FotoService,
+    private dashboardService:DashboardService, private authService:AuthService){
       routeActive.parent?.paramMap.subscribe(params=>{
         this.id = params.get('id')
         this.idCliente = params.get('idcliente');
@@ -22,6 +24,14 @@ export class MiembrosComponent {
   }
 
   ngOnInit(): void {
+    
+    this.authService.permisosMiembro(this.id,this.idCliente).subscribe({
+      next:(data:any)=>{
+        this.permisos = data.miembro;
+        console.log(this.permisos)
+      }, error:(err)=>console.log(err)
+    });
+
     this.clienteService.MiembrosCliente(this.id, this.idCliente).subscribe({
       next:(usuarios:any) => this.miembros = usuarios.miembros,
       error:(err) => console.log(err.error)
@@ -52,7 +62,12 @@ export class MiembrosComponent {
   //miembro seleccionado para ver sus propiedades
   IdMimebroSelecionado(id:string):void{
     this.idMimebroSelecionado = id;
-    this.modificarMiembroVentanaShow = true;
+    console.log(this.permisos)
+    if(this.permisos.rol=="administrador"||this.permisos.permisos[2].modificar){
+        this.modificarMiembroVentanaShow = true;
+    }else{
+      this.modificarMiembroVentanaShow = false;
+    }
   }
     
   cerrarVentanaModificarMiembro = () => this.modificarMiembroVentanaShow = false;
@@ -75,4 +90,5 @@ export class MiembrosComponent {
   protected idMimebroSelecionado:string = ""; //para pasar los datos al hijo le agregamos el miembro
   protected modificarMiembroVentanaShow:boolean = false; //para mostrar y ocultar la ventana
   protected foto:any = null;
+  protected permisos:any = null;
 }

@@ -6,6 +6,11 @@ import { InventarioComponent } from './inventario/inventario.component';
 import { ClientesComponent } from './clientes.component';
 import { userGuard } from '../../Auth/Guard/user.guard';
 import { MiembrosComponent } from './miembros/miembros.component';
+import { suspendidoGuard } from '../../Auth/Guard/suspendido.guard';
+import { guardUsuariosGuard } from '../../Auth/Guard/guard-usuarios.guard';
+import { guardInventarioGuard } from '../../Auth/Guard/guard-inventario.guard';
+import { guardMiembrosGuard } from '../../Auth/Guard/guard-miembros.guard';
+import { CrearActivoComponent } from './inventario/crear-activo/crear-activo.component';
 
 
 
@@ -15,11 +20,12 @@ const routes: Routes = [
     component: ClientesComponent,
     children: [
         {path: 'informacion',component: InformacionComponent},
-        {path: 'users', component: UsersComponent},
-        {path: 'inventario', component: InventarioComponent},
-        {path: 'miembros', component: MiembrosComponent},
+        {path: 'users', component: UsersComponent, canActivate:[guardUsuariosGuard]},
+        {path: 'inventario', component: InventarioComponent,canActivate:[guardInventarioGuard]},
+        {path: 'miembros', component: MiembrosComponent, canActivate:[guardMiembrosGuard]},
+        {path: 'crear-activo',component:CrearActivoComponent}
     ],
-    canActivate:[userGuard]
+    canActivate:[userGuard,suspendidoGuard]
   },
   { path: '**', redirectTo:'informacion'}
 ];

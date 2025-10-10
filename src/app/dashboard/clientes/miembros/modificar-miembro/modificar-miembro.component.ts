@@ -19,8 +19,6 @@ export class ModificarMiembroComponent implements OnInit{
     this.ClienteService.miembroCliente(this.miembro_id,this.cliente_id).subscribe({
       next: (data:any) => {
         this.miembro = data.miembro;
-        this.miembro.suspendido =  this.miembro.suspendido === "true";
-   
       },
       error: (erro)=>console.log(erro.error)
     });

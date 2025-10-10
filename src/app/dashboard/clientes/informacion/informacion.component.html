@@ -10,17 +10,14 @@
 
         <div class="informacion">
             <!--Campos de informacion Direccion-->
-            <h2 class="tituto-descriptivo" >Direccion</h2>
-            {{dataInformacion.direccion}}
+            <h2 class="tituto-descriptivo" >NIT</h2>
+            {{dataInformacion.nit}}
 
             <!--Campos de informacion Representante-->
             <h2 class="tituto-descriptivo">Representante</h2>
             {{dataInformacion.representante}}
         </div>
     </div>
-
-    
-
    <div class="content-descripcion">
         <!--Campos de informacion Descripcion-->
         <p class="descripcion">Descripcion</p>
@@ -41,7 +38,7 @@
             <p class="text">{{dataInformacion.id}}</p>
         </div>
 
-       @if(roleUSer=="administrador"){
+       @if(id==dataInformacion.id_representante){
             <!--Campos de informacion codigo-->
             <div>
                 <p class="tituto-descriptivo">Codigo</p>

@@ -1,11 +1,17 @@
 <div class="content-dashboard-cliente">
     <aside>
-        <p id="titulo-empresa">{{nombreEmpresa}}</p>
+        <p id="titulo-empresa">{{nombreEmpresa | uppercase}}</p>
         <div id="content-opciones">
             <a class="opciones" routerLink="informacion">Informacion</a>
-            <a class="opciones" routerLink="users">Usuarios</a>
-            <a class="opciones" routerLink="inventario">Inventario</a>
-            <a class="opciones" routerLink="miembros">Miembros</a>
+            @if(permisoUsuario()){
+                <a class="opciones" routerLink="users">Usuarios</a>
+            }
+            @if(permisoInventario()){
+                <a class="opciones" routerLink="inventario">Inventario</a>
+            }
+             @if(permisoMiembro()){
+                <a class="opciones" routerLink="miembros">Miembros</a>
+             }
         </div>
     </aside>
     <div class="content-cliente">

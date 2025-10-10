@@ -10,6 +10,7 @@ import { ClientesComponent } from './clientes.component';
 import { FormsModule } from '@angular/forms';
 import { ModificarMiembroComponent } from './miembros/modificar-miembro/modificar-miembro.component';
 import { ListaActivosComponent } from './inventario/lista-activos/lista-activos.component';
+import { CrearActivoComponent } from './inventario/crear-activo/crear-activo.component';
 
 
 
@@ -21,7 +22,8 @@ import { ListaActivosComponent } from './inventario/lista-activos/lista-activos.
     MiembrosComponent,
     ClientesComponent,
     ModificarMiembroComponent,
-    ListaActivosComponent
+    ListaActivosComponent,
+    CrearActivoComponent
   ],
   imports: [
     CommonModule,

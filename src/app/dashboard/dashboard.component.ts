@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DashboardService } from '../services/Dashboard/dashboard.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FotoService } from '../services/foto/foto.service';
+import { AuthService } from '../services/Auth/auth.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -11,13 +12,16 @@ import { FotoService } from '../services/foto/foto.service';
 })
 export class DashboardComponent implements OnInit{
 
-  constructor(private dashboardService:DashboardService, private router:ActivatedRoute, private routerNavigate:Router, protected fotoService:FotoService){}
+  constructor(private dashboardService:DashboardService, private router:ActivatedRoute, private routerNavigate:Router, protected fotoService:FotoService,
+              private authService:AuthService
+  ){}
 
   ngOnInit(): void {
 
     //obtenemos el id del usuario por medio de la ruta
     this.router.paramMap.subscribe(params=>{
       this.id = params.get('id');
+      localStorage.setItem('id',this.id);
     });
 
     //enviamos el id del usuario y el servidor trae los clientes asociados con el id
@@ -26,22 +30,19 @@ export class DashboardComponent implements OnInit{
         this.empresas = data.clientes;
         this.user = data.user;
         this.cantidadclientes = this.empresas.length;
-        //esta parte controla que solo el administrador cree usuarios 
-       /* if(this.user['role']=="admin") {
-            console.log(this.user)
-            this.agregarCliente=true;
-            this.eliminarCliente=true;
-        }else{
-            this.agregarCliente=false;
-            this.eliminarCliente=false;
-        }*/
       },
       error: ()=> console.log("Error la obtener los datos") 
      })
   }
 
   routerCliente(idCliente:string){ 
-    this.routerNavigate.navigate(['dashboard',this.id,'cliente',idCliente, 'informacion']); 
+    this.authService.isSuspendido(idCliente,this.id).then((suspendido)=>{
+      if(!suspendido){
+        this.routerNavigate.navigate(['dashboard',this.id,'cliente',idCliente, 'informacion']); 
+      }else{
+        alert("su usuario a sido suspendido de esta empresa, para mas informacion, comunicarse con el administrador")
+      }
+    });
   }
 
   mostrarVentanaAgregar(){
