@@ -1,6 +1,52 @@
-<div class="main-users">
+<div class="main-lista-activos">
 
+    <button class="boton-agregar" (click)="CrearActivo=true">Nuevo Activo</button> 
     <div class="column-initial">
+        <!--Crear activo-->
+        @if(crearActivo){
+            <div class="content-nuevo-activo">
+                <p class="titulo-crear-activo">Nuevo Activo</p>
+                <div class="content-campos">
+                   <div class="content-nombre">
+                        <p class="text-campo">Nombre</p>
+                        <input type="text" class="datos" name="nombre" id="" placeholder="Nombre" [(ngModel)]="nombre">
+                   </div>
+                    <div>
+                        <p class="text-campo">Estado</p>
+                        <select name="estado" id="" class="opciones-multiples" [(ngModel)]="estado">
+                            <option class="opciones" value="activo">Activo</option>
+                            <option class="opciones" value="stock">Stock</option>
+                            <option class="opciones" value="venta">Venta</option>
+                            <option class="opciones" value="cambio">Cambio</option>
+                            <option class="opciones" value="arriendo">Arriendo</option>
+                        </select>
+                    </div>
+                    @for(campo of camposAdicionales; track campo.id){
+                       <div>
+                            <p class="text-campo">{{campo.nombre}}</p>
+                            <div class="campo">
+                                @if(campo.multiple_valor){
+                                    <input [class]="campo.multiple_valor ? 'datos-campo-adicional' : 'datos'" type="text" [name]="campo.nombre" id="" [placeholder]="campo.nombre" #ingreso>
+                                    <button class="boton-agregar-campo" (click)="agregarValor(campo.nombre,ingreso.value)">Agregar valor</button>
+                                }@else {
+                                    <input class='datos' type="text" [(ngModel)]="camposAdicionales[campo.nombre]" [name]="campo.nombre" [placeholder]="campo.nombre">
+                                }
+                            </div>  
+                            @if(campo.multiple_valor){
+                                <div class="content-cantidad-valor-agregado">
+                                    <p>Valores agregados</p>
+                                    <p>{{contador[campo.nombre]}}</p>
+                                </div>
+                            } 
+                       </div>
+                    }
+                </div>
+                <div class="content-botones">
+                    <button (click)="guardar()" class="button-aceptar">Guardar</button>
+                    <button (click)="cancelar()" class="button-cancelar">Cancelar</button>
+                </div>
+            </div>
+        }
         <span class="text-categoria">{{categoria}}</span>
         <div class="content-buscar">
             <input [(ngModel)]="textBuscar" class="input-buscar" type="text" placeholder="Buscar">
@@ -19,7 +65,7 @@
     </div> 
     <hr class="linea">
     <div>
-            @for(activos of activosFiltrados; track trackById($index, activos)){
+            @for(activos of Filtrados(activos); track trackById($index, activos)){
                 <div class="content-user">
                    <div class="fila-datos">            
                         <th class="data-row" style="margin-left: 2%;">{{activos.nombre |titlecase}}</th>
@@ -33,5 +79,5 @@
                     
                 </div>
             }
-        </div>
+    </div>
 </div>

@@ -22,13 +22,13 @@ export class CrearActivoComponent implements OnInit{
 
   agregarCampo(){
     if(this.valorCampo!=""){
+     
+
       this.activo.campos_adicionales.push({
         "valorCampo" : this.valorCampo,
         "campoMultiple": this.campoMultiple
       });
-      console.log("hola")
     }
-
   }
 
   EnviarInformacion(){
@@ -47,6 +47,7 @@ export class CrearActivoComponent implements OnInit{
   protected activo:any = {
     nombre:"",
     tipo:"hardware",
+    cantidad:0,
     numero_minimo_stock:1,
     estado:"activo",
     campos_adicionales: []

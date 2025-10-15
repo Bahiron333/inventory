@@ -21,11 +21,11 @@
     </div> 
     <hr class="linea">
     <div>
-            @for(miembro of MiembrosFiltrados; track trackById($index, miembro)){
+            @for(miembro of Filtrados(miembros); track trackById($index, miembro)){
                 @if(id!=miembro.id){ 
                     <div class="content-user">
                         <div class="fila-datos" (click)="IdMimebroSelecionado(miembro.id)"> 
-                            <img [src]="Foto(fotoService.obtenerImagen(miembro.id))" (error)="Foto(fotoService.ImagenDefault())" class="foto-ciente" alt="">           
+                            <img [src]="Foto(fotoService?.obtenerImagen(miembro.id))" (error)="Foto(fotoService?.ImagenDefault())" class="foto-ciente" alt="">           
                             <th class="data-row" style="margin-left: 2%;">{{miembro.nombre |titlecase}}</th>
                             <th class="data-row">{{miembro.correo |titlecase}}</th>
                             <th class="data-row">{{miembro.estado |titlecase}}</th>

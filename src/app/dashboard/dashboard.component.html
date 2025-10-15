@@ -32,11 +32,11 @@
     </div>   
         <hr class="linea">
         <div id="content-clientes">
-            @for(cliente of clientesFiltrados; track trackById($index, cliente)){
+            @for(cliente of Filtrados(empresas); track trackById($index, cliente)){
                 <div class="content-cliente">
                     <div class="fila-datos" (click)="routerCliente(cliente.id)">           
-                        <img [src]="Foto(fotoService.obtenerImagen(cliente.id),cliente.id)" (error)="Foto(fotoService.ImagenDefault(),cliente.id)" class="foto-ciente" alt="">
-                        <th class="data data-cliente-nombre" style="margin-left: 2%;">{{cliente.nombre |titlecase}}</th>
+                        <img [src]="Foto(fotoService?.obtenerImagen(cliente.id),cliente.id)" (error)="Foto(fotoService?.ImagenDefault(),cliente.id)" class="foto-ciente" alt="">
+                        <th class="data data-cliente-nombre" style="margin-left: 2%;">{{cliente?.nombre |titlecase}}</th>
                         <th class="data data-cliente-direccion">{{cliente.nit |titlecase}}</th>
                         <th class="data data-cliente-representante">{{cliente.representante |titlecase}}</th>
                         <th class="data data-fecha">{{cliente.fecha_asociacion |titlecase}}</th>

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ClienteService } from '../../../services/cliente/cliente.service';
+import { ComponenteBase } from '../../../componentBase';
 
 @Component({
   selector: 'app-inventario',
@@ -8,13 +9,10 @@ import { ClienteService } from '../../../services/cliente/cliente.service';
   templateUrl: './inventario.component.html',
   styleUrl: './inventario.component.scss'
 })
-export class InventarioComponent implements OnInit{
+export class InventarioComponent extends ComponenteBase implements OnInit{
 
-  constructor(private activeRoute:ActivatedRoute, private clienteService:ClienteService,private router:Router){
-    activeRoute.parent?.paramMap.subscribe(params=>{
-      this.idCliente = params.get('idcliente');
-      this.id = params.get('id');
-    })
+  constructor(activeRoute:ActivatedRoute, private clienteService:ClienteService,private routers:Router){
+    super(activeRoute)
   }
 
   ngOnInit(): void {
@@ -48,9 +46,10 @@ export class InventarioComponent implements OnInit{
     this.mostrarDatos();
   }
 
-  mostrarInventario(tipo:any){
+  mostrarInventario(tipo:any,id:any){
     this.mostrarActivos  = !this.mostrarActivos;
     this.categoria = tipo;
+    this.id_inventario = id;
     this.mostrarSoftware ? this.tipoActivo = "software" : this.tipoActivo = "hardware";
   }
 
@@ -60,7 +59,7 @@ export class InventarioComponent implements OnInit{
       numeroAux = ((element.numero_minimo_stock * 30) / 100)  + element.numero_minimo_stock;
       if(element.numero_minimo_stock > element.cantidad){
         element["color"] = "activo-red";
-      }if(element.cantidad <= numeroAux && element.cantidad > element.numero_minimo_stock){
+      }if(element.cantidad <= numeroAux && element.cantidad > element.numero_minimo_stock || element.numero_minimo_stock == element.cantidad){
         element["color"] = "activo-naranja";
       }if(element.cantidad > numeroAux && element.cantidad > element.numero_minimo_stock){
         element["color"] = "activo-verde";
@@ -70,7 +69,7 @@ export class InventarioComponent implements OnInit{
   }
 
   navigateCrearActivo(){
-    this.router.navigate(['dashboard',this.id,'cliente', this.idCliente, 'crear-activo'])
+    this.routers.navigate(['dashboard',this.id,'cliente', this.idCliente, 'crear-activo'])
     .then(success => console.log(success))
     .catch(err => console.error(err));
   }
@@ -79,8 +78,6 @@ export class InventarioComponent implements OnInit{
   protected cantidad:number = 0;
   protected disponible:number = 0;
   protected asignado:number = 0;
-  protected idCliente:any = null;
-  protected id:any = null;
   protected hardware:any = [];
   protected software:any = [];
 
@@ -90,6 +87,7 @@ export class InventarioComponent implements OnInit{
   //esta sesion va para el componente hijo lista inventario 
   protected categoria:any = null;
   protected tipoActivo:any = null;
+  protected id_inventario:any = null;
 
   //esto nos sirve para controlar el flujo de ejecucion
   protected mostrarHardware:boolean = true;

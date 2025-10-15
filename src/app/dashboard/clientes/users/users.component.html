@@ -20,7 +20,7 @@
     </div> 
     <hr class="linea">
     <div>
-            @for(user of usuariosFiltrados; track trackById($index, user)){
+            @for(user of Filtrados(users); track trackById($index, user)){
                 <div class="content-user">
                     <div class="fila-datos" (click)="routerInfUsers(user.id)">            
                         <img src="usuario.svg" class="foto-ciente" alt="">

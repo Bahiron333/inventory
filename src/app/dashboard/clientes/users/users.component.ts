@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ClienteService } from '../../../services/cliente/cliente.service';
 import { ActivatedRoute } from '@angular/router';
+import { ComponenteBase } from '../../../componentBase';
 
 @Component({
   selector: 'app-users',
@@ -8,14 +9,12 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './users.component.html',
   styleUrl: './users.component.scss'
 })
-export class UsersComponent implements OnInit{
+export class UsersComponent extends ComponenteBase implements OnInit{
 
-  constructor(private clienteService:ClienteService, private routeActive:ActivatedRoute){
-      routeActive.parent?.paramMap.subscribe(params=>{
-        this.id = params.get('id')
-        this.idCliente = params.get('idcliente');
-    })
+  constructor(private clienteService:ClienteService, routeActive:ActivatedRoute){
+    super(routeActive)
   }
+  
 
   ngOnInit(): void {
     this.clienteService.UserCliente(this.id, this.idCliente).subscribe({
@@ -27,26 +26,11 @@ export class UsersComponent implements OnInit{
   routerInfUsers(idUser:string){
 
   } 
-
-  trackById = (index:number, user:any) => user.id; //filtra por el id
   
   eliminarUsers(id:string){
 
   }
-
-  get usuariosFiltrados(){
-    return this.textBuscar != "" ? this.users.filter((x:any)=>
-      x.id.includes(this.textBuscar) ||
-      x.nombre.toLowerCase().includes(this.textBuscar.toLocaleLowerCase()) ||
-      x.estado.toLowerCase().includes(this.textBuscar.toLocaleLowerCase()) ||
-      x.departamento.toLowerCase().includes(this.textBuscar.toLocaleLowerCase())
-  ) : this.users;
-}
-
-  
+ 
 
   protected users:any = [];
-  protected textBuscar: string = "";
-  protected id:any = null;
-  protected idCliente:any = null;
 }

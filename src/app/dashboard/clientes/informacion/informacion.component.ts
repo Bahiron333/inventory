@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ClienteService } from '../../../services/cliente/cliente.service';
 import { ActivatedRoute } from '@angular/router';
 import { FotoService } from '../../../services/foto/foto.service';
+import { ComponenteBase } from '../../../componentBase';
 
 @Component({
   selector: 'app-informacion',
@@ -9,16 +10,16 @@ import { FotoService } from '../../../services/foto/foto.service';
   templateUrl: './informacion.component.html',
   styleUrl: './informacion.component.scss'
 })
-export class InformacionComponent implements OnInit {
+export class InformacionComponent extends ComponenteBase implements OnInit {
 
-  constructor(private clienteService:ClienteService, private routerActive:ActivatedRoute, protected fotoService:FotoService){
+  constructor(private clienteService:ClienteService,routerActive:ActivatedRoute, fotoService:FotoService){
+    super(routerActive,fotoService)
   }
 
   ngOnInit(): void {
     
-
     //accede a las rutas de las variables del padre y del hijo
-    this.routerActive.parent?.paramMap.subscribe(params=>{
+    this.router?.parent?.paramMap.subscribe(params=>{
       //obtenemos los datos de la ruta url
       this.id=params.get('id');
       this.idCliente = params.get('idcliente');
@@ -32,20 +33,8 @@ export class InformacionComponent implements OnInit {
     }) 
 
   }
-
-    //dar un valor a la foto
-  Foto(url:any){
-    //si no se encontro la foto, no se sobre escribe
-    if(this.foto!="icono-foto.png"){
-      this.foto = url;
-    }
-    return this.foto;
-  }
-
+ 
   protected dataInformacion: any = null;
-  protected foto:string = "";
-  protected idCliente:any;
   protected roleUSer:any = null;
-  protected id:any = null;
    
 }

@@ -1,6 +1,6 @@
 <div class="main-informacion">
     <div class="content-foto">
-        <img [src]="Foto(fotoService.obtenerImagen(idCliente))" (error)="Foto(fotoService.ImagenDefault())" class="foto" alt="">
+        <img [src]="Foto(fotoService?.obtenerImagen(idCliente))" (error)="Foto(fotoService?.ImagenDefault())" class="foto" alt="">
 
         <div class="contacto">
             <!--Campos de informacion nombre-->
