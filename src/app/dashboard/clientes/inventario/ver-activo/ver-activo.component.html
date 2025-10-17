@@ -1,0 +1,64 @@
+<div id="main-ver-activo">
+    <p>{{activo.nombre}}</p>
+    <div class="content-inf">
+        <h2>Informacion</h2>
+        <div>
+            <h3>Nombre</h3>
+            <label>{{activo.nombre}}</label>
+        </div>
+        <div>
+            <h3>ID</h3>
+            <label>{{activo.id}}</label>
+        </div>
+        <div>
+            <h3>Tipo</h3>
+            <label>{{activo.tipo}}</label>
+        </div>
+        <div>
+            <h3>Fecha</h3>
+            <label>{{activo.fecha}}</label>
+        </div>
+        <div>
+            <h3>Estado</h3>
+            <label>{{activo.estado}}</label>
+        </div>
+    </div>
+    <div class="content-campo-adicionales">
+        <h3>Campos Adicionales</h3>
+        @for(campo of Filtrados(camposAdicionales); track trackById($index, activo)){
+                <h3>{{campo.nombre}}</h3>
+                <p>{{campo.valor}}</p>
+        }
+    </div>
+    <div class="usuarios">
+        <div>
+            <h2>Usuarios</h2>
+             <div class="content-buscar">
+                <input [(ngModel)]="textBuscar" class="input-buscar" type="text" placeholder="Buscar">
+                <img class="svg-busqueda" src="busqueda.svg" alt="busqueda">
+            </div>
+        </div>
+        <div class="fila-titulo">
+        <th width="20px"></th>
+        <th class="data-row data-nombre">Nombre</th>
+        <th class="data-row">Estado</th>
+        <th class="data-row">correo</th>
+        <th class="data-row">Id</th>
+        <th></th>
+    </div> 
+    <hr class="linea">
+    <div>
+        @for(user of Filtrados(users); track trackById($index, user)){
+            <div class="content-user">
+                <div class="fila-datos" (click)="routerInfUsers(user.id)">            
+                    <img src="usuario.svg" class="foto-ciente" alt="">
+                    <th class="data-row" style="margin-left: 2%;">{{user.nombre |titlecase}}</th>
+                    <th class="data-row">{{user.estado |titlecase}}</th>
+                    <th class="data-row">{{user.correo}}</th>
+                    <th class="data-row">{{user.id}}</th>    
+                </div>
+            </div>
+        }
+    </div>
+    </div>
+</div>
