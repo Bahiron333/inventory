@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { InventarioService } from '../../../../services/inventario/inventario.service';
 import { ComponenteBase } from '../../../../componentBase';
 
@@ -15,20 +15,13 @@ export class ListaActivosComponent extends ComponenteBase{
     @Input() categoria:string = "";
     @Input() id_inventario:string = "";
 
-    constructor(private inventarioService:InventarioService, routeActive:ActivatedRoute){
+    constructor(private inventarioService:InventarioService, routeActive:ActivatedRoute, private routers:Router){
       super(routeActive)
   }
 
   ngOnInit(): void {
 
-    this.inventarioService.getActivos(this.idCliente, this.categoria ,this.tipoActivo).subscribe({
-      next:(activos:any)=>{
-        this.activos = activos.activo
-      },
-      error:(err) => console.log(err.error)
-    });
-
-    this.inventarioService.getCamposAdicionales(this.idCliente, this.categoria).subscribe({
+    this.inventarioService.getCamposAdicionales(this.categoria).subscribe({
       next:(camposAdicional:any)=>{
         this.camposAdicionales = camposAdicional;
         Object.entries(this.camposAdicionales).forEach(([key,value]:[string,any])=>{
@@ -42,11 +35,19 @@ export class ListaActivosComponent extends ComponenteBase{
         })
       },
       error:(err) => console.log(err.error)
-    })
+    });
+
+    this.obtenerActivos();
   }
   
   eliminarActivo(id:string){
-
+    this.inventarioService.deleteActivo(this.idCliente,id).subscribe({
+      next:(mensaje:any)=>{
+        alert(mensaje);
+        this.obtenerActivos();
+      },
+      error:(err) => console.log(err.error)
+    });
   }
 
   set CrearActivo(valor:boolean){
@@ -62,13 +63,15 @@ export class ListaActivosComponent extends ComponenteBase{
 
   guardar(){
     if(this.comprobarValor()){
-        Object.entries(this.campoAdicionalNuevoValor).forEach(([key,value]:[string,any])=>{
-          this.activosEnviar[key]=value;
-        });
         this.activosEnviar["nombre"] = this.nombre;
         this.activosEnviar["estado"] = this.estado;
+        this.activosEnviar["campos_adicionales"] = this.campoAdicionalNuevoValor
         this.inventarioService.NewActivo(this.idCliente,this.id_inventario,this.activosEnviar).subscribe({
-          next:(data:any)=>console.log(data.menssage),
+          next:(data:any)=>{
+            console.log(data.menssage);
+            this.obtenerActivos();
+            this.crearActivo = false;
+          },
           error:(err) => console.log(err.error)
         });
         
@@ -92,7 +95,24 @@ export class ListaActivosComponent extends ComponenteBase{
 
   cancelar = () => this.crearActivo=false; //cerrar ventana
 
-  protected activos:any = null; 
+  obtenerActivos(){
+
+    this.inventarioService.getActivos(this.idCliente, this.id_inventario).subscribe({
+      next:(activosDB:any)=>{
+        console.log(activosDB)
+        this.activos = Object.values(activosDB.activo);
+      },
+      error:(err) => console.log(err.error)
+    });
+  }
+
+  navigateVerActivo(id:any){
+    this.routers.navigate(['dashboard',this.id,'cliente', this.idCliente, this.id_inventario, 'ver-activo', id])
+    .then(success => console.log(success))
+    .catch(err => console.error(err));
+  }
+
+  protected activos:any[] = []; 
   protected camposAdicionales:any = null;
   //elementos a enviar al servidor
   protected nombre: string ="";

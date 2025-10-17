@@ -19,19 +19,25 @@ export class InventarioService {
   
   NewActivo(idCliente:string, idInventario:string,newActivo:any):Observable<any>{
     const activo = JSON.stringify(newActivo);
-    return this.http.post<any>(`http://localhost:3000/${idCliente}/inventario/${idInventario}/crear_activo`,{activo},{headers: this.headers});
+    return this.http.post<any>(`http://localhost:3000/${idCliente}/inventario/${idInventario}/crear_activo`,{activo:activo},{headers: this.headers});
   }
 
   //esta sesion es para los activos 
-  getActivos(idCliente:string, categoria:string, tipo:string):Observable<any>{
-    return this.http.get(`http://localhost:3000/cliente/${idCliente}/inventario/${categoria}/${tipo}`,{headers: this.headers});
+  getActivos(idCliente:string, categoria:string):Observable<any>{
+    return this.http.get(`http://localhost:3000/cliente/${idCliente}/inventario/${categoria}`,{headers: this.headers});
   }
 
-    //esta sesion es para los activos 
-  getCamposAdicionales(idCliente:string, categoria:string):Observable<any>{
+  getCamposAdicionales(categoria:string):Observable<any>{
     return this.http.get(`http://localhost:3000/inventario/${categoria}/camposAdicionales`,{headers: this.headers});
   }
 
+  deleteActivo(idCliente:string, id:string):Observable<any>{
+    return this.http.delete(`http://localhost:3000/${idCliente}/activo/${id}`,{headers: this.headers});
+  }
+
+  getActivo(idCliente:string, id:string):Observable<any>{
+    return this.http.get(`http://localhost:3000/${idCliente}/activo/${id}`,{headers: this.headers});
+  }
   private headers:any = null;
   private token = localStorage.getItem('token');
 }

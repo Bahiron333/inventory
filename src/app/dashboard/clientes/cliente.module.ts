@@ -11,6 +11,7 @@ import { FormsModule } from '@angular/forms';
 import { ModificarMiembroComponent } from './miembros/modificar-miembro/modificar-miembro.component';
 import { ListaActivosComponent } from './inventario/lista-activos/lista-activos.component';
 import { CrearActivoComponent } from './inventario/crear-activo/crear-activo.component';
+import { VerActivoComponent } from './inventario/ver-activo/ver-activo.component';
 
 
 
@@ -23,7 +24,8 @@ import { CrearActivoComponent } from './inventario/crear-activo/crear-activo.com
     ClientesComponent,
     ModificarMiembroComponent,
     ListaActivosComponent,
-    CrearActivoComponent
+    CrearActivoComponent,
+    VerActivoComponent
   ],
   imports: [
     CommonModule,

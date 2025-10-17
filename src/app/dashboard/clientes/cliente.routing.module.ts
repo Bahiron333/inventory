@@ -11,6 +11,7 @@ import { guardUsuariosGuard } from '../../Auth/Guard/guard-usuarios.guard';
 import { guardInventarioGuard } from '../../Auth/Guard/guard-inventario.guard';
 import { guardMiembrosGuard } from '../../Auth/Guard/guard-miembros.guard';
 import { CrearActivoComponent } from './inventario/crear-activo/crear-activo.component';
+import { VerActivoComponent } from './inventario/ver-activo/ver-activo.component';
 
 
 
@@ -23,7 +24,8 @@ const routes: Routes = [
         {path: 'users', component: UsersComponent, canActivate:[guardUsuariosGuard]},
         {path: 'inventario', component: InventarioComponent,canActivate:[guardInventarioGuard]},
         {path: 'miembros', component: MiembrosComponent, canActivate:[guardMiembrosGuard]},
-        {path: 'crear-activo',component:CrearActivoComponent}
+        {path: 'crear-activo',component:CrearActivoComponent, canActivate:[guardMiembrosGuard]},
+        {path:':id_inventario/ver-activo/:idActivo',component:VerActivoComponent, canActivate:[guardMiembrosGuard]}
     ],
     canActivate:[userGuard,suspendidoGuard]
   },
