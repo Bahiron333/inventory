@@ -1,6 +1,7 @@
 <div class="main-informacion">
     <div class="content-foto">
-        <img [src]="dataInformacion.foto" class="foto" alt="">
+        <img [src]="Foto(fotoService?.obtenerImagen(idCliente))" (error)="Foto(fotoService?.ImagenDefault())" class="foto" alt="">
+
         <div class="contacto">
             <!--Campos de informacion nombre-->
             <p class="nombre">{{dataInformacion.nombre}}</p>
@@ -9,17 +10,14 @@
 
         <div class="informacion">
             <!--Campos de informacion Direccion-->
-            <h2 class="tituto-descriptivo" >Direccion</h2>
-            {{dataInformacion.direccion}}
+            <h2 class="tituto-descriptivo" >NIT</h2>
+            {{dataInformacion.nit}}
 
             <!--Campos de informacion Representante-->
             <h2 class="tituto-descriptivo">Representante</h2>
             {{dataInformacion.representante}}
         </div>
     </div>
-
-    
-
    <div class="content-descripcion">
         <!--Campos de informacion Descripcion-->
         <p class="descripcion">Descripcion</p>
@@ -40,11 +38,13 @@
             <p class="text">{{dataInformacion.id}}</p>
         </div>
 
-        <!--Campos de informacion codigo-->
-        <div>
-            <p class="tituto-descriptivo">Codigo</p>
-            <p class="text">{{dataInformacion.codigo}}</p>
-        </div>
+       @if(id==dataInformacion.id_representante){
+            <!--Campos de informacion codigo-->
+            <div>
+                <p class="tituto-descriptivo">Codigo</p>
+                <p class="text">{{dataInformacion.codigo}}</p>
+            </div>
+       }
     </div>
 
     <div class="recursos">

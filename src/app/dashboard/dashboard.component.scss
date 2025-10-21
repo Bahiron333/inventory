@@ -85,8 +85,8 @@
     margin-top: 3.5em;
 }
 
-//esta session es de los estilos buscar cliente
-#cantidad-buscar{
+//esta seccion es de los estilos buscar cliente
+.cantidad-buscar{
     display: flex;
     flex-direction: row;
     justify-content:space-between;
@@ -97,114 +97,13 @@
 
 }
 
-#content-buscar{
-    @include globales.content-buscar;
-}
-
-#input-buscar{
-    @include globales.input-buscar;
-}
-
-#svg-busqueda{
-    @include globales.svg-busqueda;
-}
-
-
-//estilos de la estructura de tabla
-table{ 
-    width: 100%;
-    table-layout: fixed;
-    text-overflow: ellipsis;
-}
-
-#encabezado-tabla{
-    display: flex;
-    flex-direction: row;
-    width: 96%;
-    justify-content: space-around;
-    align-content: initial;
-    align-items: center;
-}
- 
-#linea{
-    margin: 1em 0;
-}
-
-.foto-ciente{
-    width: 30px;
-    height: 30px;
-    border-radius: 50px;
- }
- 
-@mixin data-titulo{ 
-    padding: 0 10px;
-    display: flex;
-    font-family: 'Barlow', sans-serif;
-    font-weight: 400;
-    font-style: normal;
-    text-overflow: ellipsis; 
-    justify-content: initial;
-    text-align: left;
-}
-
-/*Estilos de la tabla: titulos del campo*/
-.data-titulo-nombre{
-    @include data-titulo();
-}
-
-.data-titulo-direccion{
-    @include data-titulo();
-}
-
-.data-titulo-representante{
-    @include data-titulo();
-}
-
-.data-titulo-fecha{
-    @include data-titulo();
-}
-
-.data-titulo-id{
-    @include data-titulo();
-}
-
-//estilos del campo
-@mixin data{
-    padding: 0 10px;
-    display: flex;
-    font-family: 'Barlow', sans-serif;
-    font-weight: 400;
-    font-style: normal;
-    overflow: hidden;
-    overflow: none;
-    text-overflow: ellipsis; 
-    justify-content: center;
-    text-align: center;
-    flex: 1; 
-}
-
 @mixin data-cliente{ 
-    @include data();
+    @include globales.data();
     height: 20px;
 }
 
-.data-cliente-nombre{
+.data{
     @include data-cliente();
-}
-
-.data-cliente-direccion{
-    @include data-cliente();
-}
-.data-cliente-representante{
-    @include data-cliente();
-}
-
-.data-fecha{
-    @include data();
-}
-
-.data-id{
-    @include data();
 }
 
 .content-cliente{
@@ -220,54 +119,47 @@ table{
     max-height: 71%; 
  }
 
-.fila-datos{
-    display: flex;
-    table-layout: fixed;
-    flex-direction: row; 
-    border: 1px solid transparent;
-    justify-content:space-around;
-    align-content: initial;
-    align-items: center;
-    background-color: #d9d9d9;
-    border-radius: 20px;
-    margin: 0.2em 0;
-    width: 100%;
-    padding: 0.2em;
-    padding-right: 1%;
-    cursor: pointer;
-    &:hover{
-        border: 1px solid #1800ad;
-    }
-    &:active{
-        background-color: #a6a6a6;
-    }
- }
 
  #img-eliminar{
     width: 20px;
     height: 20px;
     border-radius: 50px;
  }
-
- svg{ 
-    pointer-events: auto;
-    z-index: 100;
-    width:20px;
-    height:20px;
-    fill: black;
-    &:hover{
-        fill:red; //cambia el color 
-    }
- }
-
  
 @media(min-width:300px) and (max-width:600px){
-    .data-cliente-direccion, .data-cliente-representante, .data-fecha, .data-id, .data-titulo-representante,
+    .data-cliente-direccion, .data-cliente-representante, .data-fecha, .data-titulo-representante,
+    .data-titulo-direccion, .data-titulo-fecha{
+        display: none;
+    }
+
+    .cantidad-buscar{
+        width: 100%;
+        flex-direction: column;
+        justify-content: center;
+        align-content: center;
+    }
+
+    .content-buscar, .input-buscar{
+        height: 30px;
+        width: 100%;
+    }
+ 
+    .data{
+        text-align: center;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+
+@media(max-width:400px){
+    .data-cliente-direccion, .data-cliente-representante, .data-id, .data-fecha, .data-titulo-representante,
     .data-titulo-direccion, .data-titulo-fecha, .data-titulo-id{
         display: none;
     }
 
 }
+
 
 @media(min-width:600px) and (max-width:800px){
     .data-cliente-direccion, .data-id,
@@ -275,6 +167,17 @@ table{
         display: none;
     }
 
+    .cantidad-buscar{
+        width: 100%;
+        align-items: center;
+        justify-content: center;
+        flex-direction: row;
+ 
+    }
+
+    .boton-ingreso{
+        max-width: 50%;
+    }
 }
 
 @media(min-width:800px) and (max-width:1000px){

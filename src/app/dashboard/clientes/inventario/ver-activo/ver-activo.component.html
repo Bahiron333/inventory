@@ -1,0 +1,85 @@
+<div class="main-ver-activo">
+    <p class="titulo">{{activo.nombre}}</p>
+    <h2 class="text-subtitle">Informacion</h2>
+    <div class="content-inf">
+        <div>
+            <h3 class="text-title">Nombre</h3>
+            <label class="text-inf">{{activo.nombre}}</label>
+        </div>
+        <div>
+            <h3 class="text-title">ID</h3>
+            <label class="text-inf">{{activo.id}}</label>
+        </div>
+        <div>
+            <h3 class="text-title">Tipo</h3>
+            <label class="text-inf">{{activo.tipo}}</label>
+        </div>
+        <div>
+            <h3 class="text-title">Fecha</h3>
+            <label class="text-inf">{{activo.fecha}}</label>
+        </div>
+         <div>
+            <h3 class="text-title">Cantidad Usuarios</h3>
+            <label class="text-inf">{{activo.cantidad_usuarios}}</label>
+        </div>
+        <div>
+            <h3 class="text-title">Estado</h3>
+            <label class="text-inf">{{activo.estado}}</label>
+        </div>
+    </div>
+    <h2 class="text-subtitle">Campos Adicionales</h2>
+    <div class="content-campo-adicionales">
+        @for(campo of Filtrados(camposAdicionales); track trackById($index, activo)){
+            <div>
+                <h3 class="text-title">{{campo.nombre}}</h3>
+                <p class="text-inf">{{campo.valor}}</p>
+            </div>
+        }
+    </div>
+     @if(users){
+        <div class="usuarios">
+                <div class="encabezado-user">
+                    <h2 class="text-subtitle">Usuarios</h2>
+                    <div class="content-buscar">
+                        <input [(ngModel)]="textBuscar" class="input-buscar" type="text" placeholder="Buscar">
+                        <img class="svg-busqueda" src="busqueda.svg" alt="busqueda">
+                    </div>
+                    <div class="content-user-agregados">
+                        <p class="text-inf">Agregados</p>
+                        <p class="text-inf">{{userAgregados}}</p>
+                        <button class="button-ver">Ver</button>
+                    </div>
+                </div>
+                
+                <div class="fila-titulo">
+                    <th class="data-row data-nombre">Nombre</th>
+                    <th class="data-row">Estado</th>
+                    <th class="data-row">correo</th>
+                    <th class="data-row">Id</th>
+                    <th></th>
+                </div> 
+                <hr class="linea">
+                <div>
+                    @for(user of Filtrados(users); track trackById($index, user)){
+                            <div class="content-user">
+                                <div class="fila-datos">            
+                                    <img src="usuario.svg" class="foto-ciente" alt="">
+                                    <th class="data-row" style="margin-left: 2%;">{{user.nombre |titlecase}}</th>
+                                    <th class="data-row">{{user.estado |titlecase}}</th>
+                                    <th class="data-row">{{user.correo}}</th>
+                                    <th class="data-row">{{user.id}}</th>    
+                                </div>
+                            </div>
+                    }
+                </div>
+            </div>
+    }@else{
+        <p class="text-no-user">No hay usuarios en el inventario</p>
+    }
+    <br>
+    <br>
+     <div class="content-button">
+        <button  class="button-aceptar">Guardar</button>
+        <button  class="button-cancelar">Cancelar</button>
+    </div>
+</div>

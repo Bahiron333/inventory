@@ -1,0 +1,45 @@
+<div id="main-crear-activo">
+    <h1 id="titulo-registro">Crear activo</h1>
+    <form>
+        <div id="column-one">
+           <div class="content-input">
+                <p class="text-inf">Nombre</p>
+                <input type="text" class="estilo-data" name="nombre" id="nombre" [(ngModel)]="activo.nombre" placeholder="Nombre">
+                <p class="text-inf">Tipo</p>
+                <select name="" class="estilo-data" id="" [(ngModel)]="activo.tipo" name="tipo">
+                    <option value="hardware">Hardware</option>
+                    <option value="Software">Sofware</option>
+                </select>
+           </div>
+        </div>
+        <div id="colum-two">
+                <div class="agregar-campo">
+                    <div class="content-mun-min">
+                        <label  class="text-inf" for="numero-minimo-stock">Numero minimo stock</label>
+                        <input class="input-mun-min" type="number" name="numero-minimo-stock" id="" [(ngModel)]="activo.numero_minimo_stock" min="0">
+                    </div>
+                    <p class="text-inf">Agregar campo</p>
+                    <input type="text" class="estilo-data" name="" id="" [(ngModel)]="valorCampo" placeholder="Nuevo campo" name="valor-campo">
+                <div class="content-checkbox">
+                    <button class="boton-agregar" (click)="agregarCampo()">Agregar</button>
+                    <div class="content-checkbox">
+                        <input id="input-check" type="checkbox" [(ngModel)]="campoMultiple" name="valor-multiple">
+                        <label class="text-inf" for="valor-multiple">Valor multiple</label>
+                    </div>
+                </div>
+            </div>
+            <div class="content-campos">
+                <p class="text-inf">Campos</p>
+                <div class="campos">
+                    @for(campo of activo.campos_adicionales; track campo.nombre){
+                        <p class="valor-campo">{{campo.valorCampo}}</p>
+                    }
+                </div>
+            </div>
+        </div>
+        <div id="column-three">
+            <button class="button-aceptar" (click)="EnviarInformacion()">Aceptar</button>
+            <button class="button-cancelar" (click)="Cancelar()">Cancelar</button>
+        </div>
+   </form>
+</div>

@@ -30,9 +30,17 @@ export class DashboardService {
     return this.http.put(`http://localhost:3000/clientes/unirse/${idUser}`,{codigo},{headers:this.headers});
   }
 
-  
-  createCliente(dataCliente:any,idUser:string):Observable<any>{
-    return this.http.post(`http://localhost:3000/clientes/create/${idUser}`,{dataCliente},{
+  createCliente(dataCliente:any,idUser:string, foto:any):Observable<any>{
+    //convertimos los datos en formData para el procesamiento en node con mulde
+    const datos = new FormData();
+
+    Object.entries(dataCliente).forEach(([key,value])=>{
+      datos.append(key,String(value));
+    });
+
+    datos.append('foto',foto)
+
+    return this.http.post(`http://localhost:3000/clientes/create/${idUser}`,datos,{
       headers: this.headers
     })
   }

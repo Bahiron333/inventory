@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ClienteService } from '../../../services/cliente/cliente.service';
 import { ActivatedRoute } from '@angular/router';
+import { FotoService } from '../../../services/foto/foto.service';
+import { ComponenteBase } from '../../../componentBase';
 
 @Component({
   selector: 'app-informacion',
@@ -8,30 +10,31 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './informacion.component.html',
   styleUrl: './informacion.component.scss'
 })
-export class InformacionComponent implements OnInit {
+export class InformacionComponent extends ComponenteBase implements OnInit {
 
-  constructor(private clienteService:ClienteService, private routerActive:ActivatedRoute){
+  constructor(private clienteService:ClienteService,routerActive:ActivatedRoute, fotoService:FotoService){
+    super(routerActive,fotoService)
   }
 
   ngOnInit(): void {
     
-    let id:any = null;
-    let idCliente:any = null;
-
     //accede a las rutas de las variables del padre y del hijo
-    this.routerActive.parent?.paramMap.subscribe(params=>{
+    this.router?.parent?.paramMap.subscribe(params=>{
       //obtenemos los datos de la ruta url
-      id=params.get('id');
-      idCliente = params.get('idcliente');
+      this.id=params.get('id');
+      this.idCliente = params.get('idcliente');
       //llamamos al servicio para obtener los datos del servidor
-      this.clienteService.InformacionCliente(id,idCliente).subscribe({
+      this.clienteService.InformacionCliente(this.id,this.idCliente).subscribe({
       next: (data:any)=>{
         this.dataInformacion = data.cliente;
-        console.log(data.cliente);
+        this.roleUSer = data.userRole; 
       }, error: err => console.log(err.error)
     })
     }) 
 
   }
+ 
   protected dataInformacion: any = null;
+  protected roleUSer:any = null;
+   
 }

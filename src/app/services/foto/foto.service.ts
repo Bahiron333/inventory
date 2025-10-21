@@ -25,5 +25,11 @@ export class FotoService {
     return this.foto;     
   }
   
+  obtenerImagen = (idUser:any) => `http://localhost:3000/foto/${idUser}`;
+
+  ImagenDefault = () => "icono-foto.png";
+  
+  ImagenDefaultLocal = (imagen:any) => imagen;
+  
   private foto: any;
 }

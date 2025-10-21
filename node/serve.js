@@ -23,6 +23,8 @@ app.post('/auth/login',(req,res)=>{
 
 app.post('/auth/register',(req,res)=>{
     const {data} = req.body;
+
+    nombre = data.
     console.log(data);
     return res.status(200).json("Los mensaje se cargaron exitosamente")
 });
@@ -135,6 +137,305 @@ app.get('/user/:id/cliente/:idcliente/informacion',(req,res)=>{
   }
 
   return res.status(200).json({cliente});
+});
+
+app.get('/user/:id/cliente/:idcliente/users',(req,res)=>{
+
+  const users = [
+    {
+      id:'9GFG9GF8F98GF90GFGF90GFG09GFGF09',
+      nombre: 'bahiron abraham dueñas jimenez',
+      estado: 'Activo',
+      departamento: 'Desarrollo en el area de comercio e industrias de la burogracias',
+      activos: 124521875648646536522,
+      licencias: 1245545646546542136522
+    },
+     {
+      id:'231',
+      nombre: 'Miguel',
+      estado: 'desactivado',
+      departamento: 'Desarrollo',
+      activos: 7,
+      licencias: 4
+    },
+     {
+      id:'869',
+      nombre: 'Darwin',
+      estado: 'activo',
+      departamento: 'Anality Data',
+      activos: 3,
+      licencias: 2
+    }
+  ]
+
+  console.log("Hola")
+  return res.status(200).json({users})
+});
+
+
+app.get('/user/:id/cliente/:idcliente/miembros',(req,res)=>{
+
+  const miembros = [
+    {
+      id:'9GFG9GwF8F98',
+      foto: 'https://www.istockphoto.com/resources/images/PhotoFTLP/P1-regional-iStock-1985150440.jpg',
+      nombre: 'bahiron abraham dueñas jimenez',
+      estado: 'Activo',
+      area: 'Desarrollo en el area de comercio e industrias de la burogracias',
+      rol: ['admin'],
+      correo: 'bahiron@gmail.com'
+    },
+        {
+      id:'9GFG59GF8F98',
+      foto: 'https://www.istockphoto.com/resources/images/PhotoFTLP/P1-regional-iStock-1985150440.jpg',
+      nombre: 'bahiron abraham dueñas jimenez',
+      estado: 'Activo',
+      area: 'Desarrollo en el area de comercio e industrias de la burogracias',
+      rol: ['admin'],
+      correo: 'bahiron@gmail.com'
+    },
+        {
+      id:'9GFG89GF8F98',
+      foto: 'https://www.istockphoto.com/resources/images/PhotoFTLP/P1-regional-iStock-1985150440.jpg',
+      nombre: 'bahiron abraham dueñas jimenez',
+      estado: 'Activo',
+      area: 'Desarrollo en el area de comercio e industrias de la burogracias',
+      rol: ['admin'],
+      correo: 'bahiron@gmail.com'
+    },
+  ]
+
+  return res.status(200).json({miembros})
+});
+
+app.get('/cliente/:id/miembro/:idMiembro',(req,res)=>{
+  const miembro = {
+    id: '1223365',
+    nombre: 'Bahiron Abraham Dueñas Jimenez',
+    correo: 'bahiron39macro@gmail.com',
+    estado: 'Activo',
+    suspendido: true,
+    rol: 'admin',
+    area: 'IT soporte',
+    permisos: [
+      usuarios = {
+        ver: true,
+        modificar: true,
+        eliminar:true
+      },
+       inventario = {
+        ver: true,
+        modificar: false,
+        eliminar:true
+      },
+       miembros = {
+        ver: true,
+        modificar: true,
+        eliminar:true
+      }
+    ]
+  }
+
+  return res.status(200).json({miembro});
+});
+
+app.put('/cliente/:idCliente/miembro',(req,res)=>{
+  console.log(req.body.miembro);
+  return res.status(200).json("listo");
+});
+
+app.delete('/cliente/:idCliente/miembro/:id_miembro',(req,res)=>{
+  res.status(200).json("El miembro fue eliminado exitosamente");
+});
+
+app.get('/cliente/:idCliente/inventario/activos',(req,res)=>{
+
+  const hardware = [
+    {
+      id: 256,
+      tipo: 'Computadoras',
+      cantidad: 752,
+      numero_minimo_stock: 3
+    },
+        {
+      id: 256,
+      tipo: 'Computadoras',
+      cantidad: 752,
+      numero_minimo_stock: 3
+    },
+        {
+      id: 256,
+      tipo: 'Computadoras',
+      cantidad: 752,
+      numero_minimo_stock: 3
+    },
+        {
+      id: 256,
+      tipo: 'Computadoras',
+      cantidad: 752,
+      numero_minimo_stock: 3
+    },
+        {
+      id: 256,
+      tipo: 'Computadoras',
+      cantidad: 752,
+      numero_minimo_stock: 3
+    },
+        {
+      id: 256,
+      tipo: 'Computadoras',
+      cantidad: 752,
+      numero_minimo_stock: 3
+    },
+        {
+      id: 256,
+      tipo: 'Computadoras',
+      cantidad: 752,
+      numero_minimo_stock: 3
+    },
+        {
+      id: 256,
+      tipo: 'Computadoras',
+      cantidad: 752,
+      numero_minimo_stock: 3
+    },
+        {
+      id: 256,
+      tipo: 'Computadoras',
+      cantidad: 752,
+      numero_minimo_stock: 300
+    },
+        {
+      id: 256,
+      tipo: 'Computadoras',
+      cantidad: 204,
+      numero_minimo_stock: 200
+    },
+
+        {
+      id: 256,
+      tipo: 'Computadoras',
+      cantidad: 752,
+      numero_minimo_stock: 700
+    },
+    
+        {
+      id: 256,
+      tipo: 'Computadoras',
+      cantidad: 752,
+      numero_minimo_stock: 800
+    },
+    
+        {
+      id: 256,
+      tipo: 'Computadoras',
+      cantidad: 752,
+      numero_minimo_stock: 800
+    },
+    {
+      id: 756,
+      tipo: 'Model',
+      cantidad: 759,
+      numero_minimo_stock: 3
+    },
+        {
+      id: 266,
+      tipo: 'Servidores',
+      cantidad: 755,
+      numero_minimo_stock: 3
+    },
+   {
+      id: 26,
+      tipo: 'Servidores',
+      cantidad: 755,
+      numero_minimo_stock: 3
+    },
+  ]
+  const software = [
+    {
+      id: 156,
+      tipo: 'office',
+      cantidad: 15,
+      numero_minimo_stock: 3
+    },
+        {
+      id: 7566,
+      tipo: 'Power BI',
+      cantidad: 75,
+      numero_minimo_stock: 5
+    },
+        {
+      id: 2626,
+      tipo: 'Anydesk',
+      cantidad: 775,
+      numero_minimo_stock: 6
+    },
+  ]
+
+  return res.status(200).json({hardware, software});
+});
+
+app.get('/cliente/:idCliente/inventario/:categoria/:tipoActivo',(req,res)=>{
+
+  const categoria = req.params.categoria;
+  const tipo = req.params.tipoActivo;
+
+  const activosHardware=[
+    {
+      nombre: 'hp Pavilion 2608',
+      id: '890',
+      estado: 'stock',
+      usuario: 'Bahiron Dueñas',
+      correo: 'bahiron39@macro.com',
+      fecha: '12/09/2024'
+    },
+        {
+      nombre: 'Dell Latitude 320',
+      id: '850',
+      estado: 'activo',
+      usuario: '',
+      correo: '',
+      fecha: '12/09/2023'
+    },
+    {
+      nombre: 'router tp-link',
+      id: '453',
+      estado: 'activo',
+      usuario: 'Diego salazar',
+      correo: 'colsenter@gmail.com',
+      fecha: '12/09/2022'
+    }
+  ]
+
+  const activosSoftware=[
+    {
+      nombre: 'Anydesk',
+      id: '463',
+      estado: 'activo',
+      usuario: 'Andres alvares',
+      correo: 'andres.hola@gmail.com',
+      fecha: '12/09/2022'
+
+    },
+
+    {
+      nombre: 'office',
+      id: '763',
+      estado: 'activo',
+      usuario: 'karen tatiana',
+      correo: 'karen.buho@gmail.com',
+      fecha: '12/09/2025'
+
+    },
+  ]
+
+  let activo = null;
+  tipo=="software" ? activo = activosSoftware : activo = activosHardware;
+
+  console.log(categoria);
+  console.log(tipo)
+  return res.status(200).json({activo});
+
 });
 
 app.listen(3000, () => {

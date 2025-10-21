@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { DashboardService } from '../services/Dashboard/dashboard.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { FotoService } from '../services/foto/foto.service';
+import { AuthService } from '../services/Auth/auth.service';
+import { ComponenteBase } from '../componentBase';
 
 @Component({
   selector: 'app-dashboard',
@@ -8,16 +11,15 @@ import { ActivatedRoute, Router } from '@angular/router';
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
-export class DashboardComponent implements OnInit{
+export class DashboardComponent extends ComponenteBase implements OnInit{
 
-  constructor(private dashboardService:DashboardService, private router:ActivatedRoute, private routerNavigate:Router){}
+  constructor(private dashboardService:DashboardService, router:ActivatedRoute, private routerNavigate:Router, fotoService:FotoService,
+              private authService:AuthService
+  ){
+    super(router,fotoService);
+  }
 
   ngOnInit(): void {
-
-    //obtenemos el id del usuario por medio de la ruta
-    this.router.paramMap.subscribe(params=>{
-      this.id = params.get('id');
-    });
 
     //enviamos el id del usuario y el servidor trae los clientes asociados con el id
     this.dashboardService.informacionClientes(this.id).subscribe({
@@ -25,23 +27,19 @@ export class DashboardComponent implements OnInit{
         this.empresas = data.clientes;
         this.user = data.user;
         this.cantidadclientes = this.empresas.length;
-     
-        //esta parte controla que solo el administrador cree usuarios 
-        if(this.user['role']=="admin") {
-            console.log(this.user)
-            this.agregarCliente=true;
-            this.eliminarCliente=true;
-        }else{
-            this.agregarCliente=false;
-            this.eliminarCliente=false;
-        }
       },
       error: ()=> console.log("Error la obtener los datos") 
      })
   }
 
   routerCliente(idCliente:string){ 
-    this.routerNavigate.navigate(['dashboard',this.id,'cliente',idCliente, 'informacion']); 
+    this.authService.isSuspendido(idCliente,this.id).then((suspendido)=>{
+      if(!suspendido){
+        this.routerNavigate.navigate(['dashboard',this.id,'cliente',idCliente, 'informacion']); 
+      }else{
+        alert("su usuario a sido suspendido de esta empresa, para mas informacion, comunicarse con el administrador")
+      }
+    });
   }
 
   mostrarVentanaAgregar(){
@@ -63,11 +61,11 @@ export class DashboardComponent implements OnInit{
   unierseCliente(){
     this.dashboardService.unirseCliente(this.codigo, this.id).subscribe({
       next:(data)=>{
-        alert("Se agrego el cliente exitosamente");
+        alert(data.message);
         this.empresas.push(data.empresa);
         this.cantidadclientes = this.empresas.length;
       },error: (err)=>{
-        alert(err.error);
+        alert("hubo un error en el procesamiento de los datos");
       }
     })
   }
@@ -76,38 +74,17 @@ export class DashboardComponent implements OnInit{
     this.routerNavigate.navigate(['dashboard',this.id,'create'])
   }
 
-  get clientesFiltrados(){
-    if(this.textBuscar==''){
-      return this.empresas;
-    }else{
-      //filtra los datos en la busqueda por el nombre, representante o id
-      return this.empresas.filter((c:any)=>
-          c.nombre.toLowerCase().includes(this.textBuscar.toLowerCase()) || 
-          c.id.toLowerCase().includes(this.textBuscar.toLowerCase()) ||
-          c.representante.toLowerCase().includes(this.textBuscar.toLowerCase())
-    );
-    }
-  }
-
-  trackById(index:number, cliente:any):number{
-    return cliente.id;
-  }
-   
   //datos para unirse a una nueva empresa 
   protected codigo:string = "";
 
   //datos de la empresa
   protected empresas:any = null;
   protected cantidadclientes:number = 0;
-  protected id:any = null;
 
   //variables de control de flujo
   protected ControlMostrarVentanaAgregar:boolean = false;
   protected agregarCliente:boolean = false;
   protected eliminarCliente:boolean = false;
   protected user:any = null;
-
-  //busqueda
-  protected textBuscar:string = "";
 
 }

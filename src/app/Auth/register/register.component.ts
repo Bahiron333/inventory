@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/Auth/auth.service';
 import { FotoService } from '../../services/foto/foto.service';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-register',
@@ -38,38 +39,46 @@ export class RegisterComponent {
   Registrarse(){
     //valida los datos antes de enviar
     if(this.validarInformacion()){
-      this.guardarInfomacion();
-      this.enviarInformacionServidor(this.data);
+      this.enviarInformacionServidor(this.guardarInfomacion());
     }else{
       alert("Corriga los errores antes de enviar los datos");
     }
   }
 
   guardarInfomacion(){
-
-      //guarda la foto en formato adecuado para envio por API
-      const fileData = new FormData();
-      fileData.append('foto',this.foto);
-
       //guardamos la informacion
       this.data = {
         nombre: this.register.get('nombre')?.value,
-        correo:this.register.get('telefono')?.value,
+        correo:this.cuenta.get('correo')?.value,
         direccion:this.register.get('direccion')?.value,
-        telefono:this.cuenta.get('correo')?.value,
-        password: this.register.get('password')?.value,
-        foto: fileData
+        telefono:this.register.get('telefono')?.value,
+        password: this.register.get('password')?.value
       }
+
+      const guardarArchivo = new FormData();
+
+      guardarArchivo.append('nombre',this.data.nombre);
+      guardarArchivo.append('correo',this.data.correo);
+      guardarArchivo.append('direccion',this.data.direccion);
+      guardarArchivo.append('telefono',this.data.telefono);
+      guardarArchivo.append('password',this.data.password);
+      guardarArchivo.append('foto',this.foto);
+
+      return guardarArchivo;
   }
 
   enviarInformacionServidor(datos:any){
+    for (let pair of datos.entries()) {
+  console.log(pair[0] + ':', pair[1]);
+}
       this.Auth.Register(datos).subscribe({
         next:()=>{
           console.log("datos enviados exitosamente");
           this.router.navigate(['login']);
         },
-        error:()=>{
+        error:(err)=>{
           alert("Error al enviar los datos");
+          console.log(err)
         }
       })
   }
@@ -106,7 +115,7 @@ export class RegisterComponent {
   }
 
   validarCodigo(){
-     this.Auth.verificarCodigo(this.cuenta.get('codigo')?.value).subscribe({
+     this.Auth.verificarCodigo(this.cuenta.get('codigo')?.value,this.cuenta.get('correo')?.value).subscribe({
       next:(data:any)=>{
         this.EstadoBotonRegistro = data.permiso;
       },
@@ -118,7 +127,7 @@ export class RegisterComponent {
   }
   
   subirImagen(event:any){
-        //de toda la lista de archivo seleccionamos el primero
+    //de toda la lista de archivo seleccionamos el primero
     const file:File = event.target.files[0];
 
     //si se seleciono algun archivo 
@@ -131,11 +140,11 @@ export class RegisterComponent {
 
     //guardamos el archivo 
     this.foto = file;
-
     //convertimos la foto en url para que pueda ser mstrada
     const reader = new FileReader;
     reader.onload = e => this.vistaImagen = reader.result; //lee el archivo
     reader.readAsDataURL(this.foto); //convierte el archivo en una url
+
   }
 
   //informacion
