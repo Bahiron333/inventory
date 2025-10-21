@@ -12,6 +12,7 @@ import { ModificarMiembroComponent } from './miembros/modificar-miembro/modifica
 import { ListaActivosComponent } from './inventario/lista-activos/lista-activos.component';
 import { CrearActivoComponent } from './inventario/crear-activo/crear-activo.component';
 import { VerActivoComponent } from './inventario/ver-activo/ver-activo.component';
+import { CrearUsuarioComponent } from './users/crear-usuario/crear-usuario.component';
 
 
 
@@ -25,7 +26,8 @@ import { VerActivoComponent } from './inventario/ver-activo/ver-activo.component
     ModificarMiembroComponent,
     ListaActivosComponent,
     CrearActivoComponent,
-    VerActivoComponent
+    VerActivoComponent,
+    CrearUsuarioComponent
   ],
   imports: [
     CommonModule,

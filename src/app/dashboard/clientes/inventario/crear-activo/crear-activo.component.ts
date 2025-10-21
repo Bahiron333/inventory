@@ -22,8 +22,6 @@ export class CrearActivoComponent implements OnInit{
 
   agregarCampo(){
     if(this.valorCampo!=""){
-     
-
       this.activo.campos_adicionales.push({
         "valorCampo" : this.valorCampo,
         "campoMultiple": this.campoMultiple

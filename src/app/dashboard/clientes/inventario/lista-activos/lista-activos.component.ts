@@ -65,6 +65,7 @@ export class ListaActivosComponent extends ComponenteBase{
     if(this.comprobarValor()){
         this.activosEnviar["nombre"] = this.nombre;
         this.activosEnviar["estado"] = this.estado;
+        this.activosEnviar["cantidad_usuarios"] = this.cantidad_usuarios;
         this.activosEnviar["campos_adicionales"] = this.campoAdicionalNuevoValor
         this.inventarioService.NewActivo(this.idCliente,this.id_inventario,this.activosEnviar).subscribe({
           next:(data:any)=>{
@@ -118,6 +119,7 @@ export class ListaActivosComponent extends ComponenteBase{
   protected nombre: string ="";
   protected estado:string = "activo";
   protected activosEnviar:any = {};
+  protected cantidad_usuarios:number = 1;
   //nuevos campos
   protected campoAdicionalNuevoValor:any = {};
   protected contador:any = [];

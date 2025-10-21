@@ -11,19 +11,19 @@ import { ClienteService } from '../../../../services/cliente/cliente.service';
   templateUrl: './ver-activo.component.html',
   styleUrl: './ver-activo.component.scss'
 })
-export class VerActivoComponent extends UsersComponent implements OnInit{
+export class VerActivoComponent extends ComponenteBase implements OnInit{
 
-  constructor(private inventarioService:InventarioService, router:ActivatedRoute, clienteService:ClienteService){
-    super(clienteService,router);
+  constructor(private inventarioService:InventarioService, router:ActivatedRoute){
+    super(router);
   }
 
-  override ngOnInit(): void {
+  ngOnInit(): void {
        
     this.router?.paramMap.subscribe(params=>{
        this.idActivo = params.get('idActivo');
     });
 
-      this.inventarioService.getActivo(this.idCliente,this.idActivo).subscribe({
+    this.inventarioService.getActivo(this.idCliente,this.idActivo).subscribe({
         next:(activo:any)=>{
           this.activo = activo.activoEnviar;
           Object.entries( this.activo.campos_adicionales[0]).forEach(([key,value])=>{
@@ -35,10 +35,15 @@ export class VerActivoComponent extends UsersComponent implements OnInit{
         },
         error:(err) => console.log(err.error)
     });
+
   }
 
   protected activo:any = null;
   protected idActivo:any = null;
   protected camposAdicionales:any = [];
+
+  //usuarios 
+  protected userAgregados:number = 0;
+  protected users:any = null;
   
 }

@@ -38,6 +38,11 @@ export class InventarioService {
   getActivo(idCliente:string, id:string):Observable<any>{
     return this.http.get(`http://localhost:3000/${idCliente}/activo/${id}`,{headers: this.headers});
   }
+
+  
+  getActivosDisponibles(idCliente:string, tipo:string):Observable<any>{
+    return this.http.get(`http://localhost:3000/${idCliente}/activos/${tipo}`,{headers: this.headers});
+  }
   private headers:any = null;
   private token = localStorage.getItem('token');
 }

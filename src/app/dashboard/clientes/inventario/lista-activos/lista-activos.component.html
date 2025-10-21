@@ -11,6 +11,10 @@
                         <p class="text-campo">Nombre</p>
                         <input type="text" class="datos" name="nombre" id="" placeholder="Nombre" [(ngModel)]="nombre">
                    </div>
+                   <div class="content-nombre">
+                        <p class="text-campo">Cantidad de usuarios</p>
+                        <input type="number" class="datos" name="cantidad_usuarios" id="" [(ngModel)]="cantidad_usuarios" min="1">
+                   </div>
                     <div>
                         <p class="text-campo">Estado</p>
                         <select name="estado" id="" class="opciones-multiples" [(ngModel)]="estado">

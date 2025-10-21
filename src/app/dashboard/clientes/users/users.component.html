@@ -1,13 +1,18 @@
 <div class="main-users">
+    @if(CrearUsuario){
+        <div class="content-crear-usuario">
+            <app-crear-usuario (cerrarVentana)="CerrarVentanaCrearUsuario = false"></app-crear-usuario>
+        </div>    
+    }
     <p class="titulo">Usuarios</p>
     <div class="column-initial">
-        <button class="boton-ingresar">Nuevo</button>
+          
+        <button class="boton-ingresar" (click)="CrearUsuario = true">Nuevo</button>
         <div class="content-buscar">
             <input [(ngModel)]="textBuscar" class="input-buscar" type="text" placeholder="Buscar">
             <img class="svg-busqueda" src="busqueda.svg" alt="busqueda">
         </div>
     </div>
-
     <div class="fila-titulo">
         <th width="20px"></th>
         <th class="data-row data-nombre">Nombre</th>
