@@ -25,9 +25,12 @@ export class UsersComponent extends ComponenteBase implements OnInit{
   }
 
   routerInfUsers(idUser:string){
-
+    this.mostrarInfUsuario=true;
+    this.user = this.users.find((u:any) => u.id === idUser);
   } 
   
+  cerrarVentanaInfUsuario = () => this.mostrarInfUsuario=false;
+
   eliminarUsers(id:string){
 
   }
@@ -45,5 +48,7 @@ export class UsersComponent extends ComponenteBase implements OnInit{
   }
 
   protected users:any = [];
+  protected user:any = null;
   protected crearUsuario:boolean = false;
+  protected mostrarInfUsuario:boolean = false;
 }

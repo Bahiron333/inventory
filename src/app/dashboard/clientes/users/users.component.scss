@@ -47,10 +47,9 @@
 }
 
 //////////contenedor miembro es la parte donde se muestra la informacion del usuario
-.content-crear-usuario{
+.content-crear-usuario, .content-ver-usuario{
     position: absolute;
     height: 80%;
-    width: 70%;
     left: 60%;
     top: 55%;
     transform: translate(-50%, -50%);
@@ -60,5 +59,14 @@
     background-color: white;
     padding: 1em;
 } 
+
+.content-crear-usuario{
+    width: 70%;
+}
+.content-ver-usuario{
+    width: 30%;
+} 
+
+
 
 
