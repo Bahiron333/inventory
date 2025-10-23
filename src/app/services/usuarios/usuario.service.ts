@@ -21,6 +21,14 @@ export class UsuarioService {
   UserCliente(id:string,idCliente:string):Observable<any>{
     return this.http.get(`http://localhost:3000/user/${id}/cliente/${idCliente}/users`,{headers: this.headers});
   }
+
+  verInfUsuario(id:string,idCliente:string){
+    return this.http.get(`http://localhost:3000/cliente/${idCliente}/${id}/user/ver`,{headers: this.headers});
+  }
+
+  updateUser(userInf:any,idCliente:string){
+    return this.http.put(`http://localhost:3000/cliente/${idCliente}/user/update`,{userInf},{headers: this.headers});
+  }
   
   private headers:any = null;
   private token = localStorage.getItem('token');

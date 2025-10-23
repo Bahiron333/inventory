@@ -7,44 +7,71 @@
     @if(mostrarInfUsuario&&!CrearUsuario){
         <div class="content-ver-usuario">
             <svg  data-name="Layer 1" viewBox="0 0 24 24" width="25px" height="25px" fill="red" style="cursor: pointer; position:absolute" (click)="cerrarVentanaInfUsuario()"><path d="m12,0C5.383,0,0,5.383,0,12s5.383,12,12,12,12-5.383,12-12S18.617,0,12,0Zm4.707,15.293l-1.414,1.414-3.293-3.293-3.293,3.293-1.414-1.414,3.293-3.293-3.293-3.293,1.414-1.414,3.293,3.293,3.293-3.293,1.414,1.414-3.293,3.293,3.293,3.293Z"/></svg>
-            <p>Informacion Usuario</p>
-            <div>
-                <p>Nombre</p>
-                <p>{{user.nombre}}</p>
-            </div>
-            <div>
-                <p>Direccion</p>
-                <p>{{user.direccion}}</p>
-            </div>
-            <div>
-                <p>Estado</p>
-                <p>{{user.estado}}</p>
-            </div>
-            <div>
-                <p>Departamento</p>
-                <p>{{user.departamento}}</p>
-            </div>
-            <div>
-                <p>Correo</p>
-                <p>{{user.correo}}</p>
-            </div>
-            <div>
-                <p>Permisos</p>
-                <button>Ver</button>
-            </div>
-                        <div class="ver-activo">
-                <p  class="content-text-cantidad-activo">Hardware</p>
-                <div class="content-text-cantidad-activo">
-                    0
+            <div class="content-inf">
+                <p id="titulo-inf-user">Informacion Usuario</p>
+                <div class="column-row">
+                    <div class="content-inf-text">
+                        <p class="text-informacion-titulo">Nombre</p>
+                        <input [class]="editarInfUser ? 'datos' : 'text-informacion'" type="text" name="nombre" id="" [(ngModel)]="user.nombre" [disabled]="!editarInfUser">
+                    </div>
+                    <div class="content-inf-text">
+                        <p class="text-informacion-titulo">Fecha creacion</p>
+                        <p>{{user.fecha}}</p>
+                    </div>
                 </div>
-                <button class="button-ver" >Ver</button>
-            </div>
-            <div class="ver-activo">
-                <p class="content-text-cantidad-activo">Software</p>
-                <div class="content-text-cantidad-activo">
-                    0
+               <div class="column-row">
+                    <div class="content-inf-text">
+                        <p class="text-informacion-titulo">Direccion</p>
+                        <input [class]="editarInfUser ? 'datos' : 'text-informacion'" type="text" name="direccion" id=""  [(ngModel)]="user.direccion" [disabled]="!editarInfUser">
+                    </div>
+                    <div class="content-inf-text">
+                        <p class="text-informacion-titulo">Estado</p>
+                        @if(!editarInfUser){
+                            <p class="text-informacion">{{user.estado}}</p>
+                        }@else {
+                            <select class="datos-multiples" name="estado" id="estado" [(ngModel)]="user.estado">
+                            @for(estado of estados; track estado){
+                                <option [value]="estado">{{estado}}</option>
+                            }
+                            </select>
+                        }
+                    </div>
+               </div>
+                <div  class="column-row">
+                    <div class="content-inf-text">
+                        <p class="text-informacion-titulo">Departamento</p>
+                        <input [class]="editarInfUser ? 'datos' : 'text-informacion'" type="text" name="departamento" id=""  [(ngModel)]="user.departamento" [disabled]="!editarInfUser">
+                    </div>
+                    <div class="content-inf-text">
+                        <p class="text-informacion-titulo">Correo</p>
+                        <input [class]="editarInfUser ? 'datos' : 'text-informacion'" type="text" name="correo" id=""  [(ngModel)]="user.correo" [disabled]="!editarInfUser">
+                    </div>
                 </div>
-                <button class="button-ver" >Ver</button>
+                <div>
+                    <p class="text-informacion-titulo">Permisos</p>
+                    <button>Ver</button>
+
+                   @if(editarInfUser){
+                        <button class="button-guardar" (click)="guardarInfUser()">Guardar</button>
+                   }@else {
+                        <button class="button-ver" (click)="Editar = true">Editar</button>
+                   }
+                </div>
+                    <p class="text-informacion-titulo">Activos</p>
+                    <div class="ver-activo">
+                        <p>Hardware</p>
+                        <div class="content-text-cantidad-activo">
+                           222222222222eeeeeeeeeeee22222222
+                        </div>
+                        <button class="button-ver" >Ver</button>
+                </div>
+                <div class="ver-activo">
+                    <p>Software</p>
+                    <div class="content-text-cantidad-activo">
+                        0
+                    </div>
+                    <button class="button-ver" >Ver</button>
+                </div>
             </div>
         </div>  
     }

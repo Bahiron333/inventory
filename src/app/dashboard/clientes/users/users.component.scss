@@ -3,7 +3,87 @@
 .main-users{
     height: calc(100vh - 50px);
     padding: 2em;
+    overflow: auto;
 }
+
+#titulo-inf-user{
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-weight: 600;
+    font-size: 1.5em;
+    text-align: center;
+    margin-bottom: 2em;
+}
+
+.content-inf-text{
+    display: flex;
+    flex-direction: column;
+}
+
+.column-row, .ver-activo{
+    display: flex;
+    flex-direction: row;
+    margin: 1em 0;
+}
+
+.ver-activo{
+    max-width: 80%;
+    justify-content: space-between;
+    text-wrap: wrap;
+}
+
+.content-text-cantidad-activo{
+    justify-content: center;
+    max-width: 20%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space:nowrap;
+    display: block;
+}
+
+.button-ver{
+    @include globales.botonIngreso;
+    width: 100px;
+    height: 25px;
+    padding: 0;
+}
+
+.button-guardar{
+    @include globales.botonValidar;
+    height: 25px;
+    width: 100px;
+    padding: 0;
+}
+
+.text-informacion-titulo, .text-informacion, .ver-activo{
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.text-informacion-titulo{
+    font-weight: 600;
+    font-size: 1.2em;
+}
+
+.text-informacion{
+    all:unset;
+    font-weight: 400;
+    font-size: 1.2em;
+    width: fit-content;
+}
+
+.datos{
+   @include globales.entradas;
+    max-width: 85%;
+    font-size: 1.1em;
+    margin-top: 0.5em;
+}
+
+.datos-multiples{
+    @include globales.entradas;
+    min-width: 200%;
+    font-size: 1.1em;
+    margin-top: 0.5em;
+}
+
 
 .boton-ingresar{ 
     @include globales.botonIngreso;
@@ -57,15 +137,20 @@
     border-radius: 20px;
     border: 5px solid #1800ad;
     background-color: white;
-    padding: 1em;
 } 
 
 .content-crear-usuario{
+    padding: 1em;
     width: 70%;
 }
 .content-ver-usuario{
-    width: 30%;
+    min-width: 30%;
+    padding: 0.5em;
 } 
+
+.content-inf{
+    padding: 1.5em;
+}
 
 
 

@@ -97,7 +97,6 @@ export class ListaActivosComponent extends ComponenteBase{
   cancelar = () => this.crearActivo=false; //cerrar ventana
 
   obtenerActivos(){
-
     this.inventarioService.getActivos(this.idCliente, this.id_inventario).subscribe({
       next:(activosDB:any)=>{
         console.log(activosDB)

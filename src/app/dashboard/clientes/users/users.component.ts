@@ -26,7 +26,10 @@ export class UsersComponent extends ComponenteBase implements OnInit{
 
   routerInfUsers(idUser:string){
     this.mostrarInfUsuario=true;
-    this.user = this.users.find((u:any) => u.id === idUser);
+    this.userService.verInfUsuario(idUser,this.idCliente).subscribe({
+      next:(usuario:any) => this.user = usuario.user,
+      error:(err) => console.log(err.error)
+    })
   } 
   
   cerrarVentanaInfUsuario = () => this.mostrarInfUsuario=false;
@@ -46,9 +49,25 @@ export class UsersComponent extends ComponenteBase implements OnInit{
   set CerrarVentanaCrearUsuario(valor:boolean){
     this.crearUsuario = false;
   }
+  
+  set Editar(valor:boolean) {
+    this.editarInfUser = valor
+  }
+
+  guardarInfUser(){
+    this.userService.updateUser(this.user, this.idCliente).subscribe({
+      next:() => this.editarInfUser = false,
+      error:(err) => console.log(err.error)
+    })
+  }
 
   protected users:any = [];
   protected user:any = null;
   protected crearUsuario:boolean = false;
   protected mostrarInfUsuario:boolean = false;
+  //es para editar la informacion del usuario
+  protected editarInfUser:boolean = false;
+  //estados del usuario
+  protected estados = ["activo","suspendido","vacaciones","Inactivo"]
+  
 }

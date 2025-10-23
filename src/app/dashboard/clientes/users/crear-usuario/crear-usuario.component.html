@@ -41,9 +41,9 @@
             <div class="content-estado">
                 <p class="text-inf">Estado</p>
                 <select class="estilo-data" name="estado" id="estado" [(ngModel)]="infUsuario.estado">
-                    <option value="activo">Activo</option>
-                    <option value="suspendido">Suspendido</option>
-                    <option value="vacaciones">vacaciones</option>
+                    @for(estado of estados; track estado){
+                        <option [value]="estado">{{estado}}</option>
+                    }
                 </select>
             </div>
             <div class="content-correo">
@@ -58,8 +58,8 @@
                 <img class="svg-busqueda" src="busqueda.svg" alt="busqueda">
             </div>  
             <div class="tipo">
-                <button class="boton-activos" (click)="getActivos('software')">Software</button>
-                <button class="boton-activos" (click)="getActivos('hardware')">Hardware</button>
+                <button class="button-ver" (click)="getActivos('software')">Software</button>
+                <button class="button-ver" (click)="getActivos('hardware')">Hardware</button>
             </div>
             <div class="content-activos">
                 <div class="fila-titulo">
