@@ -2,6 +2,8 @@ import { Component, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { InventarioService } from '../../../../services/inventario/inventario.service';
 import { ComponenteBase } from '../../../../componentBase';
+import { AuthService } from '../../../../services/Auth/auth.service';
+import { FotoService } from '../../../../services/foto/foto.service';
 
 @Component({
   selector: 'app-lista-activos',
@@ -15,12 +17,13 @@ export class ListaActivosComponent extends ComponenteBase{
     @Input() categoria:string = "";
     @Input() id_inventario:string = "";
 
-    constructor(private inventarioService:InventarioService, routeActive:ActivatedRoute, private routers:Router){
-      super(routeActive)
+    constructor(private inventarioService:InventarioService, routeActive:ActivatedRoute, private routers:Router, foto:FotoService,authService:AuthService){
+      super(routeActive,foto,authService);
+      this.permisos = authService.getPermisos();
+
   }
 
   ngOnInit(): void {
-
     this.inventarioService.getCamposAdicionales(this.categoria).subscribe({
       next:(camposAdicional:any)=>{
         this.camposAdicionales = camposAdicional;
@@ -107,7 +110,7 @@ export class ListaActivosComponent extends ComponenteBase{
   }
 
   navigateVerActivo(id:any){
-    this.routers.navigate(['dashboard',this.id,'cliente', this.idCliente, this.id_inventario, 'ver-activo', id])
+    this.routers.navigate(['cliente',this.idCliente,this.id, this.id_inventario, 'ver-activo', id])
     .then(success => console.log(success))
     .catch(err => console.error(err));
   }

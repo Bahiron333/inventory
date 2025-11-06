@@ -19,10 +19,11 @@ export class ClientesComponent implements OnInit{
       //obtenemos los datos de la ruta url
       this.idCliente = params.get('idcliente');
       this.id = params.get('id');
+      this.permisos = this.authService.getPermisos();
       //llamamos al servicio para obtener los datos del servidor
       this.clienteService.InformacionCliente(this.id,this.idCliente).subscribe({
       next: (data:any)=>{
-        this.authService.guardarPermisosLocal(this.idCliente,this.id)
+        this.authService.PermisosCuenta(this.id,this.idCliente);
         this.nombreEmpresa = data.cliente.nombre;
       }, error: err => console.log(err.error)
     })
@@ -30,19 +31,9 @@ export class ClientesComponent implements OnInit{
 
   }
 
-  permisoUsuario():boolean{
-    return localStorage.getItem("permisosUsuario")==="true";
-  }
-
-  permisoInventario():boolean{
-    return localStorage.getItem("permisosInventario")==="true";
-  }
-
-  permisoMiembro():boolean{
-    return localStorage.getItem("permisosMiembro")==="true";
-  }
-
+ 
   protected nombreEmpresa:string = "";
   protected idCliente:any = null;
   protected id:any = null;
+  protected permisos:any = null;
 }

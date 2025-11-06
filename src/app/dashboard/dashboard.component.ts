@@ -14,9 +14,9 @@ import { ComponenteBase } from '../componentBase';
 export class DashboardComponent extends ComponenteBase implements OnInit{
 
   constructor(private dashboardService:DashboardService, router:ActivatedRoute, private routerNavigate:Router, fotoService:FotoService,
-              private authService:AuthService
+              authService:AuthService
   ){
-    super(router,fotoService);
+    super(router,fotoService,authService);
   }
 
   ngOnInit(): void {
@@ -33,9 +33,9 @@ export class DashboardComponent extends ComponenteBase implements OnInit{
   }
 
   routerCliente(idCliente:string){ 
-    this.authService.isSuspendido(idCliente,this.id).then((suspendido)=>{
+    this.authService?.isSuspendido(idCliente,this.id).then((suspendido)=>{
       if(!suspendido){
-        this.routerNavigate.navigate(['dashboard',this.id,'cliente',idCliente, 'informacion']); 
+        this.routerNavigate.navigate(['cliente',idCliente,this.id,'informacion']); 
       }else{
         alert("su usuario a sido suspendido de esta empresa, para mas informacion, comunicarse con el administrador")
       }
@@ -61,11 +61,11 @@ export class DashboardComponent extends ComponenteBase implements OnInit{
   unierseCliente(){
     this.dashboardService.unirseCliente(this.codigo, this.id).subscribe({
       next:(data)=>{
-        alert(data.message);
-        this.empresas.push(data.empresa);
-        this.cantidadclientes = this.empresas.length;
+        alert(data.menssage);
+        window.location.reload();
       },error: (err)=>{
         alert("hubo un error en el procesamiento de los datos");
+        console.log(err.error)
       }
     })
   }

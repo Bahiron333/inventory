@@ -34,14 +34,43 @@ export class AuthService {
   }
 
   permisosMiembro(id:string,idCliente:String):Observable<boolean>{
-    return this.http.get<any>(`http://localhost:3000/cliente/${idCliente}/miembro/${id}/permisos`,{headers:this.headers});
+    return this.http.get<any>(`http://localhost:3000/cliente/${idCliente}/miembros/${id}/permisos`,{headers:this.headers});
   }
 
   infoUsuario(id:string):Observable<boolean>{
     return this.http.get<any>(`http://localhost:3000/user/informacion/${id}`,{headers:this.headers});
   }
 
-  async isSuspendido(idCliente:string,idUser:string):Promise<boolean>{
+  PermisosCuenta(id:string,idCliente:string){ 
+        this.permisosMiembro(id,idCliente).subscribe({
+            next:(data:any)=>{
+              localStorage.setItem('permisos',JSON.stringify(data.miembro.permisos));
+              localStorage.setItem('suspendido',data.miembro.suspendido);
+            }, error:(err)=>{
+              console.log(err);
+            }
+        });
+    }
+
+  isLogin():boolean{
+    const isLogin = !! localStorage.getItem('token') && 
+                      localStorage.getItem('token') != null &&
+                      localStorage.getItem('token') != ""
+
+    return isLogin;
+  }
+
+  suspendido():any{
+    return localStorage.getItem('suspendido');
+  }
+
+  getPermisos(){
+      let permisosUsuario:any =  localStorage.getItem('permisos');
+      permisosUsuario = JSON.parse(permisosUsuario);
+      return permisosUsuario;
+  }
+
+   async isSuspendido(idCliente:string,idUser:string):Promise<boolean>{
     try{
       const data:any = await firstValueFrom(this.permisosMiembro(idUser,idCliente));
       localStorage.setItem('suspendido',data.miembro.suspendido);
@@ -52,29 +81,7 @@ export class AuthService {
     }   
  
   }
-
-  guardarPermisosLocal(idCliente:string,idUser:string){
-    this.permisosMiembro(idUser,idCliente).subscribe({
-      next:(data:any)=>{
-        console.log(data.miembro.permisos[0].ver)
-        localStorage.setItem('permisosUsuario',data.miembro.permisos[0].ver);
-         localStorage.setItem('permisosInventario',data.miembro.permisos[1].ver);
-          localStorage.setItem('permisosMiembro',data.miembro.permisos[2].ver);
-      },error: (err)=>{
-        console.log("Error en guardar los datos");
-        console.log(err)
-      }
-    })
-  } 
-
-  isLogin():boolean{
-    const isLogin = !! localStorage.getItem('token') && 
-                      localStorage.getItem('token') != null &&
-                      localStorage.getItem('token') != ""
-
-    return isLogin;
-  }
-
   private headers:any = null;
   private token = localStorage.getItem('token');
+  
 }

@@ -2,9 +2,11 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { UsersComponent } from '../users.component';
 import { ClienteService } from '../../../../services/cliente/cliente.service';
 import { ActivatedRoute } from '@angular/router';
-import { InventarioComponent } from '../../inventario/inventario.component';
 import { InventarioService } from '../../../../services/inventario/inventario.service';
 import { UsuarioService } from '../../../../services/usuarios/usuario.service';
+import { AuthService } from '../../../../services/Auth/auth.service';
+import { FotoService } from '../../../../services/foto/foto.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-crear-usuario',
@@ -13,11 +15,11 @@ import { UsuarioService } from '../../../../services/usuarios/usuario.service';
   styleUrl: './crear-usuario.component.scss'
 })
 export class CrearUsuarioComponent extends UsersComponent implements OnInit{
-
-  @Output() cerrarVentana = new EventEmitter();
   
-  constructor(clienteService:ClienteService,routerActive:ActivatedRoute,private inventarioService:InventarioService, userService:UsuarioService){
-    super(clienteService,routerActive, userService);
+  constructor(
+    routerActive:ActivatedRoute,private inventarioService:InventarioService,
+    userService:UsuarioService, authService:AuthService, fotoService:FotoService, location?:Location,){
+    super(routerActive, userService, authService, fotoService, undefined,location);
   }
 
   override ngOnInit(): void {
@@ -25,64 +27,55 @@ export class CrearUsuarioComponent extends UsersComponent implements OnInit{
   }
 
   getActivos(tipoActivo:string){
+    this.Mostrar = "agregar"
     this.tipoActivo = tipoActivo;
     this.inventarioService.getActivosDisponibles(this.idCliente, this.tipoActivo).subscribe({
       next:(activosDB:any)=>{
-        this.activos = Object.values(activosDB.activoEnviar);
+        this.activos = Object.values(activosDB.activos);
       },
-      error:(err) => console.log(err.error)
+      error:(err) => {
+        console.log(err.error);
+        this.activos = null;
+      }
     });
   }
 
-  activosFiltrados(mostrar:string){
-    const hardwareIds = this.activos_agregados.id_hardware_agregado.map((x: any) => x);
-    const softwareIds = this.activos_agregados.id_software_agregado.map((x: any) => x);
+  activosFiltrados(){
     let resultado:any = null;
 
-    if(mostrar=="agregados"){
-      resultado = this.activos.filter((x: any) =>
-        this.mostrarTipoActivoAgregado=="hardware" ? hardwareIds.includes(x.id) : softwareIds.includes(x.id)
-      );
-
-    }else if(mostrar=="agregar"){
-      resultado = this.activos.filter((x: any) =>
-          !hardwareIds.includes(x.id) && !softwareIds.includes(x.id)
-      );
+    if(this.activos!=null){
+      const activosIds = this.activos_agregados.map((x: any) => x.id);
+      if(this.mostrar=="agregados"){
+        resultado = this.activos_agregados;
+      }else if(this.mostrar=="agregar"){
+        resultado = this.activos.filter((x: any) =>  !activosIds.includes(x.id));
+      }
     }
-  
-
+    this.catidad_activos = resultado.length;
     return resultado;
   }
 
   agregarActivoUsuario(idActivo:string){
-    if(this.tipoActivo=="hardware"){
-      this.activos_agregados.id_hardware_agregado.push(idActivo);
-      this.catidad_activos_agregados.cantidad_hardware_agregado =  this.activos_agregados.id_hardware_agregado.length;
-    }else if(this.tipoActivo=="software"){
-      this.activos_agregados.id_software_agregado.push(idActivo);
-      this.catidad_activos_agregados.cantidad_software_agregado = this.activos_agregados.id_software_agregado.length;
-    }
+    this.activos_agregados.push(...this.activos.filter((x:any)=>x.id==idActivo));
+    this.catidad_activos_agregados =  this.activos_agregados.length;
   }
   
-  MostrarActivo(tipo:string){
-    this.mostrarTipoActivoAgregado=tipo;
-    this.mostrarActivosAgregados = !this.mostrarActivosAgregados;
+  MostrarActivo( ){
+    this.mostrar = "agregados"
   }
 
-  eliminarActivo(id:String,tipo:string){
-    if(tipo=="hardware"){
-      this.activos_agregados.id_hardware_agregado =  this.activos_agregados.id_hardware_agregado.filter((x:any)=>{x!=id});
-    }else if(tipo=="software"){
-      this.activos_agregados.id_software_agregado = this.activos_agregados.id_software_agregado.filter((x:any)=>{x!=id})
-    }
+  eliminarActivo(id:String){
+    this.activos_agregados =  this.activos_agregados.filter((x:any)=>x.id!=id);
+    this.catidad_activos_agregados =  this.activos_agregados.length;
+ 
   }
 
   guardarInformacion(){
     if(this.validarInformacion()){
       this.userService.getNewUser(this.idCliente,this.infUsuario,this.activos_agregados).subscribe({
         next:(data)=> {
-          alert(data);
-          this.cerrarVentana.emit();
+          alert("se agrego el nuevo usuario exitosamente")
+          this.location?.back()
         },
         error: (err)=> console.log(err)
       })
@@ -100,7 +93,11 @@ export class CrearUsuarioComponent extends UsersComponent implements OnInit{
     return result;
   }
 
-  Cancelar = () => this.cerrarVentana.emit();
+  set Mostrar(value:string){
+    this.mostrar = value;
+  }
+
+  Cancelar = () => this.location?.back();
 
   protected activos:any = [];
   protected infUsuario:any = {
@@ -111,17 +108,10 @@ export class CrearUsuarioComponent extends UsersComponent implements OnInit{
     correo:""
   }
 
-  protected catidad_activos_agregados:any = {
-    cantidad_hardware_agregado:0,
-    cantidad_software_agregado: 0
-  }
-
-  protected activos_agregados:any = {
-    id_hardware_agregado:[],
-    id_software_agregado: []
-  }
-
-  protected tipoActivo = "";
+  protected catidad_activos_agregados:number = 0 ;
+  protected catidad_activos:number = 0 ;
+  protected activos_agregados:any = []
   protected mostrarActivosAgregados:boolean = false;
   protected mostrarTipoActivoAgregado:string = "";
+  protected mostrar:string = "";
 }

@@ -22,7 +22,7 @@
             </div>
             <div id="column-2">
                 <div id="content-password">
-                    <p id="text-contraseña"class="text-title">Contraseña</p>
+                    <p id="text-contraseña" class="text-title">Contraseña</p>
                     <label class="label-password" for="input-password" >Contraseña</label>
                     <input [ngClass]="!errorPassword ? 'datos' : 'datos-erroneos'"  formControlName="password"  type="password" name="input-password">
                     <br>
@@ -30,20 +30,30 @@
                     <label class="label-password" for="confirm-password">Confirmar contraseña</label>
                     <input [ngClass]="!errorConfirmPassword ? 'datos' : 'datos-erroneos'" formControlName="confirmPassword"  type="password" name="confirm-password">
                 </div>
-                <form id="content-correo" [formGroup]="cuenta" (ngSubmit)="validarCodigo()">
-                    <p class="text-title">Cuenta</p>
-                    <br>
-                    <input type="text" formControlName="correo" [ngClass]="!errorCorreo ? 'datos' : 'datos-erroneos'" placeholder="Correo">
-                    <br>
-                    <br>
-                    <div id="content-codigo">
-                        <input id="button-enviar-codigo" type="button" value="Enviar codigo verificacion" (click)="validarCorreo()">
-                        @if(mostrarCodigo){
-                            <input id="dato-codigo" formControlName="codigo" type="text" placeholder="Ingrese el código de verificacion">
-                            <input id="button-valid-codigo" type="submit" value="validar">
-                        }
+                @if(!EstadoBotonRegistro){
+                    <form id="content-correo" [formGroup]="cuenta" (ngSubmit)="validarCodigo()">
+                        <p class="text-title">Cuenta</p>
+                        <br>
+                        <input type="text" formControlName="correo" [ngClass]="!errorCorreo ? 'datos' : 'datos-erroneos'" placeholder="Correo">
+                        <br>
+                        <br>
+                        <div id="content-codigo">
+                            <input id="button-enviar-codigo" type="button" value="Enviar codigo verificacion" (click)="validarCorreo()">
+                            @if(mostrarCodigo){
+                                <input id="dato-codigo" formControlName="codigo" type="text" placeholder="Ingrese el código de verificacion">
+                                <input id="button-valid-codigo" type="submit" value="validar">
+                            }
+                        </div>
+                    </form>
+                }@else {
+                    <div id="content-correo">
+                        <p class="text-title">Cuenta</p><br>
+                        <p class="text-correo">{{cuenta.get("correo")?.value}}</p><br>
+                        <p class="text-correo">Correo agregado exitosamente</p>
                     </div>
-                </form>
+                   
+                }
+
             </div>
         </div>
         <div id="content-button-register">

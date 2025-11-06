@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ClienteService } from '../../../services/cliente/cliente.service';
 import { ComponenteBase } from '../../../componentBase';
+import { AuthService } from '../../../services/Auth/auth.service';
+import { FotoService } from '../../../services/foto/foto.service';
 
 @Component({
   selector: 'app-inventario',
@@ -11,11 +13,13 @@ import { ComponenteBase } from '../../../componentBase';
 })
 export class InventarioComponent extends ComponenteBase implements OnInit{
 
-  constructor(activeRoute:ActivatedRoute, private clienteService:ClienteService,private routers:Router){
-    super(activeRoute)
+  constructor(activeRoute:ActivatedRoute, private clienteService:ClienteService,private routers:Router, authService:AuthService, foto:FotoService){
+    super(activeRoute, foto, authService);
+    this.permisos = this.authService?.getPermisos();
+
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.clienteService.Inventario(this.idCliente).subscribe({
       next:(data:any)=>{
         this.hardware = data.hardware;
@@ -24,7 +28,7 @@ export class InventarioComponent extends ComponenteBase implements OnInit{
         this.CalcularNumeroMinStock(this.software);
         this.mostrarDatos();
       }, error: (err)=> console.log(err.error)
-    })
+    });
   }
 
   mostrarDatos(){
@@ -69,7 +73,7 @@ export class InventarioComponent extends ComponenteBase implements OnInit{
   }
 
   navigateCrearActivo(){
-    this.routers.navigate(['dashboard',this.id,'cliente', this.idCliente, 'crear-activo'])
+    this.routers.navigate(['cliente',this.idCliente,this.id,'crear-activo'])
     .then(success => console.log(success))
     .catch(err => console.error(err));
   }
@@ -96,4 +100,6 @@ export class InventarioComponent extends ComponenteBase implements OnInit{
 
   //estos son los datos a mostrar de cada uno
   protected datos:any = [];
+
+
 }

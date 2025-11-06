@@ -17,18 +17,14 @@ export class MiembrosComponent extends ComponenteBase{
   @Input() idMiembro:any = null
 
   constructor(private clienteService:ClienteService, routeActive:ActivatedRoute, fotoService:FotoService,
-    private dashboardService:DashboardService, private authService:AuthService){
-    super(routeActive,fotoService)
+    private dashboardService:DashboardService, authService:AuthService){
+    super(routeActive,fotoService, authService);
+    this.permisos = authService.PermisosCuenta(this.id,this.idCliente);
+
   }
 
   ngOnInit(): void {
-    
-    this.authService.permisosMiembro(this.id,this.idCliente).subscribe({
-      next:(data:any)=>{
-        this.permisos = data.miembro;
-      }, error:(err)=>console.log(err)
-    });
-
+    this.permisos = this.authService?.getPermisos();
     this.clienteService.MiembrosCliente(this.id, this.idCliente).subscribe({
       next:(usuarios:any) => this.miembros = usuarios.miembros,
       error:(err) => console.log(err.error)
@@ -49,8 +45,7 @@ export class MiembrosComponent extends ComponenteBase{
   //miembro seleccionado para ver sus propiedades
   IdMimebroSelecionado(id:string):void{
     this.idMimebroSelecionado = id;
-    console.log(this.permisos)
-    if(this.permisos.rol=="administrador"||this.permisos.permisos[2].modificar){
+    if(this.permisos.rol=="administrador"||this.permisos[2].modificar){
         this.modificarMiembroVentanaShow = true;
     }else{
       this.modificarMiembroVentanaShow = false;
@@ -62,5 +57,4 @@ export class MiembrosComponent extends ComponenteBase{
   protected miembros:any = [];
   protected idMimebroSelecionado:string = ""; //para pasar los datos al hijo le agregamos el miembro
   protected modificarMiembroVentanaShow:boolean = false; //para mostrar y ocultar la ventana
-  protected permisos:any = null;
 }

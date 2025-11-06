@@ -23,7 +23,6 @@ export class LoginComponent {
   RedirigirDashboard(){
     this.auth.Login(this.login.get('correo')?.value, this.login.get('password')?.value).subscribe({
       next: (data)=>{
-        console.log(data)
         localStorage.setItem('token',data.token);
         localStorage.setItem('id',data.user.user_id)
         this.router.navigate(['dashboard',data.user.user_id]);

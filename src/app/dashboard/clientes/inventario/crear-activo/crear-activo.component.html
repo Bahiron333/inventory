@@ -1,5 +1,11 @@
 <div id="main-crear-activo">
-    <h1 id="titulo-registro">Crear activo</h1>
+    <div class="content-nombre">
+        <svg (click)="Volver()" class="svg-retroceder" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+        <h1 class="titulo">Crear activo</h1>
+    </div>
+    
     <form>
         <div id="column-one">
            <div class="content-input">
@@ -21,18 +27,16 @@
                     <p class="text-inf">Agregar campo</p>
                     <input type="text" class="estilo-data" name="" id="" [(ngModel)]="valorCampo" placeholder="Nuevo campo" name="valor-campo">
                 <div class="content-checkbox">
-                    <button class="boton-agregar" (click)="agregarCampo()">Agregar</button>
-                    <div class="content-checkbox">
-                        <input id="input-check" type="checkbox" [(ngModel)]="campoMultiple" name="valor-multiple">
-                        <label class="text-inf" for="valor-multiple">Valor multiple</label>
-                    </div>
+                    <button class="boton-agregar" (click)="agregarCampo()">Agregar a lista</button>
                 </div>
             </div>
             <div class="content-campos">
-                <p class="text-inf">Campos</p>
+                <p class="text-inf">Lista de campos</p>
                 <div class="campos">
-                    @for(campo of activo.campos_adicionales; track campo.nombre){
-                        <p class="valor-campo">{{campo.valorCampo}}</p>
+                    @if(activo.campos_adicionales!={}){
+                        @for(campo of CamposAdicionales(); track campo.nombre){
+                            <p class="valor-campo">{{campo.valorCampo}}</p>
+                        }
                     }
                 </div>
             </div>

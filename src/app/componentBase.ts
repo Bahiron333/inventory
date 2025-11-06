@@ -1,13 +1,17 @@
 import { ActivatedRoute } from "@angular/router";
 import { FotoService } from "./services/foto/foto.service";
+import { AuthService } from "./services/Auth/auth.service";
+import { Location } from "@angular/common";
 
 export class ComponenteBase{
 
-    constructor(protected router?:ActivatedRoute, protected fotoService?:FotoService){
+     
+    constructor(protected router?:ActivatedRoute, protected fotoService?:FotoService, protected authService?:AuthService, protected location?:Location){
         router?.parent?.paramMap.subscribe(params=>{
             this.id = params.get('id')
             this.idCliente = params.get('idcliente');   
-        })
+        });
+        
     }
     
     //busqueda de elementos
@@ -40,12 +44,18 @@ export class ComponenteBase{
         }
     }
 
+    Volver = () =>this.location?.back();
+
+
     protected textBuscar:any = "";
     protected idCliente:any = ""
     protected id:any = null;
     
     //mostrarFoto
     protected foto:String = "";
-    protected fotos:any = []
+    protected fotos:any = [];
+    
+    //permisos de la cuenta 
+    protected permisos:any = null;
 
 }

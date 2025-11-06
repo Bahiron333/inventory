@@ -21,7 +21,9 @@ export class AppComponent implements OnInit, AfterViewInit{
       next:(data:any)=>{
         this.nombreUser = data.envio_user.nombre;
         this.correoElectronico = data.envio_user.correo;
-      }, error: (err) => console.log("error en recibir la informacion del usuario")
+      }, error: (err) => {
+        console.log("error en recibir la informacion del usuario");
+      }
     })
   }
 

@@ -1,32 +1,8 @@
 <div class="main-crear-usuario">
-    @if(mostrarActivosAgregados){
-        <div class="content-ver-activo">
-            <svg  data-name="Layer 1" viewBox="0 0 24 24" width="25px" height="25px" fill="red" style="cursor: pointer; position:absolute" (click)="MostrarActivo('')"><path d="m12,0C5.383,0,0,5.383,0,12s5.383,12,12,12,12-5.383,12-12S18.617,0,12,0Zm4.707,15.293l-1.414,1.414-3.293-3.293-3.293,3.293-1.414-1.414,3.293-3.293-3.293-3.293,1.414-1.414,3.293,3.293,3.293-3.293,1.414,1.414-3.293,3.293,3.293,3.293Z"/></svg>
-            <p id="titulo">Activos Agredados</p>
-            <br>
-            <br>
-             <div>
-                <div class="fila-titulo">
-                    <th class="data">Categoria</th>
-                    <th class="data">Nombre</th>
-                    <th width="5%"></th>
-                </div>
-                <div class="content-mostrar-activos">
-                    @for(activo of Filtrados(activosFiltrados("agregados")); track trackById($index,activo.id)){
-                        <div class="categoria">
-                            <th class="content-text-activo">{{activo.categoria}}</th>
-                            <th class="content-text-activo">{{activo.nombre}}</th>
-                            <button class="button-cancelar"  (click)="eliminarActivo(activo.id,mostrarTipoActivoAgregado)">Eliminar</button>
-                        </div>
-                    }
-                </div>
-            </div>
-        </div>
-    }
-    <p id="titulo">Crear Usuario</p>
-    <div class="colum-center">
+    <p class="titulo">Crear Usuario</p>
         <div class="column-one">
-            <div class="content-nombre">
+            <p class="text-subtitle">Informacion</p>
+            <div class="content-direccion">
                 <p class="text-inf">Nombre</p>
                 <input type="text" class="estilo-data" name="nombre" id="nombre" [(ngModel)]="infUsuario.nombre">
             </div>
@@ -53,48 +29,56 @@
         </div>
         <div class="column-two">
             <h2 class="text-subtitle">Agregar activo</h2>
-            <div class="content-buscar">
-                <input [(ngModel)]="textBuscar" class="input-buscar" type="text" placeholder="Buscar">
-                <img class="svg-busqueda" src="busqueda.svg" alt="busqueda">
-            </div>  
-            <div class="tipo">
-                <button class="button-ver" (click)="getActivos('software')">Software</button>
-                <button class="button-ver" (click)="getActivos('hardware')">Hardware</button>
+            <br>
+            <div class="content-filtros">
+                <div class="content-buscar">
+                    <input [(ngModel)]="textBuscar" class="input-buscar" type="text" placeholder="Buscar por nombre">
+                    <img class="svg-busqueda" src="busqueda.svg" alt="busqueda">
+                </div>  
+                
+                <button class="boton-activos" (click)="getActivos('software')">Software</button>
+                <button class="boton-activos" (click)="getActivos('hardware')">Hardware</button>
+                <button class="boton-activos" (click)="MostrarActivo()">Agregados</button>
             </div>
-            <div class="content-activos">
+            <div  class="content-filtros">
+                <p class="text-cantidad">Cantidad</p>
+                @if(mostrar=="agregados"){
+                    <p  class="text-cantidad">{{catidad_activos_agregados}}</p>
+                }@else {
+                    <p  class="text-cantidad">{{catidad_activos}}</p>
+                }
+            </div>
                 <div class="fila-titulo">
-                    <th class="data">Categoria</th>
-                    <th class="data">Nombre</th>
-                    <th class="data">Disponibles</th>
-                    <th width="5%"></th>
+                    <th class="data-row">Categoria</th>
+                    <th class="data-row">Nombre</th>
+                    <th class="data-row">Estado</th>
+                    <th class="data-row">Disponibles</th>
+                    <th class="data-row">Id</th>
+                    <th width="8%"></th>
                 </div>
+                
+            <hr class="linea">
                 <div class="content-mostrar-activos">
-                    @for(activo of Filtrados(activosFiltrados("agregar")); track trackById($index,activo.id)){
-                        <div class="categoria">
-                            <th class="content-text-activo">{{activo.categoria}}</th>
-                            <th class="content-text-activo">{{activo.nombre}}</th>
-                            <th class="content-text-activo">{{activo.disponibilidad}}<th>
-                            <button class="button-agregar" (click)="agregarActivoUsuario(activo.id)">Agregar</button>
+                    @for(activo of Filtrados(activosFiltrados()); track trackById($index,activo.id)){
+                        <div class="content-activos">
+                            @if(activo.disponibilidad>0||mostrar=="agregados"){
+                                <div class="fila-datos">
+                                    <th class="data-row">{{activo.categoria}}</th>
+                                    <th class="data-row">{{activo.nombre}}</th>
+                                    <th class="data-row">{{activo.estado}}</th>
+                                    <th class="data-row">{{activo.disponibilidad}}<th>
+                                    <th class="data-row">{{activo.id}}<th>
+                                </div>
+                                @if(mostrar=="agregados"){
+                                    <button class="button-cancelar"  (click)="eliminarActivo(activo.id)">Eliminar</button>
+                                }@else {
+                                    <button class="button-agregar" (click)="agregarActivoUsuario(activo.id)">Agregar</button>
+                                }
+                            }
                         </div>
                     }
                 </div>
-            </div>
-            <div class="ver-activo">
-                <p  class="content-text-cantidad-activo">Hardware</p>
-                <div class="content-text-cantidad-activo">
-                    {{catidad_activos_agregados.cantidad_hardware_agregado}}
-                </div>
-                <button class="button-ver" (click)="MostrarActivo('hardware')">Ver</button>
-            </div>
-            <div class="ver-activo">
-                <p class="content-text-cantidad-activo">Software</p>
-                <div class="content-text-cantidad-activo">
-                    {{catidad_activos_agregados.cantidad_software_agregado}}
-                </div>
-                <button class="button-ver" (click)="MostrarActivo('software')">Ver</button>
-            </div>
         </div>
-    </div>
     <div class="column-three">
         <button class="button-aceptar" (click)="guardarInformacion()">Agregar</button>
         <button class="button-cancelar" (click)="Cancelar()">Cancelar</button>

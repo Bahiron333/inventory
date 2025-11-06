@@ -4,45 +4,45 @@
 
         <div class="contacto">
             <!--Campos de informacion nombre-->
-            <p class="nombre">{{dataInformacion.nombre}}</p>
-            <p class="text">{{dataInformacion.correo}}</p>
+            <p class="nombre">{{dataInformacion?.nombre}}</p>
+            <p class="text">{{dataInformacion?.correo}}</p>
         </div>
 
         <div class="informacion">
             <!--Campos de informacion Direccion-->
             <h2 class="tituto-descriptivo" >NIT</h2>
-            {{dataInformacion.nit}}
+            {{dataInformacion?.nit}}
 
             <!--Campos de informacion Representante-->
             <h2 class="tituto-descriptivo">Representante</h2>
-            {{dataInformacion.representante}}
+            {{dataInformacion?.representante}}
         </div>
     </div>
    <div class="content-descripcion">
         <!--Campos de informacion Descripcion-->
         <p class="descripcion">Descripcion</p>
-        <p class="text descripcion-text">{{dataInformacion.descripcion}}</p>
+        <p class="text descripcion-text">{{dataInformacion?.descripcion}}</p>
    </div>
 
     <div class="content-empresa">
         <!--Campos de informacion Fecha de asociacion-->
         <div>
             <p class="tituto-descriptivo">Fecha Asociacion</p>
-            <p class="text">{{dataInformacion.fecha_asociacion}}</p>
+            <p class="text">{{dataInformacion?.fecha_asociacion}}</p>
         </div>
 
 
         <!--Campos de informacion codigo-->
         <div>
             <p class="tituto-descriptivo">Id Empresa</p>
-            <p class="text">{{dataInformacion.id}}</p>
+            <p class="text">{{dataInformacion?.id}}</p>
         </div>
 
-       @if(id==dataInformacion.id_representante){
+       @if(id==dataInformacion?.id_representante){
             <!--Campos de informacion codigo-->
             <div>
                 <p class="tituto-descriptivo">Codigo</p>
-                <p class="text">{{dataInformacion.codigo}}</p>
+                <p class="text">{{dataInformacion?.codigo}}</p>
             </div>
        }
     </div>
@@ -51,13 +51,13 @@
         <!--Campos de informacion cantidad usuario-->
         <div class="activos">
             <p class="tituto-descriptivo">Cantidad de usuarios</p>
-            <p class="text">{{dataInformacion.cantidadUsuario}}</p>
+            <p class="text">{{dataInformacion?.cantidadUsuario}}</p>
         </div>
 
         <!--Campos de informacion cantidad activos-->
         <div class="activos">
             <p class="tituto-descriptivo">Cantidad de activos</p>
-            <p class="text">{{dataInformacion.cantidadActivos}}</p>
+            <p class="text">{{dataInformacion?.cantidadActivos}}</p>
         </div>
     </div>
 </div>

@@ -12,20 +12,22 @@ import { guardInventarioGuard } from '../../Auth/Guard/guard-inventario.guard';
 import { guardMiembrosGuard } from '../../Auth/Guard/guard-miembros.guard';
 import { CrearActivoComponent } from './inventario/crear-activo/crear-activo.component';
 import { VerActivoComponent } from './inventario/ver-activo/ver-activo.component';
+import { CrearUsuarioComponent } from './users/crear-usuario/crear-usuario.component';
 
 
 
 const routes: Routes = [
   {
-    path: 'cliente/:idcliente', 
+    path: '', 
     component: ClientesComponent,
     children: [
         {path: 'informacion',component: InformacionComponent},
-        {path: 'users', component: UsersComponent, canActivate:[guardUsuariosGuard]},
-        {path: 'inventario', component: InventarioComponent,canActivate:[guardInventarioGuard]},
-        {path: 'miembros', component: MiembrosComponent, canActivate:[guardMiembrosGuard]},
-        {path: 'crear-activo',component:CrearActivoComponent, canActivate:[guardMiembrosGuard]},
-        {path:':id_inventario/ver-activo/:idActivo',component:VerActivoComponent, canActivate:[guardMiembrosGuard]}
+        {path: 'users', component: UsersComponent, canActivate:[guardUsuariosGuard,suspendidoGuard]},
+        {path: 'users/crear-usuario', component: CrearUsuarioComponent, canActivate:[guardUsuariosGuard,suspendidoGuard]},
+        {path: 'inventario', component: InventarioComponent,canActivate:[guardInventarioGuard,suspendidoGuard]},
+        {path: 'miembros', component: MiembrosComponent, canActivate:[guardMiembrosGuard,suspendidoGuard]},
+        {path: 'crear-activo',component:CrearActivoComponent, canActivate:[guardMiembrosGuard,suspendidoGuard]},
+        {path:':id_inventario/ver-activo/:idActivo',component:VerActivoComponent, canActivate:[guardMiembrosGuard,suspendidoGuard]}
     ],
     canActivate:[userGuard,suspendidoGuard]
   },

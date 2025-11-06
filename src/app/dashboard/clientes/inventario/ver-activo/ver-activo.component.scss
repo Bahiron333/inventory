@@ -9,6 +9,20 @@
     overflow: auto;
 }
 
+.data-row{
+    @include estilos_globales.data();
+    height: 20px;
+}
+
+.fila-datos{
+    width: 98%;
+}
+.content-user{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap:1em;
+}
 .content-inf, .content-campo-adicionales, .encabezado-user{
     margin: 3em 0;
     display: flex;
@@ -56,6 +70,7 @@
     align-items: center;
     justify-content: center;
     gap:2em;
+    margin-top: 2em;
 }
 
 .text-no-user{
@@ -76,9 +91,3 @@
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
-.text-subtitle{
-    font-size: 1.3em;
-    font-weight:bold;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-
-}

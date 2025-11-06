@@ -6,8 +6,9 @@ const routes: Routes = [
   
   { path: 'dashboard/:id', loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule), canActivate:[userGuard] },
   { path:'auth', loadChildren: () => import('./Auth/auth.module').then(m=>m.AuthModule)},
-  { path:'dashboard/:id', loadChildren: ()=> import('./dashboard/clientes/cliente.module').then(m=>m.ClienteModule), canActivate:[userGuard]},
- 
+  { path:'cliente/:idcliente/:id', loadChildren: ()=> import('./dashboard/clientes/cliente.module').then(m=>m.ClienteModule), canActivate:[userGuard]},
+  { path: '', redirectTo: 'auth/login', pathMatch: 'full' }
+
 ];
 
 @NgModule({

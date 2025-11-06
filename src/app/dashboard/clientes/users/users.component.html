@@ -1,15 +1,11 @@
 <div class="main-users">
-    @if(CrearUsuario){
-        <div class="content-crear-usuario">
-            <app-crear-usuario (cerrarVentana)="CerrarVentanaCrearUsuario = false"></app-crear-usuario>
-        </div>    
-    }
-    @if(mostrarInfUsuario&&!CrearUsuario){
+    @if(mostrarInfUsuario){
         <div class="content-ver-usuario">
             <svg  data-name="Layer 1" viewBox="0 0 24 24" width="25px" height="25px" fill="red" style="cursor: pointer; position:absolute" (click)="cerrarVentanaInfUsuario()"><path d="m12,0C5.383,0,0,5.383,0,12s5.383,12,12,12,12-5.383,12-12S18.617,0,12,0Zm4.707,15.293l-1.414,1.414-3.293-3.293-3.293,3.293-1.414-1.414,3.293-3.293-3.293-3.293,1.414-1.414,3.293,3.293,3.293-3.293,1.414,1.414-3.293,3.293,3.293,3.293Z"/></svg>
             <div class="content-inf">
-                <p id="titulo-inf-user">Informacion Usuario</p>
-                <div class="column-row">
+                <p class="titulo-inf-user">Informacion Usuario</p>
+                <div class="content-inf-user">
+                    <div class="column-row">
                     <div class="content-inf-text">
                         <p class="text-informacion-titulo">Nombre</p>
                         <input [class]="editarInfUser ? 'datos' : 'text-informacion'" type="text" name="nombre" id="" [(ngModel)]="user.nombre" [disabled]="!editarInfUser">
@@ -27,7 +23,7 @@
                     <div class="content-inf-text">
                         <p class="text-informacion-titulo">Estado</p>
                         @if(!editarInfUser){
-                            <p class="text-informacion">{{user.estado}}</p>
+                            <p class="text-informacion">{{user?.estado}}</p>
                         }@else {
                             <select class="datos-multiples" name="estado" id="estado" [(ngModel)]="user.estado">
                             @for(estado of estados; track estado){
@@ -40,45 +36,81 @@
                 <div  class="column-row">
                     <div class="content-inf-text">
                         <p class="text-informacion-titulo">Departamento</p>
-                        <input [class]="editarInfUser ? 'datos' : 'text-informacion'" type="text" name="departamento" id=""  [(ngModel)]="user.departamento" [disabled]="!editarInfUser">
+                        <input [class]="editarInfUser ? 'datos' : 'text-informacion'" type="text" name="departamento" id="" [(ngModel)]="user.departamento" [disabled]="!editarInfUser">
                     </div>
                     <div class="content-inf-text">
                         <p class="text-informacion-titulo">Correo</p>
-                        <input [class]="editarInfUser ? 'datos' : 'text-informacion'" type="text" name="correo" id=""  [(ngModel)]="user.correo" [disabled]="!editarInfUser">
+                        <input [class]="editarInfUser ? 'datos' : 'text-informacion'" type="text" name="correo" id="" [(ngModel)]="user.correo" [disabled]="!editarInfUser">
                     </div>
                 </div>
-                <div>
-                    <p class="text-informacion-titulo">Permisos</p>
-                    <button>Ver</button>
-
-                   @if(editarInfUser){
-                        <button class="button-guardar" (click)="guardarInfUser()">Guardar</button>
-                   }@else {
-                        <button class="button-ver" (click)="Editar = true">Editar</button>
-                   }
                 </div>
+                <div>
                     <p class="text-informacion-titulo">Activos</p>
                     <div class="ver-activo">
                         <p>Hardware</p>
                         <div class="content-text-cantidad-activo">
-                           222222222222eeeeeeeeeeee22222222
+                           {{catidadActivosUser?.hardware || 0}}
                         </div>
-                        <button class="button-ver" >Ver</button>
-                </div>
-                <div class="ver-activo">
-                    <p>Software</p>
-                    <div class="content-text-cantidad-activo">
-                        0
+                        <button class="button-ver" (click)="MostrarActivos(true,'hardware')">Ver</button>
                     </div>
-                    <button class="button-ver" >Ver</button>
+                    <div class="ver-activo">
+                        <p>Software</p>
+                        <div class="content-text-cantidad-activo">
+                            {{catidadActivosUser?.software || 0}}
+                        </div>
+                        <button class="button-ver" (click)="MostrarActivos(true,'software')" >Ver</button>
+                    </div>
+                </div>
+                <div>
+                    @if(permisos[0]?.ver){
+                        @if(editarInfUser){
+                            <button class="button-guardar" (click)="guardarInfUser()">Guardar</button>
+                        }@else {
+                            <button class="button-ver" (click)="Editar = true">Editar</button>
+                        }
+                    }  
                 </div>
             </div>
         </div>  
     }
+    @if(mostrarActivos){
+        <div class="content-activos-ver">
+            <svg  data-name="Layer 1" viewBox="0 0 24 24" width="25px" height="25px" fill="red" style="cursor: pointer; position:absolute" (click)="cerrarVentanaInfActivos()"><path d="m12,0C5.383,0,0,5.383,0,12s5.383,12,12,12,12-5.383,12-12S18.617,0,12,0Zm4.707,15.293l-1.414,1.414-3.293-3.293-3.293,3.293-1.414-1.414,3.293-3.293-3.293-3.293,1.414-1.414,3.293,3.293,3.293-3.293,1.414,1.414-3.293,3.293,3.293,3.293Z"/></svg>
+            <p class="titulo-inf-user">{{tipoActivo | uppercase}}</p>
+            <br><br>
+            <button class="boton-agregar-activo">Agregar</button>
+            <br><br>
+            <div class="fila-titulo">
+                <th class="data-row"><strong>Nombre</strong></th>
+                <th class="data-row"><strong>Estado</strong></th>
+                <th class="data-row"><strong>Categoria</strong></th>
+                <th width="10px"></th>
+            </div> 
+             <hr class="linea">
+                @for(activo of Filtrados(viewActivos); track trackById($index, activo._id)){
+                    <div class="content-activo">
+                        @if(tipoActivo==activo.tipo){
+                            <div class="fila-activos">            
+                                <th class="data-row" style="margin-left: 2%;">{{activo.nombre |titlecase}}</th>
+                                <th class="data-row">{{activo.estado |titlecase}}</th>
+                                <th class="data-row">{{activo.categoria |titlecase}}</th>
+                            </div>
+                            @if(permisos[0].eliminar){
+                                <svg class="svg-eliminar" data-name="Layer 1" viewBox="0 0 24 24" (click)="eliminarActivoUsers(activo._id)"><path d="M22,9V19a5.006,5.006,0,0,1-5,5H7a5.006,5.006,0,0,1-5-5V9A1,1,0,0,1,3,8H21A1,1,0,0,1,22,9Zm1-5H13V2h2a1,1,0,0,0,0-2H9A1,1,0,0,0,9,2h2V4H1A1,1,0,0,0,1,6H23A1,1,0,0,0,23,4Z"/></svg>
+                            }@else{
+                                <th width="24px"></th>
+                            }
+                        } 
+                    </div>
+                }
+                
+        </div>
+    }
     <p class="titulo">Usuarios</p>
-    <div class="column-initial">
-          
-        <button class="boton-ingresar" (click)="CrearUsuario = true">Nuevo</button>
+    <div class="column-initial">  
+        @if(permisos[0].modificar){
+            <button class="boton-ingresar" (click)="navigateCrearUsuario()">Nuevo</button>
+        }  
         <div class="content-buscar">
             <input [(ngModel)]="textBuscar" class="input-buscar" type="text" placeholder="Buscar">
             <img class="svg-busqueda" src="busqueda.svg" alt="busqueda">
@@ -107,8 +139,11 @@
                         <th class="data-row">{{user.fecha}}</th>
                         <th class="data-row">{{user.id}}</th>    
                     </div>
-                    <svg class="svg-eliminar" data-name="Layer 1" viewBox="0 0 24 24" (click)="eliminarUsers(users.id)"><path d="M22,9V19a5.006,5.006,0,0,1-5,5H7a5.006,5.006,0,0,1-5-5V9A1,1,0,0,1,3,8H21A1,1,0,0,1,22,9Zm1-5H13V2h2a1,1,0,0,0,0-2H9A1,1,0,0,0,9,2h2V4H1A1,1,0,0,0,1,6H23A1,1,0,0,0,23,4Z"/></svg>
-                    
+                    @if(permisos[0].eliminar){
+                        <svg class="svg-eliminar" data-name="Layer 1" viewBox="0 0 24 24" (click)="eliminarUsers(user.id)"><path d="M22,9V19a5.006,5.006,0,0,1-5,5H7a5.006,5.006,0,0,1-5-5V9A1,1,0,0,1,3,8H21A1,1,0,0,1,22,9Zm1-5H13V2h2a1,1,0,0,0,0-2H9A1,1,0,0,0,9,2h2V4H1A1,1,0,0,0,1,6H23A1,1,0,0,0,23,4Z"/></svg>  
+                    }@else{
+                        <th width="24px"></th>
+                    }
                 </div>
             }
     </div>

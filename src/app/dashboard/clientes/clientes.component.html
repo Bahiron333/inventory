@@ -1,15 +1,18 @@
 <div class="content-dashboard-cliente">
     <aside>
-        <p id="titulo-empresa">{{nombreEmpresa | uppercase}}</p>
+        <div>
+            <svg viewBox="0 -23 24 24" class="svg-atras"><g id="_01_align_center" data-name="01 align center"><path d="M19,11H9l3.293-3.293L10.879,6.293,6.586,10.586a2,2,0,0,0,0,2.828l4.293,4.293,1.414-1.414L9,13H19Z"/></g></svg>
+            <p id="titulo-empresa">{{nombreEmpresa | uppercase}}</p>
+        </div>
         <div id="content-opciones">
             <a class="opciones" routerLink="informacion">Informacion</a>
-            @if(permisoUsuario()){
+            @if(permisos[0]?.ver){
                 <a class="opciones" routerLink="users">Usuarios</a>
             }
-            @if(permisoInventario()){
+            @if(permisos[1]?.ver){
                 <a class="opciones" routerLink="inventario">Inventario</a>
             }
-             @if(permisoMiembro()){
+             @if(permisos[2]?.ver){
                 <a class="opciones" routerLink="miembros">Miembros</a>
              }
         </div>

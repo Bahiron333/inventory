@@ -24,7 +24,6 @@ export class CrearActivoComponent implements OnInit{
     if(this.valorCampo!=""){
       this.activo.campos_adicionales.push({
         "valorCampo" : this.valorCampo,
-        "campoMultiple": this.campoMultiple
       });
     }
   }
@@ -41,6 +40,13 @@ export class CrearActivoComponent implements OnInit{
 
   Cancelar = () =>this.location.back();
 
+  CamposAdicionales():any{
+    return this.activo.campos_adicionales;
+  }
+
+  
+  Volver = () =>this.location?.back();
+  
   //variables para la foto 
   protected activo:any = {
     nombre:"",
@@ -52,7 +58,6 @@ export class CrearActivoComponent implements OnInit{
   }
 
   protected valorCampo:string = "";
-  protected campoMultiple:boolean=false;
   protected idEmpresa:any=null;
   protected id:any=null;
 }

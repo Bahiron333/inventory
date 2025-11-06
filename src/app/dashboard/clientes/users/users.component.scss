@@ -6,12 +6,13 @@
     overflow: auto;
 }
 
-#titulo-inf-user{
+.titulo-inf-user{
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-weight: 600;
     font-size: 1.5em;
+    margin-top: 1em;
     text-align: center;
-    margin-bottom: 2em;
+    margin-bottom: 0.5em;
 }
 
 .content-inf-text{
@@ -19,15 +20,24 @@
     flex-direction: column;
 }
 
-.column-row, .ver-activo{
+.column-row, .ver-activo, .content-activo{
     display: flex;
     flex-direction: row;
     margin: 1em 0;
 }
 
+.content-activo{
+    margin: 0;
+    align-items: center;
+}
+
 .ver-activo{
-    max-width: 80%;
-    justify-content: space-between;
+    display: flex;
+    flex-direction: row;
+    max-width: 100%;
+    justify-content: space-around;
+    align-items: center;
+    align-content: center;
     text-wrap: wrap;
 }
 
@@ -84,10 +94,19 @@
     margin-top: 0.5em;
 }
 
+.data-row{
+    font-weight: bold;
+}
 
 .boton-ingresar{ 
     @include globales.botonIngreso;
     width: 10%;
+    margin-bottom: 0.3em;
+}
+
+.boton-agregar-activo{ 
+    @include globales.botonValidar;
+    width: 20%;
     margin-bottom: 0.3em;
 }
 
@@ -127,7 +146,7 @@
 }
 
 //////////contenedor miembro es la parte donde se muestra la informacion del usuario
-.content-crear-usuario, .content-ver-usuario{
+.content-crear-usuario, .content-ver-usuario, .content-activos-ver{
     position: absolute;
     height: 80%;
     left: 60%;
@@ -143,15 +162,51 @@
     padding: 1em;
     width: 70%;
 }
+
 .content-ver-usuario{
-    min-width: 30%;
+    display: flex;
+    flex-direction: column;
+    max-width: 30%;
     padding: 0.5em;
+    align-content: center;
+    overflow-x: hidden;
 } 
 
-.content-inf{
-    padding: 1.5em;
+.content-activos-ver{
+    display: flex;
+    flex-direction: column;
+    min-width: 40%;
+    padding: 1em;
+    overflow: auto;
 }
 
+.content-inf{
+    display: flex;
+    flex-direction: column;
+    padding: 1em;
+    justify-content: space-between;
+    gap: 1.4em;
+}
+
+//esto es la fila del dato, es el que le da el estilo a cada fila: empresa, usuario, miembro, etc
+.fila-activos{
+    display: flex;
+    flex-direction: row; 
+    border: 1px solid transparent;
+    border-radius: 15px;
+    align-content: initial;
+    align-items: center;
+    width: 100%;
+    padding: 0.2em;
+    height: 3em;
+    margin-right: 2%;
+    overflow: hidden;
+    cursor: pointer;
+    &:hover{
+        background-color: #d9d9d9;
+    }
+
+ }
 
 
 

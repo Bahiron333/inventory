@@ -2,7 +2,9 @@
     <p class="titulo">Inventario</p>
 
         @if(!mostrarActivos){
-            <button class="boton-agregar" (click)="navigateCrearActivo()">Agregar</button>
+            @if(permisos[1].modificar){
+                <button class="boton-agregar" (click)="navigateCrearActivo()">Agregar</button>
+            }
             <div class="content-button">
                 <button class="boton-aceptar" (click)="cambiarActivos('hardware')">hardware</button>
                 <button class="boton-aceptar" (click)="cambiarActivos('software')">Software</button>
